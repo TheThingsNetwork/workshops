@@ -1,6 +1,5 @@
-/*
-  Copyright (c) 2016 Johan Stokking <johan@thethingsnetwork.org>
-*/
+// Copyright © 2016 Johan Stokking <johan@thethingsnetwork.org>
+// MIT Licensed
 
 #define DEBUG
 #include <Sodaq_RN2483.h>
@@ -26,11 +25,6 @@ const uint8_t nwkSKey[16] =
   0x2B, 0x7E, 0x15, 0x16, 0x28, 0xAE, 0xD2, 0xA6, 0xAB, 0xF7, 0x15, 0x88, 0x09, 0xCF, 0x4F, 0x3C
 };
 
-uint8_t testPayload[] =
-{
-  0x30, 0x31, 0xFF, 0xDE, 0xAD
-};
-
 void setup()
 {
   debugSerial.begin(57600);
@@ -42,37 +36,31 @@ void setup()
   while (!debugSerial);
   debugSerial.println("Start");
 
-  // Turn the modem on
+  // Turn the LoRaBee on
   digitalWrite(BEE_VCC, HIGH);
 
   // Connect the LoRabee
-  LoRaBee.setDiag(debugSerial); // optional
+  LoRaBee.setDiag(debugSerial);
   if (LoRaBee.initABP(loraSerial, devAddr, appSKey, nwkSKey, true))
-  {
     debugSerial.println("Connection to the network was successful.");
-  }
   else
-  {
     debugSerial.println("Connection to the network failed!");
-  }
 }
 
 void loop()
 {
   debugSerial.println("Sleeping for 5 seconds before starting sending out test packets.");
-  for (uint8_t i = 5; i > 0; i--)
-  {
-    debugSerial.println(i);
-    delay(1000);
-  }
+  delay(5000);
 
   // send 10 packets, with at least a 5 seconds delay after each transmission (more seconds if the device is busy)
   uint8_t i = 10;
   while (i > 0)
   {
-    testPayload[0] = i; // change first byte
+    String message = "Hello world! This is message #" + String(i, DEC);
+    uint8_t payload[message.length()];
+    message.getBytes(payload, message.length());
 
-    switch (LoRaBee.send(1, testPayload, 5))
+    switch (LoRaBee.send(1, payload, message.length()))
     {
       case NoError:
         debugSerial.println("Successful transmission.");
