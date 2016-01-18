@@ -2,7 +2,7 @@
   Copyright (c) 2016 Johan Stokking <johan@thethingsnetwork.org>
 */
 
-//#define DEBUG
+#define DEBUG
 #include <Sodaq_RN2483.h>
 
 #define debugSerial SerialUSB

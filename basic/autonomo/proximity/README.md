@@ -10,6 +10,7 @@ contains the minimum, average and maximum sensor values measured in that timespa
 
 - [SODAQ Autonomo with Grove Shield](http://shop.sodaq.com/en/sodaq-autonomo-with-grove-shield.html)
 - [Grove Ultrasonic Ranger](http://www.seeedstudio.com/depot/grove-ultrasonic-ranger-p-960.html)
+- [LoRabee RN2483](http://shop.sodaq.com/en/lorabee-rn2483.html)
 
 ## Console Output
 
