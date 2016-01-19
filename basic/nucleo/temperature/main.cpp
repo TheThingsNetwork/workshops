@@ -3,16 +3,17 @@
 #include "mbed.h"
 #include "lmic.h"
 #include "debug.h"
-//#include <SoftwareSerial.h>
 
-#include "DHT.h" // Sensor library nececessary
+#include "DHT.h"
 
 #define LORAWAN_NET_ID (uint32_t) 0x00000000
 // TODO: enter device address below, for TTN just set ???
-#define LORAWAN_DEV_ADDR (uint32_t) 0x02031002
+#define LORAWAN_DEV_ADDR (uint32_t) 0x02031003
 #define LORAWAN_ADR_ON 1
 #define LORAWAN_CONFIRMED_MSG_ON 1
 #define LORAWAN_APP_PORT 3//15
+
+DHT sensor(A1, AM2302);
 
 static uint8_t NwkSKey[] = {
     // TODO: enter network, or use TTN default
@@ -28,16 +29,6 @@ static uint8_t ArtSKey[] = {
     0xAB, 0xF7, 0x15, 0x88, 0x09, 0xCF, 0x4F, 0x3C
 };
 
-DHT sensor(PA_1,AM2302); // The sensor
-
-InterruptIn motion(A2); // PIR motion sensor
-int motion_detected = 0;
-
-void irq_handler(void)
-{
-    motion_detected = 1;
-}
-
 osjob_t initjob;
 osjob_t sendFrameJob;
 u1_t n = 0;
@@ -46,82 +37,49 @@ void os_getArtEui (uint8_t *buf) {} // ignore
 void os_getDevEui (uint8_t *buf) {} // ignore
 void os_getDevKey (uint8_t *buf) {} // ignore
 
-void checkTemp(osjob_t* t) {
-    printf("Checking temperature\n");
-    
-    int err = 0;
+float getTemperature() {
 
-    err = sensor.readData();
-
+    int err = 1;
+  
     while(err != 0) {
-        wait(1);
+        wait(2.0f);
         err = sensor.readData();
     }
+    
+    return sensor.ReadTemperature(CELCIUS);
+}
 
-    char message[25];
-
-    float temp = sensor.ReadTemperature(CELCIUS);
-    float humidity = sensor.ReadHumidity();
-    sprintf(message, "%.3f", temp);
+void onSendFrame (osjob_t* j) {
+ 
+    char message[32];
+    
+    float temperature = getTemperature();
+    printf("Temperature is %4.2f \r\n", temperature);
+    
+    sprintf(message, "%4.2f", temperature);
     
     int frameLength = strlen(message); // keep it < 32
-
     for (int i = 0; i < frameLength; i++) {
         LMIC.frame[i] = message[i];
     }
-    int result = LMIC_setTxData2(LORAWAN_APP_PORT, LMIC.frame, frameLength, LORAWAN_CONFIRMED_MSG_ON);
+    int result = LMIC_setTxData2(LORAWAN_APP_PORT, LMIC.frame, 
+        frameLength, LORAWAN_CONFIRMED_MSG_ON); // calls onEvent()
         
-
-    printf("Current temperature: %s\r\n", message);
-        
-    os_setTimedCallback(t, os_getTime() + sec2osticks(60), checkTemp);
+    os_setTimedCallback(j, os_getTime() + sec2osticks(60), onSendFrame);
 }
 
-
-int cnt = 0;
-
-    
-void checkMotionSensor(osjob_t *t)
-{
-    printf("checkMotionSensor \r\n");
-    
-    if (motion_detected) {
-        cnt++;
-        motion_detected = 0;
-        printf("Hello!aaAAAAAAAAAAAAAAA I've detected %d times since reset\r\n", cnt);
-        
-        char message[25] = "motion detected";
-        int frameLength = strlen(message); // keep it < 32
-
-        for (int i = 0; i < frameLength; i++) {
-            LMIC.frame[i] = message[i];
-        }
-
-        // Prepare upstream data transmission
-        int result = LMIC_setTxData2(LORAWAN_APP_PORT, LMIC.frame, frameLength, LORAWAN_CONFIRMED_MSG_ON); 
-    }
-    
-    os_setTimedCallback(t, os_getTime() + sec2osticks(1), checkMotionSensor);
-    
-}
-    
 void onInit (osjob_t* j) {
-    LMIC_reset(); // Reset the MAC state
-    LMIC_setAdrMode(LORAWAN_ADR_ON); // Enable data rate adaption
-    LMIC_setDrTxpow(DR_SF12, 14); // Set data rate and transmit power
+    LMIC_reset();
+    LMIC_setAdrMode(LORAWAN_ADR_ON);
+    LMIC_setDrTxpow(DR_SF12, 14);
     LMIC_setSession(LORAWAN_NET_ID, LORAWAN_DEV_ADDR, NwkSKey, ArtSKey);
-    
-    motion.rise(&irq_handler);
-    // os_setTimedCallback(j, os_getTime() + sec2osticks(1), checkMotionSensor);
-    os_setTimedCallback(j, os_getTime() + sec2osticks(0), checkTemp);
-
-    //onSendFrame(NULL);
+    onSendFrame(NULL);
 }
 
 void onEvent (ev_t ev) { // called by lmic.cpp, see also oslmic.h
     debug_event(ev);
     if (ev == EV_TXCOMPLETE) {
-        // os_setCallback(&sendFrameJob, onSendFrame);
+        os_setCallback(&sendFrameJob, onSendFrame);
     }
 }
 
@@ -129,6 +87,5 @@ int main (void) {
     debug_str("main\r\n");
     os_init();
     os_setCallback(&initjob, onInit);
-
     os_runloop(); // blocking
 }
