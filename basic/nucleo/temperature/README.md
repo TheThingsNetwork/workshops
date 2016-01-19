@@ -2,11 +2,11 @@
 # Temperature readings using NUCLEO-L152RE and Grove – Temperature&Humidity Sensor Pro
 
 This example measures temperature each minute. The temperature reading is shipped off to
-the things network over LoRaWAN.
+[The Things Network](http://thethingsnetwork.org/) over LoRaWAN.
 
 ## Hardware
 
-![nucle](nucleo.jpg)
+![nucleo](nucleo.jpg)
 
 - [NUCLEO-L152RE](https://developer.mbed.org/platforms/ST-Nucleo-L152RE/)
 - [Seeed Grove Shield V2 ](https://developer.mbed.org/components/Seeed-Grove-Shield-V2/)
