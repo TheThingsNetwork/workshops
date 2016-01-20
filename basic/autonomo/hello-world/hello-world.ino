@@ -27,11 +27,11 @@ const uint8_t nwkSKey[16] =
 
 void setup()
 {
-  debugSerial.begin(57600);
-  loraSerial.begin(LoRaBee.getDefaultBaudRate());
-
   pinMode(BEE_VCC, OUTPUT);
 
+  debugSerial.begin(57600);
+  loraSerial.begin(LoRaBee.getDefaultBaudRate());
+  
   // Wait for the serial te become available
   while (!debugSerial);
   debugSerial.println("Start");
@@ -52,11 +52,11 @@ void loop()
   debugSerial.println("Sleeping for 5 seconds before starting sending out test packets.");
   delay(5000);
 
-  // send 10 packets, with at least a 5 seconds delay after each transmission (more seconds if the device is busy)
+  // Send 10 packets, with at least 5 seconds delay after each transmission (more seconds if the device is busy)
   uint8_t i = 10;
   while (i > 0)
   {
-    String message = "Hello world! This is message #" + String(i, DEC);
+    String message = "Hello world! This is message #" + String(i);
     uint8_t payload[message.length()];
     message.getBytes(payload, message.length());
 
