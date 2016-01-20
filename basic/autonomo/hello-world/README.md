@@ -20,7 +20,7 @@ Note: this example uses The Things Network demonstration back-end. Use the back-
 3. Go to Tools > Boards > Board Manager and install **SODAQ SAMD Boards** by **SODAQ** version 1.6.4 or higher
 4. Open the [hello-world.ino](hello-world.ino) file
 5. Change the device address at line 13 to a custom four-byte address, e.g. ```0x00, 0x00, 0xAA, 0x01``` to set a device address to `0000AA01`
-6. Make sure that you are connected to the SODAQ Autonomo, see Tools, Port
+6. Make sure that you are connected to the SODAQ Autonomo, see Tools > Port
 7. Click Verify to compile the sketch
 8. Click Upload to run the sketch on your SODAQ Autonomo
 9. Go to Tools > Serial Monitor to view the debug output:
