@@ -1,0 +1,6 @@
+{
+  "name": "Push Notifications",
+  "gcm_sender_id": "[YOUR_SENDER_ID]",
+  "parse_app_id": "[YOUR_APP_ID]",
+  "parse_api_key": "[YOUR_API_KEY]"
+}
