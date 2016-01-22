@@ -56,9 +56,9 @@ void loop()
   uint8_t i = 10;
   while (i > 0)
   {
-    String message = "Hello world! This is message #" + String(i);
-    uint8_t payload[message.length()];
-    message.getBytes(payload, message.length());
+    String message = "Hello world! This is message #" + String(i, DEC);
+    uint8_t payload[message.length() + 1];
+    message.getBytes(payload, message.length() + 1);
 
     switch (LoRaBee.send(1, payload, message.length()))
     {
