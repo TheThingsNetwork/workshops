@@ -18,12 +18,13 @@ Note: this example uses The Things Network demonstration back-end. Use the back-
 1. Open the Arduino IDE
 2. In Preferences, add `http://downloads.sodaq.net/package_sodaq_index.json` to the list of Additional Board Manager URLs
 3. Go to Tools > Boards > Board Manager and install **SODAQ SAMD Boards** by **SODAQ** version 1.6.4 or higher
-4. Open the [hello-world.ino](hello-world.ino) file
-5. Change the device address at line 13 to a custom four-byte address, e.g. ```0x00, 0x00, 0xAA, 0x01``` to set a device address to `0000AA01`
-6. Make sure that you are connected to the SODAQ Autonomo, see Tools > Port
-7. Click Verify to compile the sketch
-8. Click Upload to run the sketch on your SODAQ Autonomo
-9. Go to Tools > Serial Monitor to view the debug output:
+4. Go to Tools > Boards and select **SODAQ Autonomo**
+5. Open the [hello-world.ino](hello-world.ino) file
+6. Change the device address at line 13 to a custom four-byte address, e.g. ```0x00, 0x00, 0xAA, 0x01``` to set a device address to `0000AA01`
+7. Make sure that you are connected to the SODAQ Autonomo, see Tools > Port
+8. Click Verify to compile the sketch
+9. Click Upload to run the sketch on your SODAQ Autonomo
+10. Go to Tools > Serial Monitor to view the debug output:
 ![Serial Monitor](serialmonitor.png)
 If you see the message "The device is busy", the program waits to meet the [duty cycle](https://en.wikipedia.org/wiki/Duty_cycle).
 
