@@ -34,7 +34,7 @@ class LoRa
       
 
   public:
-    void LoRaConfig(SoftwareSerial loraSerial);
-    void LoRaSendAndReceive(String message, SoftwareSerial loraSerial);
+    void LoRaConfig();
+    void LoRaSendAndReceive(String message);
 };
 #endif
