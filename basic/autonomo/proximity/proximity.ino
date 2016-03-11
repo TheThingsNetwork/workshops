@@ -10,6 +10,7 @@
 #define loraSerial Serial1
 
 #define ultrasonicPin 4
+#define aggregate 10
 
 Ultrasonic ultrasonic(ultrasonicPin);
 
@@ -81,7 +82,7 @@ void loop()
   debugSerial.print(range);
   debugSerial.println(" cm");
 
-  if (counter >= 60) {
+  if (counter >= aggregate) {
     long minVal = averageValues.getMin();
     long avgVal = averageValues.getAverage();
     long maxVal = averageValues.getMax();
