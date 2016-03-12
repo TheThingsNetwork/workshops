@@ -1,8 +1,8 @@
 #include "LoRa.h"
 
-#define DevAddr "02DEAE00"
-#define NwkSKey "2B7E151628AED2A6ABF7158809CF4F3C"
-#define AppSKey "2B7E151628AED2A6ABF7158809CF4F3C"
+#define DEVADDR "02DEAE00"
+#define NWKSKEY "2B7E151628AED2A6ABF7158809CF4F3C"
+#define APPSKEY "2B7E151628AED2A6ABF7158809CF4F3C"
 
 LoRa lora;
 int counter = 0;
@@ -14,7 +14,7 @@ void setup()
 
   delay(2000);
   Serial.println("Configuring LoRa module...");
-  lora.Config(DevAddr, NwkSKey, AppSKey);
+  lora.Config(DEVADDR, NWKSKEY, APPSKEY);
   Serial.println("LoRa module ready.");
   delay(3000);
 }

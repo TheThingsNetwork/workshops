@@ -32,13 +32,11 @@ void LoRa::Config(String devAddr, String nwkSKey, String appSKey)
   Configure("mac join abp", "Join ABP");
   Configure("mac get status", "Status");
 
-  for (int i = 0; i < 72; i++) {
-    String command = "mac set ch status " + String(i);
+  for (int i = 0; i < 72; i++)
     if (i == 70 || CHANNEL_LOW <= i && i <= CHANNEL_HIGH)
       Configure("mac set ch status " + String(i) + " on", "Enable channel " + String(i));
     else
       Configure("mac set ch status " + String(i) + " off", "Disable channel " + String(i));
-  }
 }
 
 void LoRa::Send(String message)
