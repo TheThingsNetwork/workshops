@@ -22,6 +22,9 @@ void setup()
 }
 
 void loop() {
-  // Wait 10 seconds  
+  // Print test message
+  Serial.println("Hello world!");
+  
+  // Wait 10 seconds
   delay(10000);
 }
