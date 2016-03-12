@@ -32,18 +32,19 @@ void LoRa::Config(String devAddr, String nwkSKey, String appSKey)
   Configure("mac join abp", "Join ABP");
   Configure("mac get status", "Status");
 
-  for (int i = 0; i < 72; i++)
+  for (int i = 0; i < 72; i++) {
+    String command = "mac set ch status " + String(i);
     if (i == 70 || CHANNEL_LOW <= i && i <= CHANNEL_HIGH)
       Configure("mac set ch status " + String(i) + " on", "Enable channel " + String(i));
     else
       Configure("mac set ch status " + String(i) + " off", "Disable channel " + String(i));
+  }
 }
 
 void LoRa::Send(String message)
 {
   int messageLength = message.length();
-  Serial.print("Sending: ");
-  Serial.println(message);
+  Serial.println("Sending: " + message);
 
   Serial1.write("mac tx uncnf 1 ");
   for (int i = 0; i < messageLength; i++)
@@ -52,7 +53,6 @@ void LoRa::Send(String message)
 
   delay(100);
 
-  Serial.println("Status: ");
   while (Serial1.available())
     Serial.write(Serial1.read());
 }
