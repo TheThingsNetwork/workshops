@@ -15,7 +15,7 @@ String TheThingsUno::readLine(int waitTime) {
     String line = modemStream->readStringUntil('\n');
     if (line.length() >= 0) {
       debugPrintLn("Read " + line);
-      return line.subString(0, line.length() - 1); // TODO: Check this
+      return line.substring(0, line.length() - 1); // TODO: Check this
     }
   }
   return "";
@@ -29,7 +29,7 @@ bool TheThingsUno::waitForOK(int waitTime) {
   }
 
   if (line != "ok") {
-    debugPrintLn("Response is not OK");
+    debugPrintLn("Response is not OK: " + line);
     return false;
   }
 
