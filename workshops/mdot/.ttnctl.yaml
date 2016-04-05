@@ -1,0 +1,3 @@
+ttn-router: "staging.thethingsnetwork.org:1700"
+mqtt-broker: "staging.thethingsnetwork.org:1883"
+ttn-handler: "staging.thethingsnetwork.org:1782"
