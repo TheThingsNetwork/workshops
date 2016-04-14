@@ -122,14 +122,59 @@ return {
 18. Click **Deploy**;
 19. Go to the **Debug** pane on the right. Your **Hello world!** should come in every five seconds.
 
-## Connect Sensors
+## Connect Sensors and Send Binary Data
 
-TODO
+You can connect sensors to your Arduino by using the pins directly, a pins with break-out board or a Grove shield.
 
-## Push To IFTTT
+1. Pick a sensor of your choice. See the [sensors examples](./samples/sensors) for sample code;
+2. It is recommended to send data in a binary format. For example, if you have a single float value, send it like this:
+```
+float temperature = 21.5;
+int data = (int)(temperature * 100); // 2150
+byte buf[2];
+buf[0] = (data >> 8) & 0xff;
+buf[1] = data & 0xff;
+ttu.sendBytes(buf, 2);
+```
+3. Decode the data in a decoding function in Node RED. Replace the function of the `base64`:
+```
+var buf = new Buffer(msg.payload.payload, 'base64');
+var data = (buf[0] << 8) | buf[1];
+var temperature = data / 100.0;
 
-TODO
+return {
+    payload: {
+        temperature: temperature
+    }
+}
+```
 
-## Push To Firebase
+## Push to IFTTT
 
-TODO
+1. Go to [IFTTT Maker Channel](https://ifttt.com/maker);
+2. Click **Connect**;
+3. Go to **Receive a web request**;
+4. Click **Create a new Recipe**;
+5. Type `Maker` in the search box to choose Maker as the trigger channel;
+6. Click **Receive a web request** as the trigger;
+7. Enter an **Event Name**, for example `temperature`;
+8. Pick an **Action Channel** and configure it;
+9. Use the fields `value1`, `value2` and/or `value3`;
+10. Click **Create Action**;
+11. Click **Create Recipe**;
+12. Go back to Node RED;
+13. Drop a new **Function** on the flow;
+14. Return `value1`, `value2` and/or `value3` as JSON object. For the previous example:
+```
+return {
+    payload: {
+        value1: msg.payload.temperature
+    }
+}
+```
+15. Drop a new **HTTP request** on the flow;
+16. Select the **POST** method and enter the URL as seen on **How to Trigger Events** in IFTTT, for example:
+
+![nodered-request](./media/nodered-request.png)
+
+![nodered-flow](./media/nodered-flow.png)
