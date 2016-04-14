@@ -57,7 +57,7 @@ The Things Network supports the two LoRaWAN mechanisms to register devices: acti
 
 1. Generate your device address. Start with `02DE00` and add the hexadecimal representation of your workshop participation number, e.g. #43 is `2B`, so your device address becomes `02DE002B` (tip: use the [decimal to HEX converter](http://www.binaryhexconverter.com/decimal-to-hex-converter));
 2. Register your device: `ttnctl devices register personalized <DevAddr>`;
-3. Show your device security keys: `ttnctl device info <DevAddr>`
+3. Show your device security keys: `ttnctl devices info <DevAddr>`
 
 ![ttnctl-device](./media/ttnctl-device.png)
 
