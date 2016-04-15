@@ -10,7 +10,7 @@ Futher information and sample code of other sensors can be obtained by clicking 
 * [Grove - Dust Sensor](http://www.seeedstudio.com/wiki/Grove_-_Dust_sensor)
 * [Grove - Air Quality Sensor](http://www.seeedstudio.com/wiki/Grove_-_Air_Quality_Sensor_v1.3)
 * [Grove - 3-Axis Digital Accelerometer 16G](http://www.seeedstudio.com/wiki/Grove_-_3-Axis_Digital_Accelerometer_ADXL345)
-* [Grove - 3-Axis Digital Accelerometer 1.5G](http://www.seeedstudio.com/wiki/Grove_-_3-Axis_Digital_Accelerometer(%C2%B11.5g)
+* [Grove - 3-Axis Digital Accelerometer 1.5G](http://www.seeedstudio.com/wiki/Grove_-_3-Axis_Digital_Accelerometer(%C2%B11.5g))
 * [Grove - Temperature and Humidity Sensor](http://www.seeedstudio.com/depot/Grove-TemperatureHumidity-Sensor-Pro-p-838.html)
 * [Grove - Moisture](http://www.seeedstudio.com/wiki/Grove_-_Moisture_Sensor)
 * [Grove - Loudness](http://www.seeedstudio.com/wiki/Grove_-_Loudness_Sensor)
