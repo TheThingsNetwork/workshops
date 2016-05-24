@@ -29,12 +29,11 @@
 
 #### Create an account
 Your applications and devices can be managed by The Thing Network dashboard.
-
-To use the dashboard you need an account at the Things Network.  You can create
-one on [here][accounts].
+To use the dashboard you need a The Things Network account.  You can [create
+an account here][accounts].
 
 After registering and validating your account, you will be able to
-log in to the [dashboard][dashboard].
+log in to [The Things Network dashboard][dashboard].
 
 
 #### Create An Application
@@ -44,20 +43,21 @@ which is issued by The Things Network and is guaranteed to be unique.
 
 Create your first The Things Network application by clicking
 [create application](https://staging.thethingsnetwork.org/applications/create).
-Fill in the desired application name (`Hello world` for example) and click **Save**.
+Fill in the desired application name (`Hello World` for example) and click **Create application**.
 
 ![create application](./media/create-application.png)
 
-You will be redirected to that application's page.
+You will be redirected to the newly created Application page.
 
-*In the Application Info component, you can see the Access Key for that
+![application info](./media/app-info.png)
+
+*Note: In the Application Info component, you can see the Access Key for that
 application, this is a secret key to to get access to the data of your
 application. You will need this key later.*
 
-Also note that in every component on the dashboard there is a small help icon.
-This opens a help message with details about that components.
+*Note: in every component on the dashboard there is a small help icon.
+This opens a help message with details about that components.*
 
-![application info](./media/app-info.png)
 
 
 #### Register an ABP Device
@@ -87,9 +87,12 @@ that were sent by the device.
 1. In the Arduino IDE, open **File** > **Examples** > **TheThingsUno** >
    **hello-world**
 2. Change your `devAddr`, `nwkSKey` and `appSKey` to the values you can find on 
-   the device page. If you click the `<>` on the each of the fields, their
-   contents are shown as C-style byte buffer literal. You can use this to 
-   quickly copy-paste them into the followin code snippet:
+   the device page. If you click the `<>` on the each of the fields on the
+   Device page, their
+   contents are shown as a C-style byte buffer literal which is extra handy for
+   copy-pasting.
+
+Use The information show on the device page to fill in following code snippet:
 ```
 // Set your device address to your device address
 const byte devAddr[4] = { 0x19, 0xD6, 0xA9, 0x91 };
@@ -100,7 +103,7 @@ const byte appSKey[16] = {0xD6, 0xF3, 0x52, 0x1E, 0x49, 0x2C, 0x98, 0x3D, 0x0B, 
 ```
 
 
-### Run Application
+### Run The Application On Your Device
 
 1. Click **Sketch** > **Verify/Compile** and make sure that compilation works
    (Arduino says *Done compiling*)
@@ -119,26 +122,29 @@ Successful transmission
 ### Get Your Data
 
 If all goes well you should also be receiving messages from your device in the
-Messages component on the device info page.  The payload you see here is
+Messages component on the device page.  The payload you see here is
 the the byte representation off the `Hello world!` we are sending with
 from the device.
 
 ![Hello world payloads](./media/messages-hello-world.png)
 
 
-Using the payload like this is a bit unwieldy, so let us change that using
-payload functions. But first of let us send something more useful.
+Using the payload like this is can be tricky: usually the raw bytes are of no
+interest to an application using messages from a device.  That's why The Things
+Network introduces the concept of *payload functions*.  More on that later, 
+first let us send some actual data!
 
 
 #### Embracing Bytes
 
 Sending ASCII strings like `Hello world!` over the LORA is wasteful and is
 considered a bad practice.  Instead, prefer to send bytes that encode your
-data in a smart way. 
-
-Like so:
+data in a compact way.  For instance, if we have a temperature reading, that is
+a `float`, depending on the precision we need we could encode the integer and
+fractial parts as bytes in a two-byte payload. Like so:
 
 ```
+// we measured this!
 float temperature = 21.5;
 int data = (int)(temperature * 100); // 2150
 byte buf[2];
@@ -149,9 +155,11 @@ ttu.sendBytes(buf, 2);
 
 Set up the above loop in your Arduino and click **Sketch** > **Verfiy/Compile**
 and **Sketch** > **Upload** again.  This will make the UNO send bytes
-representing the temperature value `21.5`.
+representing our temperature value `21.5`.
 
-There's one caveat though: because we reset the device, it starts sending frames 
+##### Resetting the Frame counts
+
+There's one caveat: because we reset the device, it starts sending frames 
 with a frame count starting at `0` again.  For security reasons, The Things
 Network only accepts new frames if their frame count is higher than that of
 previous frames.
@@ -166,18 +174,22 @@ The payload should read `08 66` (the byte representation of `21.5`).
 
 #### Unpacking The Bytes
 
-We will be using payload functions to unpack the bytes your device is sending
-into meaningful messages.
+To make working with byte payloads easier, The Things Network allows you to 
+register payload functions for each application.  The payload functions are
+three functions: the *decoder*, the *converter* and the *validator*.
 
-To set up the payload functions, go back to the application view and click the
-edit button `edit` in the Application Info. This will bring you to the Payload
-Function editor.
+Here, we will only be using the *decoder* to unpack the bytes your device is
+sending into messages that are meaningful to our application.
+
+To set up the payload functions, go back to the Application view and click the
+**edit** button in the Application Info component. This will bring you to the
+Payload Function editor.
 
 ![payload editor](./media/payload-editor.png)
 
 Here you can view, test and edit the payload functions for your application.
 
-In the decoder section, enter the following to decode the payload:
+In the *decoder* section, enter the following to decode the payload:
 ```
 function (bytes) {
   var data = (bytes[0] << 8) | bytes[1];
@@ -187,8 +199,9 @@ function (bytes) {
 }
 ```
 
-Before, clicking **Save** test the decoder by enterin a test payload in the
-box below: `0866` and clicking **Test**. The test output should read:
+Before saving our payload function we can test it first by entering a test payload in the
+box below. Enter `0866` and click **Test**. The test output should correspond to
+the temperature value we sen earlier:
 
 ```
 {
@@ -198,10 +211,10 @@ box below: `0866` and clicking **Test**. The test output should read:
 
 ![Payload function tests](./media/payload-test.png)
 
-If you are happy with yout payload function, click **Save**. All incoming
-messages will now be decoded using your function.  You can see if this worked
-by going back to the device page and looking at the messages.  The payload will
-now be logged in its decoded form.
+If you are happy with the output of your payload function, click **Save**. All
+incoming messages will now be decoded using these payload functions.  You can see if this
+worked by going back to the device page and looking at the messages.  The
+payload will now be logged in its decoded form.
 
 ![Decoded payloads](./media/decoded-payloads.png)
 
