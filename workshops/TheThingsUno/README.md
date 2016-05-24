@@ -10,10 +10,10 @@
 
 ### Arduino IDE
 
-1. Download and install Arduino IDE 1.6.8 (for
-   [Windows](https://www.arduino.cc/download_handler.php?f=/arduino-1.6.8-windows.exe),
-   [Mac OS X](https://www.arduino.cc/download_handler.php?f=/arduino-1.6.8-macosx.zip)
-   or [Linux](https://www.arduino.cc/download_handler.php?f=/arduino-1.6.8-linux64.tar.xz));
+1. Download and install Arduino IDE 1.6.9 (for
+   [Windows](https://www.arduino.cc/download_handler.php?f=/arduino-1.6.9-windows.exe),
+   [Mac OS X](https://www.arduino.cc/download_handler.php?f=/arduino-1.6.9-macosx.zip)
+   or [Linux](https://www.arduino.cc/download_handler.php?f=/arduino-1.6.9-linux64.tar.xz));
 2. Download the latest The Things Uno Arduino Library
    ([zip](https://github.com/TheThingsNetwork/sdk/blob/master/node/TheThingsUno/release/TheThingsUno.zip?raw=true));
 3. Connect the The Things Uno to your computer using the Micro-USB cable;
@@ -28,7 +28,8 @@
 ### The Thing Network Dashboard
 
 #### Create an account
-Your applications and devices can be managed by The Thing Network dashboard.
+Your applications and devices can be managed by [The Things Network
+dashboard][dashboard].
 To use the dashboard you need a The Things Network account.  You can [create
 an account here][accounts].
 
