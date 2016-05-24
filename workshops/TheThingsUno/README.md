@@ -10,78 +10,103 @@
 
 ### Arduino IDE
 
-1. Download and install Arduino IDE 1.6.8 (for [Windows](https://www.arduino.cc/download_handler.php?f=/arduino-1.6.8-windows.exe), [Mac OS X](https://www.arduino.cc/download_handler.php?f=/arduino-1.6.8-macosx.zip) or [Linux](https://www.arduino.cc/download_handler.php?f=/arduino-1.6.8-linux64.tar.xz));
-2. Download the latest The Things Uno Arduino Library ([zip](https://github.com/TheThingsNetwork/sdk/blob/master/node/TheThingsUno/release/TheThingsUno.zip?raw=true));
+1. Download and install Arduino IDE 1.6.8 (for
+   [Windows](https://www.arduino.cc/download_handler.php?f=/arduino-1.6.8-windows.exe),
+   [Mac OS X](https://www.arduino.cc/download_handler.php?f=/arduino-1.6.8-macosx.zip)
+   or [Linux](https://www.arduino.cc/download_handler.php?f=/arduino-1.6.8-linux64.tar.xz));
+2. Download the latest The Things Uno Arduino Library
+   ([zip](https://github.com/TheThingsNetwork/sdk/blob/master/node/TheThingsUno/release/TheThingsUno.zip?raw=true));
 3. Connect the The Things Uno to your computer using the Micro-USB cable;
-4. In the Arduino IDE, go to **Sketch** > **Include Library** > **Add .ZIP Library** and select the downloaded zip file;
+4. In the Arduino IDE, go to **Sketch** > **Include Library** > **Add .ZIP
+   Library** and select the downloaded zip file;
 5. Select **Tools** > **Board** > **Arduino Leonardo**;
-6. Select **Tools** > **Port** > the port that identifies as **Arduino Leonardo**. For example, on Mac OS X:
-![arduino-port](./media/arduino-port.png)
+6. Select **Tools** > **Port** > the port that identifies as **Arduino
+   Leonardo**. For example, on Mac OS X:
+   ![arduino-port](./media/arduino-port.png)
 
-### The Things Network control utility
 
-#### Download and Install
+### The Thing Network Dashboard
 
-1. Download The Things Network control utility `ttnctl` (for [Windows](https://ttnreleases.blob.core.windows.net/release/src/github.com/TheThingsNetwork/ttn/release/branch/develop/ttnctl-windows-amd64.zip), [Mac OS X](https://ttnreleases.blob.core.windows.net/release/src/github.com/TheThingsNetwork/ttn/release/branch/develop/ttnctl-darwin-amd64.zip) or [Linux](https://ttnreleases.blob.core.windows.net/release/src/github.com/TheThingsNetwork/ttn/release/branch/develop/ttnctl-linux-amd64.zip));
-2. Extract the downloaded zip file to a convenient location, e.g. your user directory (`%USERPROFILE%` on Windows or `$HOME` on Mac OS X and Linux);
-3. Verify that the command utility works by executing the command line utility:
+#### Create an account
+Your applications and devices can be managed by The Thing Network dashboard.
 
-![ttnctl-test](./media/ttnctl-test.png)
+To use the dashboard you need an account at the Things Network.  You can create
+one on [here][accounts].
 
-*When instructed to use `ttnctl [command] ...`, replace `ttnctl` by the platform version you have, in the example above `ttnctl-darwin-amd64`*
+After registering and validating your account, you will be able to
+log in to the [dashboard][dashboard].
 
-#### Create Account
 
-To use The Things Network, you need an user account. This is a personal account. Your login name is your e-mail address and you are free to choose a password.
+#### Create An Application
 
-1. Create a new user account by executing: `ttnctl user create demo@thethingsnetwork.org`;
-2. Login with your new account: `ttnctl user login demo@thethingsnetwork.org`
+Users can create applications. Applications have an unique identifier, the EUI,
+which is issued by The Things Network and is guaranteed to be unique.
 
-![ttnctl-login](./media/ttnctl-login.png)
+Create your first The Things Network application by clicking
+[create application](https://staging.thethingsnetwork.org/applications/create).
+Fill in the desired application name (`Hello world` for example) and click **Save**.
 
-#### Create Application
+![create application](./media/create-application.png)
 
-Users can create applications. Applications have an unique identifier, the EUI, which is issued by The Things Network and is guaranteed to be unique.
+You will be redirected to that application's page.
 
-1. Create your first The Things Network application: `ttnctl applications create 'Hello world'`;
-2. View your applications: `ttnctl applications`. The EUI is your unique `AppEUI`;
-3. Use your newly created application: `ttnctl applications use <appEUI>`
+*In the Application Info component, you can see the Access Key for that
+application, this is a secret key to to get access to the data of your
+application. You will need this key later.*
 
-![ttnctl-applications](./media/ttnctl-applications.png)
+Also note that in every component on the dashboard there is a small help icon.
+This opens a help message with details about that components.
 
-*In the `ttnctl applications` view, you also see the Access Key. This is a secret key to get access to the data of your application. You will need this key later.*
+![application info](./media/app-info.png)
 
-#### Register Device (ABP)
 
-The Things Network supports the two LoRaWAN mechanisms to register devices: activation by personalization (ABP) and over the air activation (OTAA). In this workshop, we use ABP. This requires you to generate a device address, which you can choose freely. We help you with that.
+#### Register an ABP Device
 
-1. Generate your device address. Start with `02DE00` and add the hexadecimal representation of your workshop participation number, e.g. #43 is `2B`, so your device address becomes `02DE002B` (tip: use the [decimal to HEX converter](http://www.binaryhexconverter.com/decimal-to-hex-converter));
-2. Register your device: `ttnctl devices register personalized <DevAddr>`;
-3. Show your device security keys: `ttnctl devices info <DevAddr>`
+The Things Network supports the two LoRaWAN mechanisms to register devices:
+activation by personalization (ABP) and over the air activation (OTAA). In this
+workshop, we use ABP.  ABP device addresses are generated by The Things Network
+for you.
 
-![ttnctl-device](./media/ttnctl-device.png)
+To register the device, click **register device** on the application page.  This
+will take you to the device registration page.  Here, select **ABP**.  We
+will leave the App Session Key and Network Session Key to be generated for us.
+To continue, click **Register**.
+
+![register-device](./media/register-device.png)
+
+You will be redirected to the device info page.  Here you can view all
+information about your device, send messages to the device and view messages
+that were sent by the device.
+
+![device-info](./media/device-info.png)
 
 ## Hello World
 
 ### Configure Device
 
-1. In the Arduino IDE, open **File** > **Examples** > **TheThingsUno** > **hello-world**
-2. Change your `devAddr`, `nwkSKey` and `appSKey` to the values of your device. You can copy/paste the values that `ttnctl` printed for you in the previous steps. Based on the previous example:
-
+1. In the Arduino IDE, open **File** > **Examples** > **TheThingsUno** >
+   **hello-world**
+2. Change your `devAddr`, `nwkSKey` and `appSKey` to the values you can find on 
+   the device page. If you click the `<>` on the each of the fields, their
+   contents are shown as C-style byte buffer literal. You can use this to 
+   quickly copy-paste them into the followin code snippet:
 ```
-// Set your device address
-const byte devAddr[4] = {0x02, 0xDE, 0x00, 0x00};
+// Set your device address to your device address
+const byte devAddr[4] = { 0x19, 0xD6, 0xA9, 0x91 };
 
-// Set your NwkSKey and AppSKey
+// Set your NwkSKey and AppSKey to the values on the device page
 const byte nwkSKey[16] = {0x02, 0x8F, 0x7B, 0x7A, 0x52, 0xBA, 0x02, 0x9D, 0xE2, 0xF2, 0xC2, 0x08, 0x7F, 0x8E, 0x01, 0x6B};
 const byte appSKey[16] = {0xD6, 0xF3, 0x52, 0x1E, 0x49, 0x2C, 0x98, 0x3D, 0x0B, 0x65, 0xA8, 0x2D, 0xED, 0x12, 0x22, 0x1C};
 ```
 
+
 ### Run Application
 
-1. Click **Sketch** > **Verify/Compile** and make sure that compilation works (Arduino says *Done compiling*)
+1. Click **Sketch** > **Verify/Compile** and make sure that compilation works
+   (Arduino says *Done compiling*)
 2. Click **Sketch** > **Upload** (Arduino says *Done uploading*)
-3. Go to **Tools** > **Serial Monitor** to see the output of your node. This should look like this:
+3. Go to **Tools** > **Serial Monitor** to see the output of your node. This
+   should look like this:
 
 ```
 Sending: mac tx uncnf 1 with 12 bytes
@@ -93,41 +118,26 @@ Successful transmission
 
 ### Get Your Data
 
-We are using Node RED to get the data from The Things Network routing services, decode the data and push it to an application back-end.
+If all goes well you should also be receiving messages from your device in the
+Messages component on the device info page.  The payload you see here is
+the the byte representation off the `Hello world!` we are sending with
+from the device.
 
-1. Follow the instructions from your workshop facilitator to get to your Node RED environment;
-2. From the **input** category in the toolbox on the left, drop a new **MQTT** node on your workflow;
-3. Double-click the node named `mqtt`;
-4. Click on the pencil icon next to **Add new mqtt-broker...**;
-5. Enter for **Server**: `staging.thethingsnetwork.org`;
-6. Go to **Security**;
-7. Enter in **Username** your AppEUI;
-8. Enter in **Password** your Access Key (tip: run `ttnctl applications` to see your AppEUI and Access Key);
-9. Click **Add**;
-10. Enter in **Topic**: `+/devices/+/up`. This subscribes you to all devices in your application;
-11. From the **function** category, drop a new **JSON** node on the flow and connect the output of the `+/devices/+/up` node to the input of the `json` node;
-12. From the **function** category, drop a new **Function** node on the flow;
-13. Double-click the function node;
-14. Enter in **Name**: `base64`;
-15. Replace the **Function** by a Base64 decoding function to make your message printable:
-```
-var text = new Buffer(msg.payload.payload, 'base64').toString();
-return {
-    payload: text
-}
-```
-16. From the **output** category, drop a new **Debug** node on the flow.
-17. Your flow should like:
-![nodered-hello-world](./media/nodered-hello-world.png)
-18. Click **Deploy**;
-19. Go to the **Debug** pane on the right. Your **Hello world!** should come in every five seconds.
+![Hello world payloads](./media/messages-hello-world.png)
 
-## Connect Sensors and Send Binary Data
 
-You can connect sensors to your Arduino by using the pins directly, a pins with break-out board or a Grove shield.
+Using the payload like this is a bit unwieldy, so let us change that using
+payload functions. But first of let us send something more useful.
 
-1. Pick a sensor of your choice. See the [sensors examples](./samples/sensors) for sample code;
-2. It is recommended to send data in a binary format. For example, if you have a single float value, send it like this:
+
+#### Embracing Bytes
+
+Sending ASCII strings like `Hello world!` over the LORA is wasteful and is
+considered a bad practice.  Instead, prefer to send bytes that encode your
+data in a smart way. 
+
+Like so:
+
 ```
 float temperature = 21.5;
 int data = (int)(temperature * 100); // 2150
@@ -136,45 +146,134 @@ buf[0] = (data >> 8) & 0xff;
 buf[1] = data & 0xff;
 ttu.sendBytes(buf, 2);
 ```
-3. Decode the data in a decoding function in Node RED. Replace the function of the `base64`:
-```
-var buf = new Buffer(msg.payload.payload, 'base64');
-var data = (buf[0] << 8) | buf[1];
-var temperature = data / 100.0;
 
-return {
-    payload: {
-        temperature: temperature
-    }
+Set up the above loop in your Arduino and click **Sketch** > **Verfiy/Compile**
+and **Sketch** > **Upload** again.  This will make the UNO send bytes
+representing the temperature value `21.5`.
+
+There's one caveat though: because we reset the device, it starts sending frames 
+with a frame count starting at `0` again.  For security reasons, The Things
+Network only accepts new frames if their frame count is higher than that of
+previous frames.
+
+To receive the new messages, we need to reset the frame counter for the device
+on the netwerk. This can be done by re-registering the device: go to the device
+page and click **reset** (after Frames up).  You should now start receiving new
+messages from the device.
+
+The payload should read `08 66` (the byte representation of `21.5`).
+
+
+#### Unpacking The Bytes
+
+We will be using payload functions to unpack the bytes your device is sending
+into meaningful messages.
+
+To set up the payload functions, go back to the application view and click the
+edit button `edit` in the Application Info. This will bring you to the Payload
+Function editor.
+
+![payload editor](./media/payload-editor.png)
+
+Here you can view, test and edit the payload functions for your application.
+
+In the decoder section, enter the following to decode the payload:
+```
+function (bytes) {
+  var data = (bytes[0] << 8) | bytes[1];
+  return {
+    temperature: data / 100.0,
+  };
 }
 ```
 
+Before, clicking **Save** test the decoder by enterin a test payload in the
+box below: `0866` and clicking **Test**. The test output should read:
+
+```
+{
+  "temperature": 21.5
+}
+```
+
+![Payload function tests](./media/payload-test.png)
+
+If you are happy with yout payload function, click **Save**. All incoming
+messages will now be decoded using your function.  You can see if this worked
+by going back to the device page and looking at the messages.  The payload will
+now be logged in its decoded form.
+
+![Decoded payloads](./media/decoded-payloads.png)
+
+
+### Getting Your Data
+
+In this tutorial, we are using Node RED to get the data from The Things Network
+routing services and push it to an application back-end.
+
+1. Follow the instructions from your workshop facilitator to get to your Node
+   RED environment;
+2. From the **input** category in the toolbox on the left, drop a new **MQTT**
+   node on your workflow
+3. Double-click the node named `mqtt`
+4. Click on the pencil icon next to **Add new mqtt-broker...**
+5. Enter for **Server**: `staging.thethingsnetwork.org`
+6. Go to **Security**
+7. Enter in **Username** your AppEUI (check the Application page)
+8. Enter in **Password** your Access Key (check the Application page)
+9. Click **Add**
+10. Enter in **Topic**: `+/devices/+/up`. This subscribes you to all devices in
+    your application
+11. From the **function** category, drop a new **JSON** node on the flow and
+    connect the output of the `+/devices/+/up` node to the input of the `json`
+    node
+12. From the **output** category, drop a new **debug** node on the flow and
+    connect the output of the **json** node to the input of the **debug** node.
+13. Double click the debug node and select **message property** from the Ouput
+    dropdown. Enter `msg.payload.fields` in the box below. And click **Ok**.
+
+Your flow should look like this:
+
+![nodered-debug-flow](./media/nodered-debug.png)
+
+
+Click **Deploy** and monitor the debug tab for incoming messages. You will start
+seeing messages like:
+```
+{ temperature: 21.5 }
+```
+
+
 ## Push to IFTTT
 
-1. Go to [IFTTT Maker Channel](https://ifttt.com/maker);
-2. Click **Connect**;
-3. Go to **Receive a web request**;
-4. Click **Create a new Recipe**;
-5. Type `Maker` in the search box to choose Maker as the trigger channel;
-6. Click **Receive a web request** as the trigger;
-7. Enter an **Event Name**, for example `temperature`;
-8. Pick an **Action Channel** and configure it;
-9. Use the fields `value1`, `value2` and/or `value3`;
-10. Click **Create Action**;
-11. Click **Create Recipe**;
-12. Go back to Node RED;
-13. Drop a new **Function** on the flow;
-14. Return `value1`, `value2` and/or `value3` as JSON object. For the previous example:
+1. Go to [IFTTT Maker Channel](https://ifttt.com/maker)
+2. Click **Connect**
+3. Go to **Receive a web request**
+4. Click **Create a new Recipe**
+5. Type `Maker` in the search box to choose Maker as the trigger channel
+6. Click **Receive a web request** as the trigger
+7. Enter an **Event Name**, for example `temperature`
+8. Pick an **Action Channel** and configure it
+9. Use the fields `value1`, `value2` and/or `value3`
+10. Click **Create Action**
+11. Click **Create Recipe**
+12. Go back to Node RED
+13. Drop a new **Function** on the flow
+14. Return `value1`, `value2` and/or `value3` as JSON object. For the previous
+    example:
 ```
 return {
     payload: {
-        value1: msg.payload.temperature
+        value1: msg.payload.fields.temperature
     }
 }
 ```
 15. Drop a new **HTTP request** on the flow;
-16. Select the **POST** method and enter the URL as seen on **How to Trigger Events** in IFTTT, for example:
+16. Select the **POST** method and enter the URL as seen on **How to Trigger
+    Events** in IFTTT, for example:
 
 ![nodered-request](./media/nodered-request.png)
-
 ![nodered-flow](./media/nodered-flow.png)
+
+[accounts]:  https://account.thethingsnetwork.org
+[dashboard]: https://staging.thethingsnetwork.org
