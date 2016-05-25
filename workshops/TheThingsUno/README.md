@@ -69,11 +69,10 @@ workshop, we use OTAA.
 
 ##### Get the unique node EUI
 To activate our device, we need to know its unique identifier, called the device
-EUI. The device EUI is the unique node address that is hard coded by Microchip into
-the LoRa module. This address is used to register the Node in The Things Network
-database. The DevEUI can be retrieved from the node with the
-`Get-Device-Info.ino`
-sketch.
+EUI. The device EUI is hard coded by Microchip into the LoRa module. This
+address is used to register the Node in The Things Network database. The device
+EUI can be retrieved from the node with the `Get-Device-Info.ino` sketch.
+
 1. In the Arduino IDE, open: **File > Examples > TheThingsUno > Get-Device-Info.ino**
 2. Upload sketch without modification.
 3. Click **Sketch > Verify/Compile**
