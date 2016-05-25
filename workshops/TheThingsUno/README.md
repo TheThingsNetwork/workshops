@@ -108,6 +108,7 @@ use the device `EUI` to register the device for OTAA
 
 Save the `EUI: 0004A30B001B672E` (`DevEUI`) for later.  
 
+##### Register the device
 
 To register the device, click **register device** on the application page.  This
 will take you to the device registration page.  Here, select **OTAA** and enter
