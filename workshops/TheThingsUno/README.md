@@ -25,7 +25,7 @@
    ![arduino-port](./media/arduino-port.png)
 
 
-### The Thing Network Dashboard
+### The Things Network Dashboard
 
 #### Create an account
 Your applications and devices can be managed by [The Things Network
@@ -44,7 +44,7 @@ which is issued by The Things Network and is guaranteed to be unique.
 
 Create your first The Things Network application by clicking
 [create application](https://staging.thethingsnetwork.org/applications/create).
-Fill in the desired application name (`Hello World` for example) and click **Create application**.
+Fill in the desired application name (something like `Julia's temperature sensornet` if your name is Julia) and click **Create application**.
 
 ![create application](./media/create-application.png)
 
@@ -87,20 +87,23 @@ that were sent by the device.
 
 1. In the Arduino IDE, open **File** > **Examples** > **TheThingsUno** >
    **hello-world**
-2. Change your `devAddr`, `nwkSKey` and `appSKey` to the values you can find on 
+2. Change your `devAddr`, `nwkSKey` and `appSKey` to the values you can find on
    the device page. If you click the `<>` on the each of the fields on the
    Device page, their
    contents are shown as a C-style byte buffer literal which is extra handy for
    copy-pasting.
 
-Use The information show on the device page to fill in following code snippet:
+Use the information shown on the device page to fill in following code snippet:
+
 ```
 // Set your device address to your device address
-const byte devAddr[4] = { 0x19, 0xD6, 0xA9, 0x91 };
+// Looks like { 0x00, 0x00, 0x00, 0x00 }, use your own device address!
+const byte devAddr[4] = { ... };
 
 // Set your NwkSKey and AppSKey to the values on the device page
-const byte nwkSKey[16] = {0x02, 0x8F, 0x7B, 0x7A, 0x52, 0xBA, 0x02, 0x9D, 0xE2, 0xF2, 0xC2, 0x08, 0x7F, 0x8E, 0x01, 0x6B};
-const byte appSKey[16] = {0xD6, 0xF3, 0x52, 0x1E, 0x49, 0x2C, 0x98, 0x3D, 0x0B, 0x65, 0xA8, 0x2D, 0xED, 0x12, 0x22, 0x1C};
+// They look like {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, ..., but use your own keys!
+const byte nwkSKey[16] = { ... };
+const byte appSKey[16] = { ... };
 ```
 
 
@@ -132,7 +135,7 @@ from the device.
 
 Using the payload like this is can be tricky: usually the raw bytes are of no
 interest to an application using messages from a device.  That's why The Things
-Network introduces the concept of *payload functions*.  More on that later, 
+Network introduces the concept of *payload functions*.  More on that later,
 first let us send some actual data!
 
 
@@ -160,7 +163,7 @@ representing our temperature value `21.5`.
 
 ##### Resetting the Frame counts
 
-There's one caveat: because we reset the device, it starts sending frames 
+There's one caveat: because we reset the device, it starts sending frames
 with a frame count starting at `0` again.  For security reasons, The Things
 Network only accepts new frames if their frame count is higher than that of
 previous frames.
@@ -175,7 +178,7 @@ The payload should read `08 66` (the byte representation of `21.5`).
 
 #### Unpacking The Bytes
 
-To make working with byte payloads easier, The Things Network allows you to 
+To make working with byte payloads easier, The Things Network allows you to
 register payload functions for each application.  The payload functions are
 three functions: the *decoder*, the *converter* and the *validator*.
 
