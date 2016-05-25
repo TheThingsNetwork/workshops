@@ -25,7 +25,7 @@
    ![arduino-port](./media/arduino-port.png)
 
 
-### The Thing Network Dashboard
+### The Things Network Dashboard
 
 #### Create an account
 Your applications and devices can be managed by [The Things Network
@@ -44,7 +44,7 @@ which is issued by The Things Network and is guaranteed to be unique.
 
 Create your first The Things Network application by clicking
 [create application](https://staging.thethingsnetwork.org/applications/create).
-Fill in the desired application name (`Hello World` for example) and click **Create application**.
+Fill in the desired application name (something like `Julia's temperature sensornet` if your name is Julia) and click **Create application**.
 
 ![create application](./media/create-application.png)
 
@@ -92,12 +92,13 @@ that were sent by the device.
    their contents are shown as a C-style byte buffer literal which is extra
    handy for copy-pasting.
 
-Use The information show on the device page to fill in following code snippet:
+Use the information shown on the device page to fill in following code snippet:
+
 ```
+// Copy paste the values found on the Application page here
 const byte appEui[0] = { /* copy App EUI here */ }; // For example: { 0x70, 0xB3, 0xD5, 0x7E, 0xD0, 0x00, 0x01, 0xDF }
 const byte appKey[0] = { /* copy App Key here */ }; // For example: { 0xJG, 0x4Y, 0xxZ, 0x6q, 0x8f, 0xcH, 0xBX, 0xRR, 0x1a, 0x2a, 0xru, 0xjG, 0xUM, 0xKo, 0x9F, 0xhG, 0xoL, 0xFU, 0xFL, 0x4M, 0xSl, 0x0= }
 ```
-
 
 ### Run The Application On Your Device
 
@@ -126,7 +127,7 @@ from the device.
 
 Using the payload like this is can be tricky: usually the raw bytes are of no
 interest to an application using messages from a device.  That's why The Things
-Network introduces the concept of *payload functions*.  More on that later, 
+Network introduces the concept of *payload functions*.  More on that later,
 first let us send some actual data!
 
 
@@ -154,7 +155,7 @@ representing our temperature value `21.5`.
 
 ##### Resetting the Frame counts
 
-There's one caveat: because we reset the device, it starts sending frames 
+There's one caveat: because we reset the device, it starts sending frames
 with a frame count starting at `0` again.  For security reasons, The Things
 Network only accepts new frames if their frame count is higher than that of
 previous frames.
@@ -169,7 +170,7 @@ The payload should read `08 66` (the byte representation of `21.5`).
 
 #### Unpacking The Bytes
 
-To make working with byte payloads easier, The Things Network allows you to 
+To make working with byte payloads easier, The Things Network allows you to
 register payload functions for each application.  The payload functions are
 three functions: the *decoder*, the *converter* and the *validator*.
 
