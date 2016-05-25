@@ -6,16 +6,15 @@ This is an example integration of The Things Network with AWS IoT.
 
 ## Setup
 
-Make sure you have your device(s) registered in AWS IoT. The ID of your device must be your DevEUI
+Make sure you have your device(s) registered in AWS IoT. The ID of your device must be your DevEUI. This integration uses one certificate to publish messages for all devices. Make sure that this certificate is attached to your devices.
 
-# Install
+## Install
 
-Install the NPM packages:
 ```
 npm install ttn-aws-iot
 ```
 
-# Example
+## Example
 
 ```js
 'use strict';
