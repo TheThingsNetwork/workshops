@@ -15,7 +15,7 @@
    [Mac OS X](https://www.arduino.cc/download_handler.php?f=/arduino-1.6.9-macosx.zip)
    or [Linux](https://www.arduino.cc/download_handler.php?f=/arduino-1.6.9-linux64.tar.xz));
 2. Download the latest The Things Uno Arduino Library
-   ([zip](https://github.com/TheThingsNetwork/sdk/blob/master/node/TheThingsUno/release/TheThingsUno.zip?raw=true));
+   ([zip](https://github.com/TheThingsNetwork/sdk/blob/master/devices/TheThingsUno/release/TheThingsUno.zip?raw=true));
 3. Connect the The Things Uno to your computer using the Micro-USB cable;
 4. In the Arduino IDE, go to **Sketch** > **Include Library** > **Add .ZIP
    Library** and select the downloaded zip file;
@@ -113,7 +113,7 @@ Save the `EUI: 0004A30B001B672E` (`DevEUI`) for later.
 To register the device, click **register device** on the application page.  This
 will take you to the device registration page.  Here, select **OTAA** and enter
 an Device EUI.  We will let the App Key to be randomly generated.
-To continue, click **Register**. 
+To continue, click **Register**.
 
 ![register-device](./media/register-device-otaa.png)
 
