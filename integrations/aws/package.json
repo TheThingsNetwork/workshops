@@ -18,6 +18,6 @@
   "homepage": "https://github.com/TheThingsNetwork/examples#readme",
   "dependencies": {
     "aws-iot-device-sdk": "^1.0.12",
-    "ttn": "^1.0.0"
+    "ttn": "^1.1.0"
   }
 }
