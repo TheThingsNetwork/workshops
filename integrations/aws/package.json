@@ -1,0 +1,23 @@
+{
+  "name": "ttn-aws-iot",
+  "version": "0.1.0",
+  "description": "The Things Network example integration with AWS IoT",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/TheThingsNetwork/examples.git"
+  },
+  "author": "Johan Stokking <johan@thethingsnetwork.org>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/TheThingsNetwork/examples/issues"
+  },
+  "homepage": "https://github.com/TheThingsNetwork/examples#readme",
+  "dependencies": {
+    "aws-iot-device-sdk": "^1.0.12",
+    "ttn": "^1.0.0"
+  }
+}
