@@ -195,20 +195,8 @@ Set up the above loop in your Arduino and click **Sketch** > **Verfiy/Compile**
 and **Sketch** > **Upload** again.  This will make the UNO send bytes
 representing our temperature value `21.5`.
 
-##### Resetting the Frame counts
-
-There's one caveat: because we reset the device, it starts sending frames
-with a frame count starting at `0` again.  For security reasons, The Things
-Network only accepts new frames if their frame count is higher than that of
-previous frames.
-
-To receive the new messages, we need to reset the frame counter for the device
-on the netwerk. This can be done by re-registering the device: go to the device
-page and click **reset** (after Frames up).  You should now start receiving new
-messages from the device.
-
-The payload should read `08 66` (the byte representation of `21.5`).
-
+If you now have a look at the device page on the Dashboard you'll see your data
+coming in. The payload should read `08 66` (the byte representation of `21.5`).
 
 #### Unpacking The Bytes
 
