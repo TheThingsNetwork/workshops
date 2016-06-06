@@ -1,4 +1,6 @@
-# The Things Uno Workshop
+# The Things Uno MQTT Workshop
+
+EclipseCon Europe, Toulouse, June 7, 2016
 
 ## Pre-requisites
 
@@ -24,18 +26,17 @@
    Leonardo**. For example, on Mac OS X:
    ![arduino-port](./media/arduino-port.png)
 
-
 ### The Things Network Dashboard
 
-#### Create an account
+#### Create an Account
+
 Your applications and devices can be managed by [The Things Network
 dashboard][dashboard].
-To use the dashboard you need a The Things Network account.  You can [create
+To use the dashboard you need a The Things Network account. You can [create
 an account here][accounts].
 
 After registering and validating your account, you will be able to
 log in to [The Things Network dashboard][dashboard].
-
 
 #### Create An Application
 
@@ -59,37 +60,42 @@ application. You will need this key later.*
 *Note: in every component on the dashboard there is a small help icon.
 This opens a help message with details about that components.*
 
-
-
 #### Register an OTAA Device
 
 The Things Network supports the two LoRaWAN mechanisms to register devices:
 activation by personalization (ABP) and over the air activation (OTAA). In this
-workshop, we use OTAA.
+workshop, we use OTAA. This requires you to register your device with its unique
+DevEUI in The Things Network Dashboard.
 
-##### Get the unique node EUI
-To activate our device, we need to know its unique identifier, called the device
-EUI. The device EUI is hard coded by Microchip into the LoRa module. This
-address is used to register the Node in The Things Network database. The device
-EUI can be retrieved from the node with the `Get-Device-Info.ino` sketch.
+##### Get Your Device EUI
 
-1. In the Arduino IDE, open: **File > Examples > TheThingsUno > Get-Device-Info.ino**
+To activate your device, we need to know its unique identifier, called the
+Device EUI or DevEUI. The DevEUI is hard coded by the manufacturer, in this case
+Microchip, into the LoRa module. This DevEUI is used to register the node in The
+Things Network for identification. The DevEUI can be retrieved from the node with
+the **device-info** sketch.
+
+1. In the Arduino IDE, open: **File > Examples > TheThingsUno > device-info**
 2. Upload sketch without modification.
-3. Click **Sketch > Verify/Compile**
-4. Click **Sketch > Upload (Arduino says Done uploading)**
-5. The Arduino IDE will give feedback when you verify or upload the code to a board. It should look similar to this:
+3. Click **Sketch > Verify/Compile** (Arduino says *Done compiling*)
+4. Click **Sketch > Upload** (Arduino says *Done uploading*)
+5. The Arduino IDE will give feedback when you verify or upload the code to a
+board. It should look similar to this:
 
 ```
 Sketch uses 9,656 bytes (33%) of program storage space. Maximum is 28,672 bytes.
 Global variables use 1,253 bytes (48%) of dynamic memory, leaving 1,307 bytes for local variables. Maximum is 2,560 bytes.
 ```
-The Things Uno talks to the computer over the Serial Port. The data that is send
-is displayed with the Serial monitor of the Arduino IDE. Using the Serial
-monitor makes it possible to monitor the proceedings of the Things Uno.
 
-Open the serial monitor in the Arduino IDE: press the Serial monitor button or press **Crtl + Shift + M**.
+The Things Uno talks to the computer over a serial port. The data that is send
+is displayed with the **Serial Monitor** of the Arduino IDE. Using the serial
+monitor makes it possible to monitor the status of The Things Uno.
 
-You should now be receiving data on the Serial Monitor
+Open the serial monitor in the Arduino IDE: go to **Tools** >
+**Serial Monitor**.
+
+You should now be receiving data on the serial monitor, which prints something
+like this:
 
 ```
 Device Information
@@ -110,10 +116,11 @@ Save the `EUI: 0004A30B001B672E` (`DevEUI`) for later.
 
 ##### Register the device
 
-To register the device, click **register device** on the application page.  This
-will take you to the device registration page.  Here, select **OTAA** and enter
-an Device EUI.  We will let the App Key to be randomly generated.
-To continue, click **Register**.
+To register the device, go back to The Things Network dashboard and click
+**Register Device** on the application page. This will take you to the device
+registration page. Here, select **OTAA** and enter your DevEUI as obtained from
+The Things Uno. We will let the App Key to be randomly generated. To continue,
+click **Register**.
 
 ![register-device](./media/register-device-otaa.png)
 
@@ -131,7 +138,7 @@ that were sent by the device.
    **hello-world-OTAA**
 2. Change your `appEUI`, `appKey` to the values you can find on the application
    page. If you click the `<>` on the each of the fields on the Device page,
-   their contents are shown as a C-style byte buffer literal which is extra
+   their contents are shown as a C-style byte array literal which is extra
    handy for copy-pasting.
 
 Use the information shown on the device page to fill in following code snippet:
@@ -161,51 +168,68 @@ Successful transmission
 ### Get Your Data
 
 If all goes well you should also be receiving messages from your device in the
-Messages component on the device page.  The payload you see here is
-the the byte representation off the `Hello world!` we are sending with
+Messages component on the device page. The payload you see here is
+the the byte representation of the `Hello world!` string we are sending
 from the device.
 
 ![Hello world payloads](./media/messages-hello-world.png)
 
 Using the payload like this is can be tricky: usually the raw bytes are of no
 interest to an application using messages from a device.  That's why The Things
-Network introduces the concept of *payload functions*.  More on that later,
+Network introduces the concept of *payload functions*. More on that later,
 first let us send some actual data!
-
 
 #### Embracing Bytes
 
-Sending ASCII strings like `Hello world!` over the LORA is wasteful and is
-considered a bad practice.  Instead, prefer to send bytes that encode your
-data in a compact way.  For instance, if we have a temperature reading, that is
-a `float`, depending on the precision we need we could encode the integer and
-fractial parts as bytes in a two-byte payload. Like so:
+Sending strings over LoRa is often a bad practice, as a high number of bytes
+increases payload size and therefore requires more power and uses more precious
+airtime. Instead, prefer to send bytes that encode your data in a compact way.
+For instance, if we have a temperature reading, that is a `float`, depending on
+the precision we need we could encode the integer and fractal parts as bytes in
+a two-byte payload. Like so:
 
 ```
-// we measured this!
-float temperature = 21.5;
-int data = (int)(temperature * 100); // 2150
+float temperature = 21.5; // This is a analog reading
+
+int data = (int)(temperature * 100); // Get rid of fraction (data == 2150)
 byte buf[2];
-buf[0] = (data >> 8) & 0xff;
-buf[1] = data & 0xff;
+buf[0] = highByte(data);
+buf[1] = lowByte(data);
+
 ttu.sendBytes(buf, 2);
 ```
 
-Set up the above loop in your Arduino and click **Sketch** > **Verfiy/Compile**
-and **Sketch** > **Upload** again.  This will make the UNO send bytes
+Set up the above loop in your Arduino and click **Sketch** > **Verify/Compile**
+and **Sketch** > **Upload** again.  This will make the device send bytes
 representing our temperature value `21.5`.
 
 If you now have a look at the device page on the Dashboard you'll see your data
-coming in. The payload should read `08 66` (the byte representation of `21.5`).
+coming in. The payload should read `08 66` (the byte representation of `2150`).
+
+*Note: how you encode your payload depends on the sensor values and the use case
+of your application.
+
+When sending booleans, try combining them in one byte by setting bits, and use a
+bitmask to get the individual booleans. When sending floating point values whose
+decimals you need, multiply by a value and cast to `int` (in the example above
+we keep two decimals). Most numeric sensor values fit in one, two or three
+bytes, including luminance, temperature, ranges, sound levels and GPS
+coordinates.
+
+Only send strings when the text is really variable, e.g. user input. For status
+messages, consider using numeric status codes.*
 
 #### Unpacking The Bytes
 
 To make working with byte payloads easier, The Things Network allows you to
-register payload functions for each application.  The payload functions are
+register payload functions for each application. The payload functions are
 three functions: the *decoder*, the *converter* and the *validator*.
 
 Here, we will only be using the *decoder* to unpack the bytes your device is
-sending into messages that are meaningful to our application.
+sending into messages that are meaningful to our application. Use the optional
+*converter* function to convert units (e.g. voltage to Fahrenheit) and the
+*validator* function to check whether the payload is valid (e.g. invalidate
+outliers).
 
 To set up the payload functions, go back to the Application view and click the
 **edit** button in the Application Info component. This will bring you to the
@@ -225,9 +249,9 @@ function (bytes) {
 }
 ```
 
-Before saving our payload function we can test it first by entering a test payload in the
-box below. Enter `0866` and click **Test**. The test output should correspond to
-the temperature value we sen earlier:
+Before saving our payload function we can test it first by entering a test
+payload in the box below. Enter `0866` and click **Test**. The test output
+should correspond to the temperature value we sen earlier:
 
 ```
 {
@@ -238,12 +262,11 @@ the temperature value we sen earlier:
 ![Payload function tests](./media/payload-test.png)
 
 If you are happy with the output of your payload function, click **Save**. All
-incoming messages will now be decoded using these payload functions.  You can see if this
-worked by going back to the device page and looking at the messages.  The
+incoming messages will now be decoded using these payload functions. You can see
+if this worked by going back to the device page and looking at the messages. The
 payload will now be logged in its decoded form.
 
 ![Decoded payloads](./media/decoded-payloads.png)
-
 
 ### Getting Your Data
 
@@ -275,13 +298,11 @@ Your flow should look like this:
 
 ![nodered-debug-flow](./media/nodered-debug.png)
 
-
 Click **Deploy** and monitor the debug tab for incoming messages. You will start
 seeing messages like:
 ```
 { temperature: 21.5 }
 ```
-
 
 ## Push to IFTTT
 
