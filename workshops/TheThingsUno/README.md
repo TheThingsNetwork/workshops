@@ -1,7 +1,5 @@
 # The Things Uno MQTT Workshop
 
-EclipseCon Europe, Toulouse, June 7, 2016
-
 ## Pre-requisites
 
 1. The Things Uno (featuring Microchip RN2483 or RN2903)
