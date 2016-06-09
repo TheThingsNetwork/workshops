@@ -274,25 +274,17 @@ In this tutorial, we are using Node RED to get the data from The Things Network
 routing services and push it to an application back-end.
 
 1. Follow the instructions from your workshop facilitator to get to your Node
-   RED environment;
-2. From the **input** category in the toolbox on the left, drop a new **MQTT**
+   RED environment
+2. From the **input** category in the toolbox on the left, drop a new **TTN**
    node on your workflow
-3. Double-click the node named `mqtt`
-4. Click on the pencil icon next to **Add new mqtt-broker...**
-5. Enter for **Server**: `staging.thethingsnetwork.org`
-6. Go to **Security**
-7. Enter in **Username** your AppEUI (check the Application page)
-8. Enter in **Password** your Access Key (check the Application page)
+3. Double-click the node named `ttn`
+7. Enter in **App EUI** your AppEUI (check the Application page)
+8. Enter in **Access Key** your Access Key (check the Application page)
+5. Enter for **Broker**: `staging.thethingsnetwork.org`
 9. Click **Add**
-10. Enter in **Topic**: `+/devices/+/up`. This subscribes you to all devices in
-    your application
-11. From the **function** category, drop a new **JSON** node on the flow and
-    connect the output of the `+/devices/+/up` node to the input of the `json`
-    node
-12. From the **output** category, drop a new **debug** node on the flow and
-    connect the output of the **json** node to the input of the **debug** node.
-13. Double click the debug node and select **message property** from the Ouput
-    dropdown. Enter `msg.payload.fields` in the box below. And click **Ok**.
+10. From the **output** category, drop a new **debug** node on the flow and
+    connect the upper output of the **ttn** node to the input of the **debug**
+    node.
 
 Your flow should look like this:
 
@@ -301,7 +293,7 @@ Your flow should look like this:
 Click **Deploy** and monitor the debug tab for incoming messages. You will start
 seeing messages like:
 ```
-{ temperature: 21.5 }
+{ "temperature": 21.5 }
 ```
 
 ## Push to IFTTT
@@ -324,7 +316,7 @@ seeing messages like:
 ```
 return {
     payload: {
-        value1: msg.payload.fields.temperature
+        value1: msg.payload.temperature
     }
 }
 ```

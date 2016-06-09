@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+    <style media="screen">
+      body { font-family: monospace }
+    </style>
+  </head>
+  <body>
+
+    <div class="activity">
+      <h1>Activity Feed</h1>
+    </div>
+
+    <script>
+      var activityFeed = document.querySelector(".activity")
+      var socket = io('/')
+
+      socket.on('uplink', function (data) {
+        // Log to the console
+        console.log("Uplink from Device:" + data.devEUI, data)
+
+        // Create a new DOM element
+        var uplink = document.createElement("div")
+        var date = new Date(data.metadata.server_time)
+        var dateString = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds()
+        uplink.innerText = dateString + " - Uplink " + data.counter + " from " + data.devEUI + ": " + JSON.stringify(data.fields)
+
+        // Append to the activity feed
+        activityFeed.appendChild(uplink)
+      })
+
+      socket.on('activation', function (data) {
+        // Log to the console
+        console.log("Activated Device:" + data.devEUI,  data)
+
+        // Create a new DOM element
+        var activation = document.createElement("div")
+        activation.innerText = "Activated " + data.devEUI
+
+        // Append to the activity feed
+        activityFeed.appendChild(activation)
+      })
+    </script>
+  </body>
+</html>
