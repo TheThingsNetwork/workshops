@@ -1,0 +1,25 @@
+{
+  "name": "ttn-azure-iothub",
+  "version": "0.1.0",
+  "description": "The Things Network integration with Azure IoT Hub",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/TheThingsNetwork/examples.git"
+  },
+  "author": "Johan Stokking <johan@thethingsnetwork.org>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/TheThingsNetwork/examples/issues"
+  },
+  "homepage": "https://github.com/TheThingsNetwork/examples#readme",
+  "dependencies": {
+    "azure-iot-device": "^1.0.6",
+    "azure-iot-device-amqp": "^1.0.6",
+    "azure-iothub": "^1.0.8",
+    "ttn": "^1.2.0"
+  }
+}
