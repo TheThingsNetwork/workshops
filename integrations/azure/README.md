@@ -44,7 +44,7 @@ Follow these steps to deploy an Azure WebJob using Node.js that runs the integra
 3. Create a new file `server.js`, copy the example from above and insert your keys
 4. Run `npm run start` to verify that the bridge works. This is example output:
 ```
-TTN Connected
+TTN connected
 0004A30B001B442B: Handling uplink
 Uplink { devEUI: '0004A30B001B442B',
   data: '{"lux":1000,"temperature":19.82,"deviceId":"0004A30B001B442B","time":"2016-06-14T16:19:15.402956092Z"}' }
@@ -59,9 +59,12 @@ Uplink { devEUI: '0004A30B001B442B',
 1. Compress the WebJob files (including the `node_modules` folder) as ZIP file
 2. In the [Azure Portal](https://portal.azure.com), create a new **Web App**
 3. Under **Settings**, go to **WebJobs** and click **Add**
-4. Enter a name, e.g. **bridge**, select your ZIP file, set the type to **Continuous** and set the scale mode to **Single Instance**
-5. Click **OK** to deploy the WebJob
-6. When deployed, select the WebJob and click **Logs** to verify that the bridge works. This is example output:
+4. Enter a name, e.g. **bridge**
+5. Select your ZIP file as file to upload
+6. Ensure that the type is set to **Continuous**
+7. Set the scale to **Single Instance**
+8. Click **OK** to deploy the WebJob
+9. Once deployed, select the WebJob and click **Logs** to verify that the bridge works. This is example output:
 ```
 [06/14/2016 16:27:47 > 996af8: INFO] TTN connected
 [06/14/2016 16:28:07 > 996af8: INFO] 0004A30B001B442B: Handling uplink
