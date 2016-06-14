@@ -9,7 +9,6 @@ This integration requires an shared access policy key name with Registry write a
 ```js
 'use strict';
 
-const http = require('http');
 const ttnazureiot = require('ttn-azure-iothub');
 
 // Replace with your AppEUI and App Access Key
@@ -34,32 +33,43 @@ bridge.on('error', err => {
 bridge.on('uplink', data => {
   console.log('Uplink', data);
 });
-
-http.createServer((req, res) => {
-    res.writeHead(200, { 'Content-Type': 'text/html' });
-    res.end('The Things Network Azure IoT Hub Integration is running');
-}).listen(process.env.PORT || 8080);
 ```
 
-## Deploy
+### Create Azure WebJob
 
-1. In the [Azure Portal](https://portal.azure.com), create a new **Empty Node JS Web App**
-2. In the Settings of your newly deployed App Service, go to **Deployment source** and select **Local Git Repository** or other Git enabled source
-3. In **Deployment credentials**, make sure that your credentials are valid
-4. Run `git clone <url>` to clone the repository using the url specified under **Git clone url** to a local folder
-5. Run `npm install --save ttn-azure-iothub` to install this package
-6. Create a new file named `iisnode.yml` and add the line `loggingEnabled: true` to enable logging
-7. Copy the example from above and set your AppEUI, App Access Key, Azure IoT Hub name, key name and key
-8. Remove the entry `"engines" : { ... }` from `package.json` to let Azure select the Node.js version 
-9. Run `git add .` to stage the changed files
-10. Run `git commit -m "Initial commit"`
-11. Run `git push` to push all changes and deploy your App Service
-12. Open the URL of your App Service and verify that it prints that it runs
-13. In the Azure Portal, go to your App Service, go to **Tools** and open the **Log stream**. Typical logging output looks as follows:
+Follow these steps to deploy an Azure WebJob using Node.js that runs the integration between The Things Network and Azure IoT Hub.
+
+1. In a new folder, run `npm init` to initialize a new WebJob using Node.js. Use `server.js` as entry point
+2. Run `npm install --save ttn-azure-iothub` to install this package
+3. Create a new file `server.js`, copy the example from above and insert your keys
+4. Run `npm run start` to verify that the bridge works. This is example output:
 ```
+TTN Connected
 0004A30B001B442B: Handling uplink
 Uplink { devEUI: '0004A30B001B442B',
-  data: '{"lux":57,"temperature":19.33,"deviceId":"0004A30B001B442B","time":"2016-06-12T18:11:27.56550825Z"}' }
+  data: '{"lux":1000,"temperature":19.82,"deviceId":"0004A30B001B442B","time":"2016-06-14T16:19:15.402956092Z"}' }
+0004A30B001B442B: Handling uplink
+Uplink { devEUI: '0004A30B001B442B',
+  data: '{"lux":1000,"temperature":19.82,"deviceId":"0004A30B001B442B","time":"2016-06-14T16:19:37.546601639Z"}' }
+...
+```
+
+### Deploy Azure WebJob
+
+1. Compress the WebJob files (including the `node_modules` folder) as ZIP file
+2. In the [Azure Portal](https://portal.azure.com), create a new **Web App**
+3. Under **Settings**, go to **WebJobs** and click **Add**
+4. Enter a name, e.g. **bridge**, select your ZIP file, set the type to **Continuous** and set the scale mode to **Single Instance**
+5. Click **OK** to deploy the WebJob
+6. When deployed, select the WebJob and click **Logs** to verify that the bridge works. This is example output:
+```
+[06/14/2016 16:27:47 > 996af8: INFO] TTN connected
+[06/14/2016 16:28:07 > 996af8: INFO] 0004A30B001B442B: Handling uplink
+[06/14/2016 16:28:10 > 996af8: INFO] Uplink { devEUI: '0004A30B001B442B',
+[06/14/2016 16:28:10 > 996af8: INFO]   data: '{"lux":1000,"temperature":19.82,"deviceId":"0004A30B001B442B","time":"2016-06-14T16:28:06.766772461Z"}' }
+[06/14/2016 16:28:29 > 996af8: INFO] 0004A30B001B442B: Handling uplink
+[06/14/2016 16:28:29 > 996af8: INFO] Uplink { devEUI: '0004A30B001B442B',
+[06/14/2016 16:28:29 > 996af8: INFO]   data: '{"lux":1000,"temperature":19.82,"deviceId":"0004A30B001B442B","time":"2016-06-14T16:28:28.908965124Z"}' }
 ```
 
 You are now ready to process your data in a Stream Analytics job.
