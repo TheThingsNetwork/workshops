@@ -75,7 +75,7 @@ Microchip, into the LoRa module. This DevEUI is used to register the node in The
 Things Network for identification. The DevEUI can be retrieved from the node with
 the **device-info** sketch.
 
-1. In the Arduino IDE, open: **File > Examples > TheThingsUno > device-info**
+1. In the Arduino IDE, open: **File > Examples > TheThingsUno > DeviceInfo**
 2. Upload sketch without modification.
 3. Click **Sketch > Verify/Compile** (Arduino says *Done compiling*)
 4. Click **Sketch > Upload** (Arduino says *Done uploading*)
@@ -135,7 +135,7 @@ that were sent by the device.
 ### Configure Device
 
 1. In the Arduino IDE, open **File** > **Examples** > **TheThingsUno** >
-   **hello-world-OTAA**
+   **SendOTAA**
 2. Change your `appEUI`, `appKey` to the values you can find on the application
    page. If you click the `<>` on the each of the fields on the Device page,
    their contents are shown as a C-style byte array literal which is extra
