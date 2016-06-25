@@ -35,6 +35,43 @@ bridge.on('uplink', data => {
 });
 ```
 
+## Options
+
+When creating and initializing the `Bridge`, you can specify options:
+
+```js
+const options = {};
+const bridge = new ttnazureiot.Bridge(appEUI, appAccessKey, hubName, keyName, key, options);
+```
+
+### `ttnBroker`
+
+The MQTT broker to connect to. Default:
+
+```js
+options.ttnBroker = 'staging.thethingsnetwork.org'
+```
+
+### `createMessage`
+
+The function to create a message. By default, the message is a combination of the result of the payload functions `fields`, the unique device ID and the server time:
+
+```js
+options.createMessage = function(uplink) {
+  const metadata = {
+    deviceId: uplink.devEUI,
+    time: uplink.metadata.server_time
+  };
+  return Object.assign({}, uplink.fields, metadata);
+}
+```
+
+*Note: if there are no payload functions specified for the concerning application, the `fields` object contains a `raw` property with the bytes received.*
+
+*Note: if the result of your payload functions contain the fields `deviceId` or `time`, these fields will be overwritten by the metadata. Use a custom `createMessage` function to use custom field names.*
+
+## Deploying to Azure
+
 ### Create Azure WebJob
 
 Follow these steps to deploy an Azure WebJob using Node.js that runs the integration between The Things Network and Azure IoT Hub.
@@ -47,10 +84,10 @@ Follow these steps to deploy an Azure WebJob using Node.js that runs the integra
 TTN connected
 0004A30B001B442B: Handling uplink
 Uplink { devEUI: '0004A30B001B442B',
-  data: '{"lux":1000,"temperature":19.82,"deviceId":"0004A30B001B442B","time":"2016-06-14T16:19:15.402956092Z"}' }
+  message: '{"lux":1000,"temperature":19.82,"deviceId":"0004A30B001B442B","time":"2016-06-14T16:19:15.402956092Z"}' }
 0004A30B001B442B: Handling uplink
 Uplink { devEUI: '0004A30B001B442B',
-  data: '{"lux":1000,"temperature":19.82,"deviceId":"0004A30B001B442B","time":"2016-06-14T16:19:37.546601639Z"}' }
+  message: '{"lux":1000,"temperature":19.82,"deviceId":"0004A30B001B442B","time":"2016-06-14T16:19:37.546601639Z"}' }
 ...
 ```
 
@@ -69,10 +106,10 @@ Uplink { devEUI: '0004A30B001B442B',
 [06/14/2016 16:27:47 > 996af8: INFO] TTN connected
 [06/14/2016 16:28:07 > 996af8: INFO] 0004A30B001B442B: Handling uplink
 [06/14/2016 16:28:10 > 996af8: INFO] Uplink { devEUI: '0004A30B001B442B',
-[06/14/2016 16:28:10 > 996af8: INFO]   data: '{"lux":1000,"temperature":19.82,"deviceId":"0004A30B001B442B","time":"2016-06-14T16:28:06.766772461Z"}' }
+[06/14/2016 16:28:10 > 996af8: INFO]   message: '{"lux":1000,"temperature":19.82,"deviceId":"0004A30B001B442B","time":"2016-06-14T16:28:06.766772461Z"}' }
 [06/14/2016 16:28:29 > 996af8: INFO] 0004A30B001B442B: Handling uplink
 [06/14/2016 16:28:29 > 996af8: INFO] Uplink { devEUI: '0004A30B001B442B',
-[06/14/2016 16:28:29 > 996af8: INFO]   data: '{"lux":1000,"temperature":19.82,"deviceId":"0004A30B001B442B","time":"2016-06-14T16:28:28.908965124Z"}' }
+[06/14/2016 16:28:29 > 996af8: INFO]   message: '{"lux":1000,"temperature":19.82,"deviceId":"0004A30B001B442B","time":"2016-06-14T16:28:28.908965124Z"}' }
 ```
 
-You are now ready to process your data in a Stream Analytics job.
+You are now ready to process your data in an Azure Stream Analytics job.

@@ -17,6 +17,14 @@ const Bridge = class Bridge extends EventEmitter {
     super();
     options = options || {};
 
+    this._createMessage = options.createMessage || function(uplink) {
+      const metadata = {
+        deviceId: uplink.devEUI,
+        time: uplink.metadata.server_time
+      };
+      return Object.assign({}, uplink.fields, metadata);
+    }
+
     this.registry = iothub.Registry.fromConnectionString(util.format(SAK_CONNECTION_STRING, hubName, keyName, key));
     this.deviceConnectionString = util.format(DEVICE_CONNECTION_STRING, hubName);
     this.devices = {};
@@ -70,13 +78,9 @@ const Bridge = class Bridge extends EventEmitter {
     console.log('%s: Handling uplink', uplink.devEUI);
 
     this._getDevice(uplink.devEUI).then(deviceInfo => {
-      const data = JSON.stringify(Object.assign({}, uplink.fields, {
-        deviceId: uplink.devEUI,
-        time: uplink.metadata.server_time
-      }));
-      const message = new device.Message(data);
+      const message = JSON.stringify(this._createMessage(uplink));
 
-      deviceInfo.sendEvent(message, (err, res) => {
+      deviceInfo.sendEvent(new device.Message(JSON.stringify(message)), (err, res) => {
         if (err) {
           console.warn('%s: Could not send event: %s. Closing connection', uplink.devEUI, err);
           deviceInfo.close(err => {
@@ -85,7 +89,7 @@ const Bridge = class Bridge extends EventEmitter {
           });
           this.emit('error', err);
         } else {
-          this.emit('uplink', { devEUI: uplink.devEUI, data: data });
+          this.emit('uplink', { devEUI: uplink.devEUI, message: message });
         }
       });
     })
