@@ -26,34 +26,38 @@ const Bridge = class Bridge extends EventEmitter {
     this.ttnClient.on('error', super.emit.bind(this, 'error'));
     this.ttnClient.on('uplink', this._handleUplink.bind(this));
   }
-  
+
   _getDevice(devEUI) {
-    if (this.devices[devEUI])
+    if (this.devices[devEUI]) {
       return Promise.resolve(this.devices[devEUI]);
+    }
 
     return new Promise((resolve, reject) => {
-      var device = new iothub.Device(null);
+      const device = new iothub.Device(null);
       device.deviceId = devEUI;
       this.registry.create(device, (err, deviceInfo) => {
-        if (err) { // The device probably exists
+        if (!err) {
+          resolve(deviceInfo);
+        } else {
+          // The device probably exists
           this.registry.get(device.deviceId, (err, deviceInfo) => {
             if (err) {
               reject(err);
-            } else
+            } else {
               resolve(deviceInfo);
+            }
           });
-        } else
-          resolve(deviceInfo);
+        }
       });
     }).then(deviceInfo => {
-      var key = deviceInfo.authentication.SymmetricKey.primaryKey;
-      var connectionString = util.format(this.deviceConnectionString, devEUI, key);
-      var client = amqp.clientFromConnectionString(connectionString);
+      const key = deviceInfo.authentication.SymmetricKey.primaryKey;
+      const connectionString = util.format(this.deviceConnectionString, devEUI, key);
+      const client = amqp.clientFromConnectionString(connectionString);
       return new Promise((resolve, reject) => {
         client.open(err => {
-          if (err)
+          if (err) {
             reject(err);
-          else {
+          } else {
             this.devices[devEUI] = client;
             resolve(client);
           }
@@ -64,21 +68,25 @@ const Bridge = class Bridge extends EventEmitter {
 
   _handleUplink(uplink) {
     console.log('%s: Handling uplink', uplink.devEUI);
-    
+
     this._getDevice(uplink.devEUI).then(deviceInfo => {
-      var data = JSON.stringify(Object.assign({}, uplink.fields, { 
+      const data = JSON.stringify(Object.assign({}, uplink.fields, {
         deviceId: uplink.devEUI,
         time: uplink.metadata.server_time
       }));
-      var message = new device.Message(data);
-      var that = this;
+      const message = new device.Message(data);
+
       deviceInfo.sendEvent(message, (err, res) => {
         if (err) {
-          console.warn('%s: Could not send event: %s', uplink.devEUI, err);
-          that.emit('error', err);
+          console.warn('%s: Could not send event: %s. Closing connection', uplink.devEUI, err);
+          deviceInfo.close(err => {
+            // Delete reference even if close failed
+            delete this.devices[uplink.devEUI];
+          });
+          this.emit('error', err);
+        } else {
+          this.emit('uplink', { devEUI: uplink.devEUI, data: data });
         }
-        else
-          that.emit('uplink', { devEUI: uplink.devEUI, data: data });
       });
     })
     .catch(err => {
