@@ -79,7 +79,7 @@ Follow these steps to deploy an Azure WebJob using Node.js that runs the integra
 1. In a new folder, run `npm init` to initialize a new WebJob using Node.js. Use `server.js` as entry point
 2. Run `npm install --save ttn-azure-iothub` to install this package
 3. Create a new file `server.js`, copy the example from above and insert your keys
-4. Run `npm run start` to verify that the bridge works. This is example output:
+4. Run `npm start` to verify that the bridge works. This is example output:
 ```
 TTN connected
 0004A30B001B442B: Handling uplink
