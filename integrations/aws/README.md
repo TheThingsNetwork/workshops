@@ -11,7 +11,7 @@ Make sure you have your device(s) registered in AWS IoT. The ID of your device m
 ## Install
 
 ```
-npm install ttn-aws-iot
+npm install --save ttn-aws-iot
 ```
 
 ## Example
@@ -49,3 +49,36 @@ bridge.on('uplink', data => {
   console.log('Uplink', data);
 });
 ```
+
+## Options
+
+When creating and initializing the `Bridge`, you can specify options:
+
+```js
+const options = {};
+const bridge = new ttnawsiot.Bridge(appEUI, appAccessKey, caCert, clientCert, privateKey, region, options);
+```
+
+### `ttnBroker`
+
+The MQTT broker to connect to. Default:
+
+```js
+options.ttnBroker = 'staging.thethingsnetwork.org'
+```
+
+### `createMessage`
+
+The function to create a message. By default, the message is a combination of the result of the payload functions `fields`, the unique device ID and the server time:
+
+```js
+options.createMessage = function(uplink) {
+  return {
+    state: {
+      reported: uplink.fields
+    }
+  };
+}
+```
+
+*Note: if there are no payload functions specified for the concerning application, the `fields` object contains a `raw` property with the bytes received.*

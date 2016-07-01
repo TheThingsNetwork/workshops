@@ -3,8 +3,8 @@
 const ttnawsiot = require('../src');
 
 // Replace with your AppEUI and App Access Key
-const appEUI = '<insert AppEUI>';
-const appAccessKey = '<insert App Access Key>';
+const appEUI = '70B3D57ED0000002';
+const appAccessKey = 'vIfs1MdSwxlDevULfj50xXcblAGXwY7lI7aFkk8CcnI=';
 
 // Replace with your certificates from AWS IoT
 const caCert = 'keys/root-CA.crt';
@@ -27,5 +27,5 @@ bridge.on('error', err => {
 });
 
 bridge.on('uplink', e => {
-  console.log('%s: Uplink', e.devEUI, e.data);
+  console.log('%s: Uplink', e.devEUI, e.message);
 });
