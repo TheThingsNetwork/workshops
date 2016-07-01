@@ -1,6 +1,6 @@
 'use strict';
 
-const ttnawsiot = require('..');
+const ttnawsiot = require('../src');
 
 // Replace with your AppEUI and App Access Key
 const appEUI = '<insert AppEUI>';
@@ -26,6 +26,6 @@ bridge.on('error', err => {
   console.warn('Error', err);
 });
 
-bridge.on('uplink', data => {
-  console.log('Uplink', data);
+bridge.on('uplink', e => {
+  console.log('%s: Uplink', e.devEUI, e.data);
 });
