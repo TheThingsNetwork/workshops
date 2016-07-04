@@ -35,7 +35,7 @@ client.on('error', function (err) {
 
 // Close the TTN client on exit
 process.on('exit', function(code) {
-  client.close()
+  client.end()
 });
 
 // Serve the index.html file
