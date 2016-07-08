@@ -58,83 +58,34 @@ application. You will need this key later.*
 *Note: in every component on the dashboard there is a small help icon.
 This opens a help message with details about that components.*
 
-#### Register an OTAA Device
+#### Register an ABP Device
 
 The Things Network supports the two LoRaWAN mechanisms to register devices:
 activation by personalization (ABP) and over the air activation (OTAA). In this
-workshop, we use OTAA. This requires you to register your device with its unique
-DevEUI in The Things Network Dashboard.
-
-##### Get Your Device EUI
-
-To activate your device, we need to know its unique identifier, called the
-Device EUI or DevEUI. The DevEUI is hard coded by the manufacturer, in this case
-Microchip, into the LoRa module. This DevEUI is used to register the node in The
-Things Network for identification. The DevEUI can be retrieved from the node with
-the **device-info** sketch.
-
-1. In the Arduino IDE, open: **File > Examples > TheThingsUno > DeviceInfo**
-2. Upload sketch without modification.
-3. Click **Sketch > Verify/Compile** (Arduino says *Done compiling*)
-4. Click **Sketch > Upload** (Arduino says *Done uploading*)
-5. The Arduino IDE will give feedback when you verify or upload the code to a
-board. It should look similar to this:
-
-```
-Sketch uses 9,656 bytes (33%) of program storage space. Maximum is 28,672 bytes.
-Global variables use 1,253 bytes (48%) of dynamic memory, leaving 1,307 bytes for local variables. Maximum is 2,560 bytes.
-```
-
-The Things Uno talks to the computer over a serial port. The data that is send
-is displayed with the **Serial Monitor** of the Arduino IDE. Using the serial
-monitor makes it possible to monitor the status of The Things Uno.
-
-Open the serial monitor in the Arduino IDE: go to **Tools** >
-**Serial Monitor**.
-
-You should now be receiving data on the serial monitor, which prints something
-like this:
-
-```
-Device Information
-
-EUI: 0004A30B001B672E
-Battery: 3304
-AppEUI: 0000000000000000
-DevEUI: 0004A30B001B672E
-DevAddr: 00000000
-Data Rate: 5
-RX Delay 1: 1000
-RX Delay 2: 2000
-
-use the device `EUI` to register the device for OTAA
-```
-
-Save the `EUI: 0004A30B001B672E` (`DevEUI`) for later.  
+workshop, we use ABP. This requires you to register your device with The Things Network Dashboard.
 
 ##### Register the device
 
 To register the device, go back to The Things Network dashboard and click
 **Register Device** on the application page. This will take you to the device
-registration page. Here, select **OTAA** and enter your DevEUI as obtained from
-The Things Uno. We will let the App Key to be randomly generated. To continue,
+registration page. Here, select **ABP** . We will let the AppSKey and DSKey to be randomly generated. To continue,
 click **Register**.
 
-![register-device](./media/register-device-otaa.png)
+![register-device](./media/register-device-abp.png)
 
 You will be redirected to the device info page.  Here you can view all
 information about your device, send messages to the device and view messages
 that were sent by the device.
 
-![device-info](./media/device-info-otaa.png)
+![device-info](./media/device-info-abp.png)
 
 ## Hello World
 
 ### Configure Device
 
 1. In the Arduino IDE, open **File** > **Examples** > **TheThingsUno** >
-   **SendOTAA**
-2. Change your `appEUI`, `appKey` to the values you can find on the application
+   **Send-ABP**
+2. Change your `DevAddr`, `DSKey`, `AppSKey` to the values you can find on the application
    page. If you click the `<>` on the each of the fields on the Device page,
    their contents are shown as a C-style byte array literal which is extra
    handy for copy-pasting.
@@ -142,9 +93,12 @@ that were sent by the device.
 Use the information shown on the device page to fill in following code snippet:
 
 ```
-// Copy paste the values found on the Application page here
-const byte appEui[8] = { <insert AppEui> }; //for example: {0x70, 0xB3, 0xD5, 0x7E, 0xE0, 0xE0, 0x01, 0x4A1};
-const byte appKey[16] = { <insert AppKey> }; //for example: {0x73, 0x6D, 0x24, 0xD2, 0x69, 0xBE, 0xE3, 0xAE, 0x0E, 0xCE, 0xF0, 0xBB, 0x6C, 0xA4, 0xBA, 0xFE};
+// Set your DevAddr
+const byte devAddr[4] = { <insert DevAddr> }; //for example: {0x02, 0xDE, 0xAE, 0x00};
+
+// Set your NwkSKey and AppSKey
+const byte nwkSKey[16] = { <insert NwkSKey> }; //for example: {0x2B, 0x7E, 0x15, 0x16, 0x28, 0xAE, 0xD2, 0xA6, 0xAB, 0xF7, 0x15, 0x88, 0x09, 0xCF, 0x4F, 0x3C};
+const byte appSKey[16] = { <insert AppSKey> }; //for example: {0x2B, 0x7E, 0x15, 0x16, 0x28, 0xAE, 0xD2, 0xA6, 0xAB, 0xF7, 0x15, 0x88, 0x09, 0xCF, 0x4F, 0x3C};
 ```
 
 ### Run The Application On Your Device
