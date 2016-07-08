@@ -64,11 +64,11 @@ The Things Network supports the two LoRaWAN mechanisms to register devices:
 activation by personalization (ABP) and over the air activation (OTAA). In this
 workshop, we use ABP. This requires you to register your device with The Things Network Dashboard.
 
-##### Register the device
+##### Register the Device
 
 To register the device, go back to The Things Network dashboard and click
 **Register Device** on the application page. This will take you to the device
-registration page. Here, select **ABP** . We will let the AppSKey and DSKey to be randomly generated. To continue,
+registration page. Here, select **ABP** . We will let the NwkSKey and AppSKey to be randomly generated. To continue,
 click **Register**.
 
 ![register-device](./media/register-device-abp.png)
@@ -76,6 +76,11 @@ click **Register**.
 You will be redirected to the device info page.  Here you can view all
 information about your device, send messages to the device and view messages
 that were sent by the device.
+
+**Note**: Enable the Relax Frame Count option for this device. This allows you to restart your device for development purposes
+without the routing services keeping track of the frame counter. Disabling this feature makes replay attacks possible, e.g.
+sending messages with the same frame counter, so please do not enable relax frame count for production. You can also manually
+reset the frame count up.
 
 ![device-info](./media/device-info-abp.png)
 
@@ -85,7 +90,7 @@ that were sent by the device.
 
 1. In the Arduino IDE, open **File** > **Examples** > **TheThingsUno** >
    **Send-ABP**
-2. Change your `DevAddr`, `DSKey`, `AppSKey` to the values you can find on the application
+2. Change your `DevAddr`, `NwkSKey`, `AppSKey` to the values you can find on the application
    page. If you click the `<>` on the each of the fields on the Device page,
    their contents are shown as a C-style byte array literal which is extra
    handy for copy-pasting.
