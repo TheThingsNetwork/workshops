@@ -230,18 +230,19 @@ payload will now be logged in its decoded form.
 In this tutorial, we are using Node RED to get the data from The Things Network
 routing services and push it to an application back-end.
 
-1. Follow the instructions from your workshop facilitator to get to your Node
-   RED environment
-2. From the **input** category in the toolbox on the left, drop a new **TTN**
+1. Install Node.js ([download installer](https://nodejs.org/en/download/))
+   and Node RED (`npm install -g node-red`, [more info](http://nodered.org/docs/getting-started/installation.html))
+2. Install the **TTN** node: `npm install -g node-red-contrib-ttn`
+3. From the **input** category in the toolbox on the left, drop a new **TTN**
    node on your workflow
-3. Double-click the node named `ttn`
-7. Enter in **App EUI** your AppEUI (check the Application page)
-8. Enter in **Access Key** your Access Key (check the Application page)
-5. Enter for **Broker**: `staging.thethingsnetwork.org`
-9. Click **Add**
-10. From the **output** category, drop a new **debug** node on the flow and
-    connect the upper output of the **ttn** node to the input of the **debug**
-    node.
+4. Double-click the node named `ttn`
+5. Enter in **App EUI** your AppEUI (check the Application page)
+6. Enter in **Access Key** your Access Key (check the Application page)
+7. Enter for **Broker**: `staging.thethingsnetwork.org`
+8. Click **Add**
+9. From the **output** category, drop a new **debug** node on the flow and
+   connect the upper output of the **ttn** node to the input of the **debug**
+   node.
 
 Your flow should look like this:
 
