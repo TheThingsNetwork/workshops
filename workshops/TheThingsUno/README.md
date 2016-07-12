@@ -253,18 +253,19 @@ routing services and push it to an application back-end.
 1. Install Node.js ([download installer](https://nodejs.org/en/download/))
    and Node RED (`npm install -g node-red`, [more info](http://nodered.org/docs/getting-started/installation.html))
 2. Install the **TTN** node: `npm install -g node-red-contrib-ttn`
-3. From the **input** category in the toolbox on the left, drop a new **TTN**
+3. Open Node RED: point to [localhost:1880](http://localhost:1880) in your browser
+4. From the **input** category in the toolbox on the left, drop a new **TTN**
    node on your workflow
-4. Double-click the node named `ttn`
-5. Enter in **App EUI** your AppEUI (check the Application page)
-6. Enter in **Access Key** your Access Key (check the Application page)
-7. Enter for **Broker**: `staging.thethingsnetwork.org`
-8. Click **Add**
-9. From the **output** category, drop a new **debug** node on the flow and
-   connect the upper output of the **ttn** node to the input of the **debug**
-   node.
+5. Double-click the node named `ttn`
+6. Enter in **App EUI** your AppEUI (check the Application page)
+7. Enter in **Access Key** your Access Key (check the Application page)
+8. Enter for **Broker**: `staging.thethingsnetwork.org`
+9. Click **Add**
+10. From the **output** category, drop a new **debug** node on the flow and
+    connect the upper output of the **ttn** node to the input of the **debug**
+    node.
 
-Your flow should look like this:
+Excellent! Your flow should look like this:
 
 ![nodered-debug-flow](./media/nodered-debug.png)
 
@@ -289,7 +290,7 @@ A common use case is to invoke a HTTP request to an external web service, for ex
 5. Type `Maker` in the search box to choose Maker as the trigger channel
 6. Click **Receive a web request** as the trigger
 7. Enter an **Event Name**, for example `temperature`
-8. Pick an **Action Channel** and configure it
+8. Pick an **Action Channel** and configure it, e.g. Twitter, e-mail or a notification to your phone
 9. Use the fields `value1`, `value2` and/or `value3` as ingredient
 10. Click **Create Action**
 11. Click **Create Recipe**
@@ -310,6 +311,26 @@ return {
 
 ![nodered-request](./media/nodered-request.png)
 ![nodered-flow](./media/nodered-flow.png)
+
+## OK. Done. What's Next?
+
+Congratulations! You just learned how to create an account, an application,
+register a device, send data from a device, decode it, get it in Node RED,
+process it and push it to IFTTT to connect to the world of APIs.
+
+Now, Node RED can be used to build complex applications too. You can store data
+in a database, query data on an interval, add all kinds of business rules and
+invoke any web service. However, many real world applications are usually a combination of:
+
+- Storing data in a time series database (e.g. [InfluxDB](https://influxdata.com))
+- Interactive visualization of data in charts (e.g. [Grafana](http://grafana.org))
+- Do-it-yourself charts and maps (e.g. use [Socket.io to get data](https://github.com/TheThingsNetwork/examples/tree/master/socketio)
+  and visualize with [Flot](http://flotcharts.org) and [Google Maps API](https://developers.google.com/maps/))
+- Setting alerts on measured values, often combined with other data sets
+- Control actuators by using downlink messages (see in Arduino IDE: **File** > **Examples** > **TheThingsUno** > **Downlink** example
+  and the [wiki](http://staging.thethingsnetwork.org/wiki/Backend/Connect/Application) about sending downlink messages from an application)
+- Integrate with internet of things cloud platforms (see [Azure IoT Hub](https://github.com/TheThingsNetwork/examples/tree/master/integrations/azure) and [AWS IoT](https://github.com/TheThingsNetwork/examples/tree/master/integrations/aws) example integrations)
+
 
 [accounts]:  https://account.thethingsnetwork.org
 [dashboard]: https://staging.thethingsnetwork.org
