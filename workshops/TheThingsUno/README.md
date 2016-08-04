@@ -10,10 +10,7 @@
 
 ### Arduino IDE
 
-1. Download and install Arduino IDE 1.6.9 (for
-   [Windows](https://www.arduino.cc/download_handler.php?f=/arduino-1.6.9-windows.exe),
-   [Mac OS X](https://www.arduino.cc/download_handler.php?f=/arduino-1.6.9-macosx.zip)
-   or [Linux](https://www.arduino.cc/download_handler.php?f=/arduino-1.6.9-linux64.tar.xz), click **Just download**, there's no donation needed);
+1. Download and install Arduino IDE 1.6.10 (https://www.arduino.cc/en/Main/Software), click **Just download**, there's no donation needed);
 2. Download the latest The Things Uno Arduino Library
    ([zip](https://github.com/TheThingsNetwork/sdk/blob/master/devices/TheThingsUno/release/TheThingsUno.zip?raw=true));
 3. Connect the The Things Uno to your computer using the Micro-USB cable;
