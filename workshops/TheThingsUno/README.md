@@ -272,7 +272,7 @@ payload will now be logged in its decoded form.
 In this tutorial, we're using Node-RED to get the data from The Things Network
 routing services and push it to an application back-end.
 
-1. In the dashboard, go to your application and click **lean how to get data from this app**. You need the **AppEUI** and **Access Key** in step 5 and 6
+1. In the dashboard, go to your application and click **learn how to get data from this app**. You need the **AppEUI** and **Access Key** in step 5 and 6
 2. Ask your workshop facilitator for the URL to your own Node-RED environment
 3. From the **input** category in the toolbox on the left, drop a **TTN** node on your workflow
 4. Double-click the node named `ttn`
