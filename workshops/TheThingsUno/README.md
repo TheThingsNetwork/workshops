@@ -258,14 +258,14 @@ should correspond to the temperature value we sent earlier:
 }
 ```
 
-![payload-test][./media/payload-test.png]
+![payload-test](./media/payload-test.png)
 
 When you are happy with the output of your payload function, click **Save**. All
 incoming messages will now be decoded using these payload functions. You can see
 if this worked by going back to the device page and looking at the messages. The
 payload will now be logged in its decoded form.
 
-![decoded-payloads][./media/decoded-payloads.png]
+![decoded-payloads](./media/decoded-payloads.png)
 
 ### Getting Your Data
 
