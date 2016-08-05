@@ -110,7 +110,7 @@ Successful transmission
 Go back to the dashboard. You should be receiving messages from your device in the
 Messages component on the device page. The payload you see here are three bytes.
 
-![messages](./media/messages.png)
+![messages-test](./media/messages-test.png)
 
 You are sending these three bytes in the `loop()` function of your Arduino, which
 currently looks like this:
@@ -140,11 +140,11 @@ Both the light and the temperature sensor have three pins to connect: voltage `V
 and ground `GND` (the pin `NC` is not connected). We are connecting these pins to the 5 Volts
 output `5V`, analog pins `A0` and `A1` for signal, and ground `GND` of The Things Uno.
 
-![overview][./media/overview.jpg]
+![overview](./media/overview.jpg)
 
-![ttu][./media/ttu.jpg]
+![ttu](./media/ttu.jpg)
 
-![breadboard][./media/breadboard.jpg]
+![breadboard](./media/breadboard.jpg)
 
 ### Read Sensors
 
