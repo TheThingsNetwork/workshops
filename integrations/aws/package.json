@@ -1,8 +1,8 @@
 {
   "name": "ttn-aws-iot",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "The Things Network example integration with AWS IoT",
-  "main": "index.js",
+  "main": "./dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "compile": "babel src --presets babel-preset-es2015 --out-dir dist",
