@@ -13,12 +13,10 @@
 ### Arduino IDE
 
 1. Download and install [Arduino IDE](https://www.arduino.cc/en/Main/Software)
-2. Download the latest The Things Uno Arduino Library
-   ([download zip](https://github.com/TheThingsNetwork/sdk/blob/master/devices/TheThingsUno/release/TheThingsUno.zip?raw=true))
+2. In Arduino IDE, go to **sketch** > **Include Library** > **Manage Library**, search for **TheThingsNetwork** and install the TheThingsNetwork's Arduino library.
 3. Connect the The Things Uno to your computer using the Micro-USB cable
-4. In the Arduino IDE, go to **Sketch** > **Include Library** > **Add .ZIP Library** and select the downloaded zip file
-5. Select **Tools** > **Board** > **Arduino Leonardo**
-6. Select **Tools** > **Port** > the port that identifies as **Arduino Leonardo**. For example, on Mac OS X:
+4. Select **Tools** > **Board** > **Arduino Leonardo**
+5. Select **Tools** > **Port** > the port that identifies as **Arduino Leonardo**. For example, on Mac OS X:
    ![arduino-port](./media/arduino-port.png)
    On Windows, in **Control Panel**, open the **Device Manager** to see which COM port you should use.
 
