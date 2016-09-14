@@ -152,11 +152,11 @@ Now that you can send data to The Things Network, we’re going to send your sen
 ```c
 void loop() {
   // read a sensor value
-  uint32_t water = 1023 - analogRead(A0);
+  uint32_t value = 1023 - analogRead(A0);
 
   // print it
   Serial.print(F("The water level is: "));
-  Serial.println(water);
+  Serial.println(value);
 
   // encode the value in two bytes
   byte data[2];
