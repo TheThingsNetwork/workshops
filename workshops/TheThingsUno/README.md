@@ -119,7 +119,7 @@ void loop() {
   byte data[3] = { 0x01, 0x02, 0x03 };
 
   // Send it to the network
-  ttu.sendBytes(data, sizeof(data));
+  ttn.sendBytes(data, sizeof(data));
 
   // Wait 10 seconds
   delay(10000);
@@ -170,7 +170,7 @@ void loop() {
   data[1] = temperature & 0xFF;
   
   // Send it to the network
-  ttu.sendBytes(data, sizeof(data));
+  ttn.sendBytes(data, sizeof(data));
 
   debugPrintLn();
 
