@@ -4,21 +4,59 @@
 
 1. The Things Uno
 2. Micro-USB cable
-3. Light and temperature sensor
-4. Breadboard
+3. Water sensor
+4. Grove-to-male jumper cable
 5. Laptop with Windows 7 or higher, Mac OS X or Linux
 
-## Setup
+## Getting Data
 
-### Arduino IDE
+### Setup
 
 1. Download and install [Arduino IDE](https://www.arduino.cc/en/Main/Software)
-2. In Arduino IDE, go to **sketch** > **Include Library** > **Manage Library**, search for **TheThingsNetwork** and install the TheThingsNetwork's Arduino library.
+2. In Arduino IDE, go to **Sketch** > **Include Library** > **Manage Library**, search for **TheThingsNetwork** and install the TheThingsNetwork's Arduino library.
 3. Connect the The Things Uno to your computer using the Micro-USB cable
 4. Select **Tools** > **Board** > **Arduino Leonardo**
 5. Select **Tools** > **Port** > the port that identifies as **Arduino Leonardo**. For example, on Mac OS X:
    ![arduino-port](./media/arduino-port.png)
    On Windows, in **Control Panel**, open the **Device Manager** to see which COM port you should use.
+   
+### Reading Sensor Value
+
+In the Arduino IDE, start with an empty sketch (go to **File** > **New**).
+
+Connect your water sensor to your The Things Uno by using the grove-to-male jumper cable:
+- The red pin goes in `5V`
+- The black pin goes in `GND`
+- The yellow pin goes in digital `2`
+- The white pin is not connected
+
+![overview](./media/overview.jpg)
+
+Replace the `loop()` method:
+
+```c
+void loop() {
+  // read a sensor value
+  uint32_t water = 1023 - analogRead(A0);
+
+  // print it
+  Serial.print(F("The water level is: "));
+  Serial.println(water);
+
+  // wait a second
+  delay(1000);
+}
+```
+
+### Showing Sensor Value
+
+1. Click **Sketch** > **Verify/Compile** and make sure that compilation works (Arduino says *Done compiling*)
+2. Click **Sketch** > **Upload** (Arduino says *Done uploading*)
+3. Go to **Tools** > **Serial Monitor** to see the output of your node. This should look like this:
+
+![sensor-value](./media/sensor-value.png)
+
+## Sending Data
 
 ### The Things Network Dashboard
 
@@ -42,50 +80,31 @@ You will be redirected to the newly created Application page.
 
 ![application info](./media/app-info.png)
 
-*Note: in every component on the dashboard there is a small help icon.
-This opens a help message with details about that components.*
+*Note: in every component on the dashboard there is a small help icon. This opens a help message with details about that components.*
 
-#### Register an ABP Device
-
-The Things Network supports the two LoRaWAN mechanisms to register devices:
-activation by personalization (ABP) and over the air activation (OTAA). In this
-workshop, we use ABP.
-
-##### Register the Device
+#### Register Device
 
 To register the device, go back to the dashboard and click
-**Register Device** on the application page. This will take you to the device
-registration page.
+**Register Device** on the application page. This will take you to the device registration page.
 
-Select **ABP**. We will let both session keys to be randomly generated. To continue,
-click **Register**.
+Select **ABP**. We will let both session keys to be randomly generated. To continue, click **Register**.
 
 ![register-device](./media/register-device-abp.png)
 
-You will be redirected to the device info page. Here you can view all
-information about your device, send messages to the device and view messages
-that were sent by the device.
+You will be redirected to the device info page. Here you can view all information about your device, send messages to the device and view messages that were sent by the device.
 
 **Important**: Enable the **Relax Frame Count** option for this device.
 
-*Note*: Relax Frame Count allows you to restart your device for development purposes
-without the routing services keeping track of the frame counter. Disabling this feature enables replay attacks, e.g.
-sending messages with a frame counter equal or lower than the latest received, so please do not enable relax frame count in production.
+*Note*: Relax Frame Count allows you to restart your device for development purposes without the routing services keeping track of the frame counter. Disabling this feature enables replay attacks, e.g. sending messages with a frame counter equal or lower than the latest received, so please do not enable relax frame count in production.
 
 ![device-info](./media/device-info-abp.png)
-
-## Sending Some Data
 
 ### Configure Device
 
 1. In the Arduino IDE, open **File** > **Examples** > **TheThingsUno** > **Workshop**
-2. Change your `devAddr`, `nwkSKey`, `appSKey` to the values you can find on the device
-   page in the dashboard.
-   *Hint*: If you click the `<>` on the each of the fields on the Device page,
-   their contents are shown as a C-style byte array literal which is extra
-   handy for copy-pasting.
+2. Change your `devAddr`, `nwkSKey`, `appSKey` to the values you can find on the device page in the dashboard.
 
-Use the information shown on the device page to fill in following code snippet:
+*Hint*: If you click the `<>` on the each of the fields on the Device page, their contents are shown as a C-style byte array literal which is extra handy for copy-pasting.
 
 ### Run The Application on Your Device
 
@@ -126,67 +145,28 @@ void loop() {
 }
 ```
 
-## Sending Sensor Values
-
-Instead of sending three bytes, we're going to send real sensor values. But first,
-we need to connect our sensors. In this workshop, we're using a light and a
-temperature sensor.
-
-### Connecting Sensors
-
-Both the light and the temperature sensor have three pins to connect: voltage `VCC`, signal `SIG`
-and ground `GND` (the pin `NC` is not connected). We are connecting these pins to the 5 Volts
-output `5V`, analog pins `A0` and `A1` for signal, and ground `GND` of The Things Uno.
-
-![overview](./media/overview.jpg)
-
-![ttu](./media/ttu.jpg)
-
-![breadboard](./media/breadboard.jpg)
-
 ### Read Sensors
 
-Now that the sensors are connected, we have to write some code in Arduino to read
-its values. Use this code snippet that replaces your current `loop()` function:
+Now that you can send data to The Things Network, we’re going to send your sensor value. Use this code snippet that replaces your current `loop()` function:
 
 ```c
-uint16_t getLight(int pin) {
-  return analogRead(pin);
-}
-
-float getCelcius(int pin) {
-  // See http://www.seeedstudio.com/wiki/Grove_-_Temperature_Sensor
-  int a = analogRead(pin);
-  float resistance = (1023.0 - a) * 10000 / a;
-  return 1 / (log(resistance/10000)/3975 + 1 / 298.15) - 273.15;
-}
-
 void loop() {
-  // Read the sensors.
-  uint16_t light = getLight(A0);
-  float celcius = getCelcius(A1);
+  // read a sensor value
+  uint32_t water = 1023 - analogRead(A0);
 
-  // Show the values in the serial monitor for debugging
-  debugPrintLn("Light is " + String(light));
-  debugPrintLn("Temperature is " + String(celcius));
+  // print it
+  Serial.print(F("The water level is: "));
+  Serial.println(water);
 
-  // To get rid of floating point and keep two decimals, multiply by 100
-  // e.g. 21.52 becomes 2152
-  int16_t temperature = (int16_t)(celcius * 100);
-
-  // We need 4 bytes to send both values
-  byte data[4];
-  data[0] = light >> 8;
-  data[1] = light & 0xFF;
-  data[2] = temperature >> 8;
-  data[3] = temperature & 0xFF;
+  // encode the value in two bytes
+  byte data[2];
+  data[0] = value >> 8;
+  data[1] = value & 0xFF;
   
-  // Send it to the network
-  ttu.sendBytes(data, sizeof(data));
+  // send it to The Things Network
+  ttn.sendBytes(data, sizeof(data));
 
-  debugPrintLn();
-
-  // Wait 10 seconds
+  // wait 10 seconds
   delay(10000);
 }
 ```
@@ -197,35 +177,25 @@ Click **Tools** > **Serial Monitor** to verify that your device is sending
 sensor values:
 
 ```
-Light is 782
-Temperature is 19.82
-Sending: mac tx uncnf 1 with 4 bytes
+The water level is: 120
+Sending: mac tx uncnf 1 with 2 bytes
 Successful transmission
 
-Light is 779
-Temperature is 19.82
-Sending: mac tx uncnf 1 with 4 bytes
+The water level is: 286
+Sending: mac tx uncnf 1 with 2 bytes
 Successful transmission
 ...
 ```
 
-Take a look at the device page on the dashboard. You should see your payload, e.g. `03 0B 07 BE`.
+Take a look at the device page on the dashboard. You should see your payload, e.g. `01 1E`.
 
 #### Unpacking The Bytes
 
-To make working with payloads easier, The Things Network allows you to
-decode bytes to a meaningful data structure for your application. The payload
-functions are three functions: the *decoder*, the *converter* and the *validator*.
+To make working with payloads easier, The Things Network allows you to decode bytes to a meaningful data structure for your application. The payload functions are three functions: the *decoder*, the *converter* and the *validator*.
 
-Here, we will only be using the *decoder* to decode the bytes your device is
-sending. Use the optional
-*converter* function to convert units (e.g. Celcius to Fahrenheit) and the
-optional *validator* function to check whether the payload is valid (e.g. invalidate
-outliers).
+Here, we will only be using the *decoder* to decode the bytes your device is sending. Use the optional *converter* function to convert units (e.g. Celcius to Fahrenheit) and the optional *validator* function to check whether the payload is valid (e.g. invalidate outliers).
 
-To set up the payload functions, go back to the Application view and click the
-**edit** button of **Payload Functions**. This will bring you to the
-Payload Function editor.
+To set up the payload functions, go back to the Application view and click the **edit** button of **Payload Functions**. This will bring you to the Payload Function editor.
 
 ![payload editor](./media/payload-editor.png)
 
@@ -236,32 +206,27 @@ basically the reverse of what you did on the Arduino:
 
 ```javascript
 function (bytes) {
-  var light = (bytes[0] << 8) | bytes[1];
-  var temperature = (bytes[2] << 8) | bytes[3];  
+  var water = (bytes[0] << 8) | bytes[1];
   return {
-    light: light,
-    celcius: temperature / 100.0
+	  water: water
   };
 }
 ```
 
-Before saving our payload function we can test it first by entering a test
-payload in the box below. For example, enter `03 0B 07 BE` and click **Test**. The test output
+Before saving our payload function we can test it first by entering a test payload in the box below. For example, enter `01 1E` and click **Test**. The test output
 should correspond to the temperature value we sent earlier:
 
 ```json
 {
-  "celcius": 19.82,
-  "light": 779
+  "water": 286
 }
 ```
 
 ![payload-test](./media/payload-test.png)
 
-When you are happy with the output of your payload function, click **Save**. All
-incoming messages will now be decoded using these payload functions. You can see
-if this worked by going back to the device page and looking at the messages. The
-payload will now be logged in its decoded form.
+When you are happy with the output of your payload function, click **Save**. All incoming messages will now be decoded using these payload functions. You can see if this worked by going back to the device page and looking at the messages. The payload will now be logged in its decoded form.
+
+This is an example with temperature and light:
 
 ![decoded-payloads](./media/decoded-payloads.png)
 
@@ -286,7 +251,7 @@ Click **Deploy** and monitor the **debug** tab on the right for incoming message
 seeing messages like:
 
 ```
-{ "light": 779, "celcius": 19.82 }
+{ "water": 286 }
 ```
 
 ![nodered-flow](./media/nodered-debug.png)
@@ -310,7 +275,7 @@ To complete the end-to-end workshop, we're going to use If This Then That (IFTTT
 7. Click **Receive a web request** as the trigger
 8. Enter an **Event Name**, for example `data`
 9. Click **That** to configure an action, e.g. post a tweet on Twitter, e-mail or a notification to your phone
-10. Use the fields `value1` and `value2` as ingredient, e.g. the tweet text could be `Hey, the light is {{value1}} and the temperature is {{value2}} degrees! @thethingsntwrk`
+10. Use the field `value1` as ingredient, e.g. the tweet text could be `Hey, the water level is {{value1}} degrees! @thethingsntwrk`
 11. Click **Create Action**
 12. Click **Create Recipe**
 13. Go back to Node-RED
@@ -319,8 +284,7 @@ To complete the end-to-end workshop, we're going to use If This Then That (IFTTT
 ```javascript
 return {
     payload: {
-        value1: msg.payload.light,
-        value2: msg.payload.celcius
+        value1: msg.payload.water
     }
 }
 ```
