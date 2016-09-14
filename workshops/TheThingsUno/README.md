@@ -129,20 +129,15 @@ void loop() {
 ## Sending Sensor Values
 
 Instead of sending three bytes, we're going to send real sensor values. But first,
-we need to connect our sensors. In this workshop, we're using a light and a
-temperature sensor.
+we need to connect our sensors. In this workshop, we're using a temperature sensor.
 
 ### Connecting Sensors
 
-Both the light and the temperature sensor have three pins to connect: voltage `VCC`, signal `SIG`
+The temperature sensor has three pins to connect: voltage `VCC`, signal `SIG`
 and ground `GND` (the pin `NC` is not connected). We are connecting these pins to the 5 Volts
-output `5V`, analog pins `A0` and `A1` for signal, and ground `GND` of The Things Uno.
+output `5V`, analog pins `A0` for signal, and ground `GND` of The Things Uno.
 
 ![overview](./media/overview.jpg)
-
-![ttu](./media/ttu.jpg)
-
-![breadboard](./media/breadboard.jpg)
 
 ### Read Sensors
 
@@ -150,10 +145,6 @@ Now that the sensors are connected, we have to write some code in Arduino to rea
 its values. Use this code snippet that replaces your current `loop()` function:
 
 ```c
-uint16_t getLight(int pin) {
-  return analogRead(pin);
-}
-
 float getCelcius(int pin) {
   // See http://www.seeedstudio.com/wiki/Grove_-_Temperature_Sensor
   int a = analogRead(pin);
@@ -163,23 +154,20 @@ float getCelcius(int pin) {
 
 void loop() {
   // Read the sensors.
-  uint16_t light = getLight(A0);
-  float celcius = getCelcius(A1);
+  float celcius = getCelcius(A0);
 
   // Show the values in the serial monitor for debugging
-  debugPrintLn("Light is " + String(light));
   debugPrintLn("Temperature is " + String(celcius));
 
   // To get rid of floating point and keep two decimals, multiply by 100
+  // and cast to int
   // e.g. 21.52 becomes 2152
   int16_t temperature = (int16_t)(celcius * 100);
 
-  // We need 4 bytes to send both values
-  byte data[4];
-  data[0] = light >> 8;
-  data[1] = light & 0xFF;
-  data[2] = temperature >> 8;
-  data[3] = temperature & 0xFF;
+  // We need 2 bytes to send the integer temperature
+  byte data[2];
+  data[0] = temperature >> 8;
+  data[1] = temperature & 0xFF;
   
   // Send it to the network
   ttu.sendBytes(data, sizeof(data));
@@ -197,19 +185,17 @@ Click **Tools** > **Serial Monitor** to verify that your device is sending
 sensor values:
 
 ```
-Light is 782
 Temperature is 19.82
-Sending: mac tx uncnf 1 with 4 bytes
+Sending: mac tx uncnf 1 with 2 bytes
 Successful transmission
 
-Light is 779
 Temperature is 19.82
-Sending: mac tx uncnf 1 with 4 bytes
+Sending: mac tx uncnf 1 with 2 bytes
 Successful transmission
 ...
 ```
 
-Take a look at the device page on the dashboard. You should see your payload, e.g. `03 0B 07 BE`.
+Take a look at the device page on the dashboard. You should see your payload, e.g. `07 BE`.
 
 #### Unpacking The Bytes
 
@@ -236,23 +222,20 @@ basically the reverse of what you did on the Arduino:
 
 ```javascript
 function (bytes) {
-  var light = (bytes[0] << 8) | bytes[1];
-  var temperature = (bytes[2] << 8) | bytes[3];  
+  var temperature = (bytes[0] << 8) | bytes[1];  
   return {
-    light: light,
     celcius: temperature / 100.0
   };
 }
 ```
 
 Before saving our payload function we can test it first by entering a test
-payload in the box below. For example, enter `03 0B 07 BE` and click **Test**. The test output
+payload in the box below. For example, enter `07 BE` and click **Test**. The test output
 should correspond to the temperature value we sent earlier:
 
 ```json
 {
-  "celcius": 19.82,
-  "light": 779
+  "celcius": 19.82
 }
 ```
 
@@ -286,7 +269,7 @@ Click **Deploy** and monitor the **debug** tab on the right for incoming message
 seeing messages like:
 
 ```
-{ "light": 779, "celcius": 19.82 }
+{ "celcius": 19.82 }
 ```
 
 ![nodered-flow](./media/nodered-debug.png)
@@ -310,17 +293,16 @@ To complete the end-to-end workshop, we're going to use If This Then That (IFTTT
 7. Click **Receive a web request** as the trigger
 8. Enter an **Event Name**, for example `data`
 9. Click **That** to configure an action, e.g. post a tweet on Twitter, e-mail or a notification to your phone
-10. Use the fields `value1` and `value2` as ingredient, e.g. the tweet text could be `Hey, the light is {{value1}} and the temperature is {{value2}} degrees! @thethingsntwrk`
+10. Use the fields `value1` and `value2` as ingredient, e.g. the tweet text could be `Hey, the temperature is {{value1}} degrees! @thethingsntwrk`
 11. Click **Create Action**
 12. Click **Create Recipe**
 13. Go back to Node-RED
 14. Drop a new **Function** on the flow, double-click it and name it `Create request`
-15. As the function body, return `value1` and `value2` as JSON object:
+15. As the function body, return `value1` as JSON object:
 ```javascript
 return {
     payload: {
-        value1: msg.payload.light,
-        value2: msg.payload.celcius
+        value1: msg.payload.celcius
     }
 }
 ```
