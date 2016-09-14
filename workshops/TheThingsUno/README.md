@@ -291,8 +291,6 @@ return {
 16. Drop a new **HTTP request** on the flow and connect it to the function
 17. Select the **POST** method and enter the URL as seen on **How to Trigger Events** of the [IFTTT Maker Channel](https://ifttt.com/maker):
 
-![nodered-request](./media/nodered-request.png)
-
 ![nodered-request](./media/nodered-ifttt.png)
 
 ![nodered-flow](./media/nodered-flow.png)
