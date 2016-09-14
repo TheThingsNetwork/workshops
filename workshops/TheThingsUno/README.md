@@ -315,6 +315,127 @@ return {
 
 ![nodered-flow](./media/nodered-flow.png)
 
+
+## Acting on your data
+Ok, so we got our sensor to send data to the things network and we know how to act on this data.
+But what if we want send something back to the sensor? This is possible using downlink messages.
+
+Due to the way Lora works, we can not send a message at any given time however. Instead, we can only
+send a message in response to a message coming from the device. We can do this by enqueueing a message using
+the `ttn downlink` node in Node RED.
+
+Let's say we want to build the following flow:
+- the node sends the temperature to our application
+- the application decides wether or not the temperature is considered "*hot*"
+- when the temperature is hot, the application is to notify the node, and the node turn on its led.
+
+### Set up Node-RED for downlink
+
+We're already receiving the temperature from the node, but insted of creating a HTTP request, we want to 
+add a conditional downlink. To do this, add a `switch` node and connect its input to the output of the `ttn` node:
+
+![nodered-switch](./media/nodered-switch.png)
+
+Edit the node to check wether or not the `celcius` value is greater or equal to `24`:
+
+![nodered-switch-edit](./media/nodered-switch-edit.png)
+
+Next, we need to create a payload to send to the device. We'll singal the fact that it is hot by sending the
+hex string `01`. To do this, create a `function` node and edit it to return the following:
+```js
+return {
+  payload: {
+    payload: new Buffer('01', 'hex')
+  }
+}
+```
+![01-payload](./media/nodered-01-payload-edit.png)
+![01-payload-edit](./media/nodered-01-payload.png)
+
+Finally, we need to pass this payload to TTN so it can be enqueued for the next downlink. Add a `ttn downlink` node from the
+`output` section and connect its input to the output of the function node. Edit the node and add the `app EUI`, `dev EUI` and `app access key` from the dashboard.
+
+![downlink flow](./media/nodered-downlink.png)
+![downlink node edit](./media/nodered-downlink-edit.png)
+
+Do the same for the case where it is not hot (eg. `celcius < 24`) to send a payload of `00`:
+
+![full downlink flow](./media/nodered-downlink-full.png)
+
+## Configure the node to accept downlink messages
+
+Edit the arduino sketch to read the downlink message in the loop:
+
+```c
+void loop() {
+  // Read the sensors.
+  float celcius = getCelcius(A0);
+
+  // Show the values in the serial monitor for debugging
+  debugPrintLn("Temperature is " + String(celcius));
+
+  // To get rid of floating point and keep two decimals, multiply by 100
+  // and cast to int
+  // e.g. 21.52 becomes 2152
+  int16_t temperature = (int16_t)(celcius * 100);
+
+  // We need 2 bytes to send the integer temperature
+  byte data[2];
+  data[0] = temperature >> 8;
+  data[1] = temperature & 0xFF;
+  
+  // Send it to the network, receiving the downlink bytes
+  int downlinkBytes = ttn.sendBytes(data, sizeof(data));
+
+  if (downlinkBytes > 0) {
+    debugPrintLn("Received " + String(downlinkBytes) + " bytes")
+    // check wether or not it's hot
+    bool itsHot = ttn.downlink[0] == 0x01;
+    
+    // our led sits ar pin 13
+    int LED = 13;
+    if (itsHot) {
+      debugPrintLn("It's hot!");
+      digitalWrite(LED, HIGH);
+    } else {
+      debugPrintLn("It's not hot.");
+      digitalWrite(LED, LOW);
+    }
+  }
+  debugPrintLn();
+    
+  // Wait 10 seconds
+  delay(6000);
+}
+```
+
+This will: 
+- send the temperature and check for a downlink message
+- check wether or not the first byte of the downlink message equals `01` (it's hot), or `01` (it's not hot)
+- turn on the LED if it's hot
+
+Compile and upload the sketch, and keep an eye on the serial monitor. It should show output like this:
+```
+Temperature is 23.62
+Sending: mac tx uncnf 1 with 2 bytes
+Successful transmission
+Received 1 bytes
+It's not hot.
+
+Temperature is 25.82
+Sending: mac tx uncnf 1 with 2 bytes
+Successful transmission
+Received 1 bytes
+It's not hot.
+
+Temperature is 22.82
+Sending: mac tx uncnf 1 with 2 bytes
+Successful transmission
+Received 1 bytes
+It's hot!
+...
+```
+
 ## OK. Done. What's Next?
 
 Congratulations! You just learned how to create an account, an application,
