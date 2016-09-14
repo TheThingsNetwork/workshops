@@ -27,7 +27,7 @@ In the Arduino IDE, start with an empty sketch (go to **File** > **New**).
 Connect your water sensor to your The Things Uno by using the grove-to-male jumper cable:
 - The red pin goes in `5V`
 - The black pin goes in `GND`
-- The yellow pin goes in digital `2`
+- The yellow pin goes in analog `A0`
 - The white pin is not connected
 
 ![overview](./media/overview.jpg)
