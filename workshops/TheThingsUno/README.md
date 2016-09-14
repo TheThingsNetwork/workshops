@@ -137,7 +137,7 @@ The temperature sensor has three pins to connect: voltage `VCC`, signal `SIG`
 and ground `GND` (the pin `NC` is not connected). We are connecting these pins to the 5 Volts
 output `5V`, analog pins `A0` for signal, and ground `GND` of The Things Uno.
 
-![overview](./media/overview.jpg)
+![overview](./media/overview.png)
 
 ### Read Sensors
 
