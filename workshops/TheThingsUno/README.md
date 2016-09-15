@@ -392,7 +392,7 @@ void loop() {
     // check wether or not it's hot
     bool itsHot = ttn.downlink[0] == 0x01;
     
-    // our led sits ar pin 13
+    // our led sits at pin 13
     int LED = 13;
     if (itsHot) {
       debugPrintLn("It's hot!");
