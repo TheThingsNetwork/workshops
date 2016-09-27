@@ -288,39 +288,7 @@ We will use [Node-RED](http://nodered.org) to get the data from The Things Netwo
 7.  From the **output** category, drag a new **debug** node to the flow and drag the top out of the **ttn** node to the input of the **debug** node to connect them.
 8.  Click **Deploy** and monitor the **debug** tab on the right for incoming messages.
 
-    You should see messages like:
-
-    ```json
-    {
-    	"port": 1,
-    	"counter": 48,
-    	"payload_raw": {
-    		"type": "Buffer",
-    		"data": [3, 11, 7, 190]
-    	},
-    	"payload_fields": {
-    		"celcius": 19.82,
-    		"light": 779
-    	},
-    	"metadata": {
-    		"time": "2016-09-27T11:56:07.36400014Z",
-    		"frequency": 868.1,
-    		"modulation": "LORA",
-    		"data_rate": "SF7BW125",
-    		"coding_rate": "4/5",
-    		"gateways": [{
-    			"gtw_id": "eui-b827ebfffe87bd22",
-    			"timestamp": 3245050619,
-    			"time": "2016-09-27T11:56:07.335979Z",
-    			"rssi": -103,
-    			"snr": 7,
-    			"rf_chain": 1
-    		}]
-    	}
-    }
-    ```
-
-![nodered-flow](media/nodered-debug.png)
+    ![nodered-flow](media/nodered-debug.png)
 
 ## Push to IFTTT
 
@@ -367,8 +335,8 @@ Let's start on IFTTT.
     ```javascript
     return {
         payload: {
-            value1: msg.payload.payload_fields.light,
-            value2: msg.payload.payload_fields.celcius
+            value1: msg.payload.light,
+            value2: msg.payload.celcius
         }
     };
     ```
