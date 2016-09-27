@@ -367,8 +367,8 @@ Let's start on IFTTT.
     ```javascript
     return {
         payload: {
-            value1: msg.payload.light,
-            value2: msg.payload.celcius
+            value1: msg.payload.payload_fields.light,
+            value2: msg.payload.payload_fields.celcius
         }
     };
     ```
