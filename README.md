@@ -1,12 +1,16 @@
 # The Things Uno Workshop
 
+![Hogeschool Utrecht](https://www.hu.nl/includes/img/HU-Platform/hu-logo-nl.svg)
+
 ## Pre-requisites
 
-1. The Things Uno
+1. [The Things Uno](https://shop.thethingsnetwork.com/index.php/product/the-things-uno/)
 2. Micro-USB cable
-3. Light and temperature sensor
-4. Breadboard
+3. Grove water, temperature or other sensor (ideally analog)
+4. [4 pin male jumper to Grove 4 pin conversion cable](https://www.seeedstudio.com/Grove-4-pin-Male-Jumper-to-Grove-4-pin-Conversion-Cable-(5-PCs-per-Pack)-p-1565.html)
 5. Laptop with Windows 7 or higher, Mac OS X or Linux
+6. A Node-RED instance at `http://hu*.node-red.thethingslabs.com/`
+7. A staging account to use TTN's production (sneak) preview
 
 ## Setup
 
@@ -15,15 +19,11 @@
 Set up the IDE and connect your Uno.
 
 1.  [Download](https://www.arduino.cc/en/Main/Software) and install the latest Arduino Software (IDE).
-2.  Navigate to **Sketch > Include Library > Manage Libraries...**.
-3.  Search for **TheThingsNetwork** and click the result to select it.
-4.  Click the **Install** button which should appear:
-
-    ![Library Manager](media/arduino_library.png)
-
-5.  Connect the The Things Uno to your computer using the Micro-USB cable.
-6.  Select **Tools > Board > Arduino Leonardo**
-7.  Select **Tools > Port** > the port that identifies as **Arduino Leonardo**:
+2.  [Download](https://github.com/TheThingsNetwork/arduino-device-lib/archive/master.zip) the master version of The Things Network library.
+3.  Follow the guide on [Importing a .zip Library](https://www.arduino.cc/en/Guide/Libraries#toc4).
+4.  Connect the The Things Uno to your computer using the Micro-USB cable.
+5.  Select **Tools > Board > Arduino Leonardo**
+6.  Select **Tools > Port** > the port that identifies as **Arduino Leonardo**:
 
     ![arduino-port](media/arduino-port.png)
     
@@ -32,6 +32,8 @@ Set up the IDE and connect your Uno.
 ### The Things Network Dashboard
 
 Your applications and devices can be managed by [The Things Network Dashboard][dashboard].
+
+> You'll get a sneak preview of our new production environment! Just be aware that anything can and probably will change and you might lose data!
 
 #### Create an Account
 
@@ -104,6 +106,7 @@ The Things Network supports the two LoRaWAN mechanisms to register devices: Over
     * For `devAddr ` use the **Device Address** found on the device's page on the dashboard. Click `<>` to toggle to the **msb** format and then `📋` to copy.
     * For `nwkSKey ` use the **Network Session Key**. Click `<>` to toggle to the **msb** format. You'll have to click `👁` to show the key before you can copy it.
     * For `appSKey` use **App Session Key**.
+    * Replace `/* TTN_FP_EU868 or TTN_FP_US915 */` with `TTN_FP_EU868` since that's the frequency plan we're on.
 
 ### Upload
 
@@ -145,29 +148,25 @@ void loop() {
 
 Instead of sending three bytes, we're going to send real sensor values. But first, we need to connect our sensors. In this workshop, we will use a light and a temperature sensor.
 
-### Connect the Sensors
+### Connect the Sensor
 
-Both the light and the temperature sensor have three pins to connect: voltage `VCC`, signal `SIG` and ground `GND` (the pin `NC` is not connected). We will connect these pins to the 5 Volts output `5V`, analog pins `A0` and `A1` for signal, and ground `GND` of The Things Uno.
+Most analog Grove sensors have three pins to connect: red voltage `VCC`, black/brown ground `GND` and yellow signal `SIG` (the pin `NC` is not connected). We will connect these pins to the 5 Volts output `5V`, ground `GND` and then either an analog (`Ax`) or one of the digital inputs of The Things Uno.
 
-Use the following photos as reference:
+Analog and digital example:
 
-![overview](media/overview.jpg)
+![Analog](media/analog.jpg) ![Digital](media/digital.jpg)
 
-![ttu](media/ttu.jpg)
+> Ignore the left yellow pin on the photo, it's just another sensor.
 
-![breadboard](media/breadboard.jpg)
+### Read the Sensor
 
-### Read the Sensors
+Now that the sensor is connected, we have to write some code in the sketch to read their values.
 
-Now that the sensors are connected, we have to write some code in the sketch to read their values.
+1.  Update your `loop()` function to read the sensor value and send it to The Things Network.
 
-1.  Replace your `loop()` function with the following code:
+    Here's an example for an analog sensor, in this case for temperature:
 
     ```c
-    uint16_t getLight(int pin) {
-      return analogRead(pin);
-    }
-    
     float getCelcius(int pin) {
       // See http://www.seeedstudio.com/wiki/Grove_-_Temperature_Sensor
       int a = analogRead(pin);
@@ -176,34 +175,49 @@ Now that the sensors are connected, we have to write some code in the sketch to 
     }
     
     void loop() {
-      // Read the sensors.
-      uint16_t light = getLight(A0);
       float celcius = getCelcius(A1);
     
-      // Show the values in the serial monitor for debugging
-      debugSerial.println("Light is " + String(light));
-      debugSerial.println("Temperature is " + String(celcius));
+      debugSerial.println("Temperature: " + String(celcius));
     
       // To get rid of floating point and keep two decimals,
       // multiply by 100 (e.g. 21.52 becomes 2152)
       int16_t temperature = (int16_t)(celcius * 100);
     
-      // We need 4 bytes to send both values
-      byte payload[4];
-      payload[0] = light >> 8;
-      payload[1] = light & 0xFF;
-      payload[2] = temperature >> 8;
-      payload[3] = temperature & 0xFF;
+      // We need 2 bytes (16 bits) to send an int16
+      byte payload[2];
+      payload[0] = temperature >> 8;
+      payload[1] = temperature & 0xFF;
       
       // Send it to the network
-      ttu.sendBytes(payload, sizeof(payload));
-    
-      debugSerial.println();
+      ttn.sendBytes(payload, sizeof(payload));
     
       // Wait 10 seconds
       delay(10000);
     }
     ```
+    
+    Here's an example for a digital sensor:
+    
+    ```c
+    boolean last = false;
+    
+    void loop() {
+      boolean current = (digitalRead(2) == HIGH);
+      
+      if (current != last) {
+        byte payload[1];
+        payload[0] = current ? 0x01 : 0x00;
+        
+        ttn.sendBytes(payload, sizeof(payload));
+      }
+      
+      // Wait 10 seconds
+      delay(10000);
+    }
+    ```
+    
+    * You can find examples for all available Grove sensors on their [Wiki](http://wiki.seeedstudio.com/wiki/Category:Grove).
+    * See our [Working with bytes guide](https://www.thethingsnetwork.org/docs/refactor/uno/#working-with-bytes) for help with encoding values big and small to bytes.
 
 2.  Select **Sketch > Upload** `Ctrl/⌘ U`.
 3.  Select **Tools > Serial Monitor** `Ctrl/⌘ Shift M`.
@@ -211,15 +225,14 @@ Now that the sensors are connected, we have to write some code in the sketch to 
     You should see something like:
     
     ```
-    Light is 782
     Temperature is 19.82
-    Sending: mac tx uncnf 1 with 4 bytes
+    Sending: mac tx uncnf 1 with 2 bytes
     Successful transmission
     ```
 
 4.  From the device on the dashboard, select **Data** form the top right menu.
 
-    You should see payloads of four bytes, e.g. `03 0B 07 BE`.
+    You should see payloads of 2 bytes, e.g. `07 BE`.
 
 #### Decode the Payload
 
@@ -236,10 +249,11 @@ decode bytes to a meaningful data structure for your application.
       // Decode an uplink message from a buffer
       // (array) of bytes to an object of fields.
       var decoded = {};
-    
-      decoded.light = (bytes[0] << 8) | bytes[1];
       
-      var temperature = (bytes[2] << 8) | bytes[3];
+      // Combine the two bytes    
+      var temperature = (bytes[0] << 8) | bytes[1];
+      
+      // Divide by 100 to get our decimals back 
       decoded.celcius = temperature / 100;
     
       return decoded;
@@ -250,12 +264,11 @@ decode bytes to a meaningful data structure for your application.
 
 3.  Use the input field and **Test** button to see how various payloads will be decoded.
 
-    For example, enter `03 0B 07 BE` and click **Test** to see:
+    For example, enter `07 BE` and click **Test** to see:
 
     ```json
     {
-      "celcius": 19.82,
-      "light": 779
+      "celcius": 19.82
     }
     ```
 
@@ -315,7 +328,7 @@ Let's start on IFTTT.
     Use the fields `value1` and `value2` as ingredient. For example, a tweet could be:
     
     ```
-    Hey, the light is {{value1}} and the temperature is {{value2}} degrees! #thethingsntwrk
+    Hey, the temperature is {{value2}} degrees! #thethingsntwrk
     ```
 
 7.  Click **Create Action**.
@@ -335,7 +348,6 @@ Let's start on IFTTT.
     ```javascript
     return {
         payload: {
-            value1: msg.payload.light,
             value2: msg.payload.celcius
         }
     };
@@ -381,9 +393,9 @@ From this starting point, you can start building a real world application. Here 
 - [Send messages back to the device.](https://www.thethingsnetwork.org/docs/mqtt/#send-messages-down)
 - Integrate with IoT cloud platforms like [Azure IoT Hub](https://github.com/theThingsNetwork/azure-app-lib) and [AWS IoT](https://github.com/theThingsNetwork/aws-app-lib).
 
-[account]:         https://staging.account.thethingsnetwork.org
+[account]:         https://staging.account.thethingsnetwork.org/
 [create-account]:  https://staging.account.thethingsnetwork.org/register
 [profile]:         https://staging.account.thethingsnetwork.org/users/profile
-[dashboard]:       https://staging.thethingsnetwork.org
+[dashboard]:       https://preview.dashboard.thethingsnetwork.org/
 [settings]:        https://preview.dashboard.thethingsnetwork.org/settings
 [add-application]: https://preview.dashboard.thethingsnetwork.org/applications/add
