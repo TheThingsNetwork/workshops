@@ -166,6 +166,10 @@ The Things Network supports the two LoRaWAN mechanisms to register devices: Over
     Sending: mac tx uncnf 1 with 3 bytes
     Successful transmission
     ```
+    
+5.  Go to the [dashboard][dashboard], your application and then select **Data** in the top right menu.
+
+    You should see your data come in.
 
 ## Send your Data
 
