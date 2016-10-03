@@ -197,7 +197,7 @@ We will use [Node-RED](http://nodered.org) to get the data from The Things Netwo
 > Node-RED allows you to build all kinds of flows with basic business logic. You can add switches, triggers, custom functions and install thousands of nodes with additional functionality, for example storing data in a database.
 
 1.  Ask your workshop facilitator for the URL to your own Node-RED environment.
-2.  From the **input** category in the toolbox on the left, drag a new **ttn** node to your flow.
+2.  From the **input** category in the toolbox on the left, drag a new **ttn message** node to your flow.
 3.  Double-click the node.
 4.  Click the `✏️` to *Add new ttn app...*.
 
