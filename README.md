@@ -4,19 +4,14 @@
 
 ## Pre-requisites
 
-1. [The Things Uno](https://shop.thethingsnetwork.com/index.php/product/the-things-uno/)
-2. Micro-USB cable
-3. Grove water, temperature or other sensor (ideally analog)
-4. [4 pin male jumper to Grove 4 pin conversion cable](https://www.seeedstudio.com/Grove-4-pin-Male-Jumper-to-Grove-4-pin-Conversion-Cable-(5-PCs-per-Pack)-p-1565.html)
-5. Laptop with Windows 7 or higher, Mac OS X or Linux
-6. A Node-RED instance at `http://hu*.node-red.thethingslabs.com/`
-7. A staging account to use TTN's production (sneak) preview
+1.  [The Things Uno](https://shop.thethingsnetwork.com/index.php/product/the-things-uno/)
+2.  Micro-USB cable
+3.  One or more sensors (hint: analog ones are more fun)
+    1. Grove shield or [4 pin male jumper to Grove 4 pin conversion cable](https://www.seeedstudio.com/Grove-4-pin-Male-Jumper-to-Grove-4-pin-Conversion-Cable-(5-PCs-per-Pack)-p-1565.html) if it's a Grove sensor.
+4. Laptop with Windows 7 or higher, Mac OS X or Linux
+5. A Node-RED instance at `http://hu*.node-red.thethingslabs.com/`
 
-## Setup
-
-### Arduino IDE
-
-Set up the IDE and connect your Uno.
+## 1. Connect your Uno
 
 1.  [Download](https://www.arduino.cc/en/Main/Software) and install the latest Arduino Software (IDE).
 2.  [Download](https://github.com/TheThingsNetwork/arduino-device-lib/archive/master.zip) the master version of The Things Network library.
@@ -28,14 +23,64 @@ Set up the IDE and connect your Uno.
     ![arduino-port](media/arduino-port.png)
     
     > For Windows, see [Getting Started with the Arduino Leonardo and Micro](https://www.arduino.cc/en/Guide/ArduinoLeonardoMicro#toc2) on installing drivers and finding the COM port to select.
+    
+7.  Select **File > Examples > TheThingsNetwork > [DeviceInfo](https://github.com/TheThingsNetwork/arduino-device-lib/blob/master/examples/DeviceInfo/DeviceInfo.ino)**
+8.  Select **Sketch > Upload** `Ctrl/⌘ U` to upload the sketch.
+ 
+    Wait for the status bar to say *Done uploading*.
+ 
+9.  Select **Tools > Serial Monitor** `Ctrl/⌘ Shift M` to open the Serial Monitor.
 
-### The Things Network Dashboard
+    Soon, you should see something like this:
 
+    ```
+    Device Information
+    
+    EUI: 0004A30B001B7AD2
+    Battery: 3223
+    AppEUI: 70B3D57EF000001C
+    DevEUI: 0004A30B001B7AD2
+    Data Rate: 5
+    RX Delay 1: 1000
+    RX Delay 2: 2000
+    
+    Use the EUI to register the device for OTAA
+    -------------------------------------------
+    ```
+    
+🎉 Congrats, you've setup Arduino IDE with The Things Network library, connected your device and uploaded a sketch to it.
+    
+## 2. Connect a Sensor
+
+1.  Grab one sensor.
+    *   If both ends have a white Grove connector, you'll need a Grove shield:
+        1.  With great care not to damage any pins, place the shield on the Uno.
+        2.  Connect the sensor to the board:
+            * If it's a binary (2 states: `HIGH` and `LOW`) sensor, connect to a digital port.
+            * If it's an analog sensor, connect to an analog port.
+    *  If it has independent pins or if you have a Grove to 4 male pin cable, you can:
+        * Plug them in the Uno directly:
+            1.  Connect the red voltage `VCC` pin to the Uno's `5V` pin.
+            2.  Connect the black/brown ground `GND` to one of Uno's `GND` pin.
+            3.  Connect the yellow signal `SIG` to the Uno:
+                *   If it's a binary (2 states: `HIGH` and `LOW`) sensor, connect to one of the digital pins (left photo).
+                *   If it's a analog sensor, connect to one of the analog (`Ax`) pins (right photo).
+    
+                    ![Digital](media/digital.jpg) ![Analog](media/analog.jpg)
+                
+        *   Or use a breadboard. Since the Uno only has one voltage pin you'll always need a breadboard if you want to connect multiple sensors without a Grove shield.
+    
+            ![Breadboard](media/breadboard.jpg)
+
+2.  Look up the example sketch for your sensor on the Seeed Studio [Wiki](http://wiki.seeedstudio.com/wiki/Category:Grove).
+3.  Upload the example to your Uno and use Serial Monitor to read it's value.
+
+## Register with The Things Network
 Your applications and devices can be managed by [The Things Network Dashboard][dashboard].
 
 > You'll get a sneak preview of our new production environment! Just be aware that anything can and probably will change and you might lose data!
 
-#### Create an Account
+### Create an Account
 
 To use the dashboard, you need an account.
 
@@ -47,7 +92,7 @@ To use the dashboard, you need an account.
 3.  Go to the [dashboard][dashboard] and log in.
 4.  From the top right menu, select [Settings][settings] and change the default (handler) region if the one currently selected is not near where you'll be deploying your devices.
 
-#### Add an Application
+### Add an Application
 
 Add your first The Things Network Application.
 
@@ -64,7 +109,7 @@ Add your first The Things Network Application.
 
 > **Note:** Every component on the dashboard has a small help icon. Click it to get more information on how to use that component.
 
-#### Register a Device
+### Register a Device
 
 The Things Network supports the two LoRaWAN mechanisms to register devices: Over The Air Activation (OTAA) and Activation By Personalization (ABP). In this workshop, we will use ABP.
 
@@ -98,8 +143,6 @@ The Things Network supports the two LoRaWAN mechanisms to register devices: Over
 
 ## Send a Message
 
-### Configure
-
 1.  In the Arduino IDE, select **File > Examples > TheThingsNetwork > [Workshop](https://github.com/TheThingsNetwork/arduino-device-lib/blob/master/examples/Workshop/Workshop.ino)**.
 2.  Set the values for `devAddr`, `nwkSKey`, `appSKey` using the information from the previous step.
    
@@ -108,13 +151,11 @@ The Things Network supports the two LoRaWAN mechanisms to register devices: Over
     * For `appSKey` use **App Session Key**.
     * Replace `/* TTN_FP_EU868 or TTN_FP_US915 */` with `TTN_FP_EU868` since that's the frequency plan we're on.
 
-### Upload
-
-1.  Select **Sketch > Upload** `Ctrl/⌘ U` to upload the sketch.
+3.  Select **Sketch > Upload** `Ctrl/⌘ U` to upload the sketch.
  
     Wait for the status bar to say *Done uploading*.
  
-2.  Select **Tools > Serial Monitor** `Ctrl/⌘ Shift M` to open the Serial Monitor.
+4.  Select **Tools > Serial Monitor** `Ctrl/⌘ Shift M` to open the Serial Monitor.
 
     Soon, you should see something like this:
 
@@ -123,161 +164,26 @@ The Things Network supports the two LoRaWAN mechanisms to register devices: Over
     Successful transmission
     ```
 
-### Receive
+## Send your Data
 
-From the application on the dashboard, select **Data** in the top right menu. You should now see the messages come in:
+Now try to send your sensor data by mixing the sketch example you found for your sensor and the workshop sketch you just uploaded. See [Working with bytes guide](https://www.thethingsnetwork.org/docs/refactor/uno/#working-with-bytes) for help with encoding values to bytes.
 
-![messages-test](media/messages-test.png)
-
-You are sending these three bytes in the [`loop()`](https://www.arduino.cc/en/Reference/Loop) function of your sketch, which currently looks like this:
-
-```c
-void loop() {
-  // Create a buffer with three bytes  
-  byte payload[3] = { 0x01, 0x02, 0x03 };
-
-  // Send it to the network
-  ttn.sendBytes(payload, sizeof(payload));
-
-  // Wait 10 seconds
-  delay(10000);
-}
-```
-
-## Sending Sensor Values
-
-Instead of sending three bytes, we're going to send real sensor values. But first, we need to connect our sensors. In this workshop, we will use a light and a temperature sensor.
-
-### Connect the Sensor
-
-Most analog Grove sensors have three pins to connect: red voltage `VCC`, black/brown ground `GND` and yellow signal `SIG` (the pin `NC` is not connected). We will connect these pins to the 5 Volts output `5V`, ground `GND` and then either an analog (`Ax`) or one of the digital inputs of The Things Uno.
-
-Analog and digital example:
-
-![Analog](media/analog.jpg) ![Digital](media/digital.jpg)
-
-> Ignore the left yellow pin on the photo, it's just another sensor.
-
-### Read the Sensor
-
-Now that the sensor is connected, we have to write some code in the sketch to read their values.
-
-1.  Update your `loop()` function to read the sensor value and send it to The Things Network.
-
-    Here's an example for an analog sensor, in this case for temperature:
-
-    ```c
-    float getCelcius(int pin) {
-      // See http://www.seeedstudio.com/wiki/Grove_-_Temperature_Sensor
-      int a = analogRead(pin);
-      float resistance = (1023.0 - a) * 10000 / a;
-      return 1 / (log(resistance/10000)/3975 + 1 / 298.15) - 273.15;
-    }
-    
-    void loop() {
-      float celcius = getCelcius(A1);
-    
-      debugSerial.println("Temperature: " + String(celcius));
-    
-      // To get rid of floating point and keep two decimals,
-      // multiply by 100 (e.g. 21.52 becomes 2152)
-      int16_t temperature = (int16_t)(celcius * 100);
-    
-      // We need 2 bytes (16 bits) to send an int16
-      byte payload[2];
-      payload[0] = temperature >> 8;
-      payload[1] = temperature & 0xFF;
-      
-      // Send it to the network
-      ttn.sendBytes(payload, sizeof(payload));
-    
-      // Wait 10 seconds
-      delay(10000);
-    }
-    ```
-    
-    Here's an example for a digital sensor:
-    
-    ```c
-    boolean last = false;
-    
-    void loop() {
-      boolean current = (digitalRead(2) == HIGH);
-      
-      if (current != last) {
-        byte payload[1];
-        payload[0] = current ? 0x01 : 0x00;
-        
-        ttn.sendBytes(payload, sizeof(payload));
-      }
-      
-      // Wait 10 seconds
-      delay(10000);
-    }
-    ```
-    
-    * You can find examples for all available Grove sensors on their [Wiki](http://wiki.seeedstudio.com/wiki/Category:Grove).
-    * See our [Working with bytes guide](https://www.thethingsnetwork.org/docs/refactor/uno/#working-with-bytes) for help with encoding values big and small to bytes.
-
-2.  Select **Sketch > Upload** `Ctrl/⌘ U`.
-3.  Select **Tools > Serial Monitor** `Ctrl/⌘ Shift M`.
-
-    You should see something like:
-    
-    ```
-    Temperature is 19.82
-    Sending: mac tx uncnf 1 with 2 bytes
-    Successful transmission
-    ```
-
-4.  From the device on the dashboard, select **Data** form the top right menu.
-
-    You should see payloads of 2 bytes, e.g. `07 BE`.
-
-#### Decode the Payload
+## Decode your Data
 
 To make working with payloads easier, The Things Network allows you to
 decode bytes to a meaningful data structure for your application.
 
-> We will only use the **decoder** in this workshop. You can also use a **converter** to combine values or convert units and a **validator** to drop invalid payloads.
+> We will only use the **decoder** in this workshop. This is basically the reverse of you encoded the data in the sketch. You can also use a **converter** to combine values or convert units and a **validator** to drop invalid payloads.
 
 1.  From the application on the dashboard, select **Payload Functions** from the top right menu.
-2.  Leave **decoder** selected and copy-paste the following JavaScript code:
-
-    ```js
-    function Decoder(bytes) {
-      // Decode an uplink message from a buffer
-      // (array) of bytes to an object of fields.
-      var decoded = {};
-      
-      // Combine the two bytes    
-      var temperature = (bytes[0] << 8) | bytes[1];
-      
-      // Divide by 100 to get our decimals back 
-      decoded.celcius = temperature / 100;
-    
-      return decoded;
-    }
-    ```
-    
-    This is basically the reverse of you encoded the data in the sketch.
-
+2.  Use the **decoder** template and the [Working with bytes guide](https://www.thethingsnetwork.org/docs/refactor/uno/#working-with-bytes) to decode your sensor data from bytes to an object.
 3.  Use the input field and **Test** button to see how various payloads will be decoded.
-
-    For example, enter `07 BE` and click **Test** to see:
-
-    ```json
-    {
-      "celcius": 19.82
-    }
-    ```
-
 4.  When you are happy with the output of your payload function, click **Save**.
 5.  Select **Data** from the top right menu to see how payloads will now be decoded:
 
     ![decoded-payloads](media/decoded-payloads.png)
 
-## Getting Your Data
+## Process your Data
 
 We will use [Node-RED](http://nodered.org) to get the data from The Things Network routing services and push it to an application back-end.
 
@@ -294,14 +200,14 @@ We will use [Node-RED](http://nodered.org) to get the data from The Things Netwo
     * For **Access Key**, scroll down to the **Access Keys**. For the key you'd like to use, click `👁` to show the key and then `📋` to copy it.
     * For **Region or Broker**, scroll back again to use **Handler Status** from the **Application Overview** box. Only copy the last bit following `ttn-handler-`.
 
-    ![Node-RED App](media/nodered-app.png)
+    ![Node-RED App](media/add-new-ttn-app-config-node.png)
     
 5.  Click **Add**.
 6.  Click **Done**.
 7.  From the **output** category, drag a new **debug** node to the flow and drag the top out of the **ttn** node to the input of the **debug** node to connect them.
 8.  Click **Deploy** and monitor the **debug** tab on the right for incoming messages.
 
-    ![nodered-flow](media/nodered-debug.png)
+    ![nodered-flow](media/ttn-message-flow.png)
 
 ## Push to IFTTT
 
@@ -343,7 +249,7 @@ Let's start on IFTTT.
 4.  Enter a **Name** like `create request`.
 5.  As the actual **Function** IFTTT expects a payload with `value[1-3]`.
 
-    Building on [The Things Uno / Quick Start](/uno/#quick-start) use: 
+    For example, we could pass a temperature's sensor's field as:
 
     ```javascript
     return {
