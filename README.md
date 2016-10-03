@@ -25,6 +25,9 @@
     > For Windows, see [Getting Started with the Arduino Leonardo and Micro](https://www.arduino.cc/en/Guide/ArduinoLeonardoMicro#toc2) on installing drivers and finding the COM port to select.
     
 7.  Select **File > Examples > TheThingsNetwork > [DeviceInfo](https://github.com/TheThingsNetwork/arduino-device-lib/blob/master/examples/DeviceInfo/DeviceInfo.ino)**
+
+    * Replace `/* TTN_FP_EU868 or TTN_FP_US915 */` with `TTN_FP_EU868`
+
 8.  Select **Sketch > Upload** `Ctrl/⌘ U` to upload the sketch.
  
     Wait for the status bar to say *Done uploading*.
