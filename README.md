@@ -1,20 +1,24 @@
 # The Things Uno Workshop
+This workshop will guide you through working with The Things Uno to send sensor data over The Things Network to an application.
 
 ## Pre-requisites
 
 1. The Things Uno
 2. Micro-USB cable
-3. Light and temperature sensor
-4. Breadboard
-5. Laptop with Windows 7 or higher, Mac OS X or Linux
+3. Sensors, jumpers and optional breadboard as provided:
+    * [Grove Temperature sensor](https://www.seeedstudio.com/Grove-Temperature-Sensor-p-774.html)
+    * Grove [Button](https://www.seeedstudio.com/Grove-Button-p-766.html) or [Water](https://www.seeedstudio.com/Grove-Water-Sensor-p-748.html) sensor
+    * [4 pin Male Jumper to Grove 4 pin Conversion Cable](https://www.seeedstudio.com/Grove-4-pin-Male-Jumper-to-Grove-4-pin-Conversion-Cable-(5-PCs-per-Pack)-p-1565.html)
+4. Computer running Windows 7 or higher, Mac OS X or Linux
+5. Wifi for your laptop.
+6. The Things Network coverage.
+7. A pre-configured Node-RED server.
 
-## Setup
+## Connect to The Things Uno
 
-### Arduino IDE
+Set up the Arduino Software (IDE) and connect to your Uno.
 
-Set up the IDE and connect your Uno.
-
-1.  [Download](https://www.arduino.cc/en/Main/Software) and install the latest Arduino Software (IDE).
+1.  [Download](https://www.arduino.cc/en/Main/Software) and install the latest version of the Arduino Software.
 2.  Navigate to **Sketch > Include Library > Manage Libraries...**.
 3.  Search for **TheThingsNetwork** and click the result to select it.
 4.  Click the **Install** button which should appear:
@@ -29,81 +33,91 @@ Set up the IDE and connect your Uno.
     
     > For Windows, see [Getting Started with the Arduino Leonardo and Micro](https://www.arduino.cc/en/Guide/ArduinoLeonardoMicro#toc2) on installing drivers and finding the COM port to select.
 
-### The Things Network Dashboard
+## Register with The Things Network
 
-Your applications and devices can be managed by [The Things Network Dashboard][dashboard].
+Managed your applications and devices via [The Things Network Console][console].
 
-#### Create an Account
+### Create an Account
 
-To use the dashboard, you need an account.
+To use the console, you need an account.
 
 1.  [Create an account][create-account].
+2.  Select [Console][console] from the top menu.
+3.  Click **Authorize ttn-dashboard-preview**.
+4.  From the top right menu, select your name and then [Settings][settings] from the dropdown menu to change the default Handler if the one currently selected is not where you'll be deploying your devices.
 
-    > You can change all fields including e-mail address and username later via your [Profile][profile].
-
-2.  Check your mailbox to validate your e-mail address.
-3.  Go to the [dashboard][dashboard] and log in.
-4.  From the top right menu, select [Settings][settings] and change the default (handler) region if the one currently selected is not near where you'll be deploying your devices.
-
-#### Add an Application
+### Add an Application
 
 Add your first The Things Network Application.
 
-1.  On the [dashboard][dashboard], click [add application][add-application].
+1.  In the [console][console], click [add application][add-application].
 
 	* For **Application ID**, choose a unique ID of lower case, alphanumeric characters and nonconsecutive `-` and `_` (e.g. `hello-world`).
 	* For **Application Description**, enter anything you like (e.g. `Hello, World!`).
 
 	![Add Application](media/add-application.png)
 
-2.  Click **Add Application** to finish.
+2.  Click **Add application** to finish.
 
-    You will be redirected to the newly added application, where you can find the generated **Application EUI** and **Access Key** which we'll need later.
+    You will be redirected to the newly added application, where you can find the generated **Application EUI** and default **Access Key** which we'll need later.
+    
+    > If the Application ID is already taken, you will end up at the Applications overview with the following error. Simply go back and try another ID.
+    
+    ![ID exists](media/id-exists.png)    
 
-> **Note:** Every component on the dashboard has a small help icon. Click it to get more information on how to use that component.
-
-#### Register a Device
+### Register the Device
 
 The Things Network supports the two LoRaWAN mechanisms to register devices: Over The Air Activation (OTAA) and Activation By Personalization (ABP). In this workshop, we will use ABP.
 
 > In production, you'll want to use OTAA, which is the default. This is more reliable because the activation will be confirmed and more secure because the session keys will be negotiated with every activation. ABP is useful for workshops because you don't have to wait for a downlink window to become available to confirm the activation.
 
-1.  On the application screen, select **Devices** from the top right menu.
-2.  In the **Devices** box, click **register device**.
+1.  On the Application screen, scroll down to the **Devices** box and click **register device**.
 
     * For **Device ID**, choose a - for this application - unique ID of lower case, alphanumeric characters and nonconsecutive `-` and `_` (e.g. `my-uno`).
     * For **Device EUI**, click the **randomize** link.
 
     ![Register Device (OTAA)](media/register-device.png)
 
-3.  Click **Register**.
+2.  Click **Register**.
 
     You will be redirected to the newly registered device.
     
-4.  On the device screen, select **Settings** from the top right menu.
-5.  In the **Device Settings** box, click **personalize device**.
-6.  Click **Personalize**.
-7.  Go back to **Settings** again.
-8.  Check **Disable frame counter checks**.
+3.  On the device screen, select **Settings** from the top right menu.
 
-    > **Note:** This allows you to restart your device for development purposes without the routing services keeping track of the frame counter. This does make your application vulnerable for replay attacks, e.g. sending messages with a frame counter equal or lower than the latest received. Please do not disable it in production.
+    ![switch-abp](media/switch-abp.png)
 
-9.  Click **Save** to finish.
+    * Change *Activation method* to *ABP*.
+    * For **Network Session Key** and **App Session Key** click the 🔀 icon to generate one.
+    * Uncheck **Frame counter checks**.
 
-    You will be redirected to the device, where you can find the **Device Address** and **Session Keys** we'll need next.
+        > **Note:** This allows you to restart your device for development purposes without the routing services keeping track of the frame counter. This does make your application vulnerable for replay attacks, e.g. sending messages with a frame counter equal or lower than the latest received. Please do not disable it in production.
+
+4.  Click **Save** to finish.
+
+    You will be redirected to the device, where you can find the **Device Address**, **Network Session Key** and **App Session Key** that we'll need next.
     
     ![device-info](media/device-info-abp.png)
 
 ## Send a Message
 
+Activate your device and send an hello world to verify it works.
+
 ### Configure
 
 1.  In the Arduino IDE, select **File > Examples > TheThingsNetwork > [Workshop](https://github.com/TheThingsNetwork/arduino-device-lib/blob/master/examples/Workshop/Workshop.ino)**.
-2.  Set the values for `devAddr`, `nwkSKey`, `appSKey` using the information from the previous step.
+2.  Set the values for `devAddr`, `nwkSKey` and `appSKey` using the information from the device in the console. Use the 📋 buttons next to fields to copy their (hidden) value.
    
-    * For `devAddr ` use the **Device Address** found on the device's page on the dashboard. Click `<>` to toggle to the **msb** format and then `📋` to copy.
-    * For `nwkSKey ` use the **Network Session Key**. Click `<>` to toggle to the **msb** format. You'll have to click `👁` to show the key before you can copy it.
+    * For `devAddr ` use the **Device Address**.
+    * For `nwkSKey ` use the **Network Session Key**.
     * For `appSKey` use **App Session Key**.
+
+3.  Change the line for `freqPlan` with:
+
+    ```c
+    const ttn_fp_t freqPlan = TTN_FP_EU868;
+    ```
+
+    > If you use a device with the RN2903 LoRa module, then use `TTN_FP_US915` instead.
 
 ### Upload
 
@@ -116,17 +130,19 @@ The Things Network supports the two LoRaWAN mechanisms to register devices: Over
     Soon, you should see something like this:
 
     ```
-    Sending: mac tx uncnf 1 with 3 bytes
+    Sending: mac tx uncnf 1 010203
+    Airtime added: 1.25 s
+    Total Airtime: 876.11 s
     Successful transmission
     ```
 
-### Receive
+### Monitor
 
-From the application on the dashboard, select **Data** in the top right menu. You should now see the messages come in:
+From the device or application in the console, select **Data** in the top right menu. You should soon see the messages come in. Click on the blue ▶ to see all data:
 
 ![messages-test](media/messages-test.png)
 
-You are sending these three bytes in the [`loop()`](https://www.arduino.cc/en/Reference/Loop) function of your sketch, which currently looks like this:
+As you can see you are sending 3 bytes. In the sketch you have uploaded you can find we do this in the [`loop()`](https://www.arduino.cc/en/Reference/Loop) function:
 
 ```c
 void loop() {
@@ -141,21 +157,20 @@ void loop() {
 }
 ```
 
-## Sending Sensor Values
+## Send Sensor Data
 
-Instead of sending three bytes, we're going to send real sensor values. But first, we need to connect our sensors. In this workshop, we will use a light and a temperature sensor.
+Instead of sending 3 bytes, we're going to send real sensor data. But first, we need to connect our sensors. In this workshop, we will use a light and a temperature sensor.
 
 ### Connect the Sensors
 
-Both the light and the temperature sensor have three pins to connect: voltage `VCC`, signal `SIG` and ground `GND` (the pin `NC` is not connected). We will connect these pins to the 5 Volts output `5V`, analog pins `A0` and `A1` for signal, and ground `GND` of The Things Uno.
+Use the Grove to 4-pin Male cables to connect the temperature and the button or water sensor:
 
-Use the following photos as reference:
+1.  Connect the black `GND` (ground) to one of the 3 `GND` on the Uno.
+2.  Connect the red `VCC` (voltage) to either the `3v3` or `5V` on the Uno (both sensors can take both voltages).
+3.  Connect the yellow `SIG` (signal) to the Uno:
 
-![overview](media/overview.jpg)
-
-![ttu](media/ttu.jpg)
-
-![breadboard](media/breadboard.jpg)
+    * For the temperature sensor use an analog input: `A2`.
+    * For the button or water sensor use a digital input: `2` from the group labeled as **Digital**.
 
 ### Read the Sensors
 
@@ -164,137 +179,139 @@ Now that the sensors are connected, we have to write some code in the sketch to 
 1.  Replace your `loop()` function with the following code:
 
     ```c
-    uint16_t getLight(int pin) {
-      return analogRead(pin);
-    }
-    
+    // See http://www.seeedstudio.com/wiki/Grove_-_Temperature_Sensor
     float getCelcius(int pin) {
-      // See http://www.seeedstudio.com/wiki/Grove_-_Temperature_Sensor
       int a = analogRead(pin);
       float resistance = (1023.0 - a) * 10000 / a;
       return 1 / (log(resistance/10000)/3975 + 1 / 298.15) - 273.15;
     }
     
+    bool wasPressedOrWet = false;
+    
     void loop() {
-      // Read the sensors.
-      uint16_t light = getLight(A0);
-      float celcius = getCelcius(A1);
     
-      // Show the values in the serial monitor for debugging
-      debugSerial.println("Light is " + String(light));
-      debugSerial.println("Temperature is " + String(celcius));
-    
-      // To get rid of floating point and keep two decimals,
-      // multiply by 100 (e.g. 21.52 becomes 2152)
-      int16_t temperature = (int16_t)(celcius * 100);
-    
-      // We need 4 bytes to send both values
-      byte payload[4];
-      payload[0] = light >> 8;
-      payload[1] = light & 0xFF;
-      payload[2] = temperature >> 8;
-      payload[3] = temperature & 0xFF;
+      // Read digital sensor
+      bool pressedOrWet = (digitalRead(2) == LOW);
       
-      // Send it to the network
-      ttu.sendBytes(payload, sizeof(payload));
+      // State unchanged
+      if (pressedOrWet == wasPressedOrWet) {
+        return;
+      }
+      
+      wasPressedOrWet = pressedOrWet;
+          
+      // Not pressed or wet
+      if (!pressedOrWet) {
+        return;
+      }
+      
+      // Read the temperature
+      float celcius = getCelcius(A2);
     
-      debugSerial.println();
+      // Log the value
+      debugSerial.print("Temperature: ");
+      debugSerial.println(celcius);
     
-      // Wait 10 seconds
-      delay(10000);
+      // Encode float as int (20.98 becomes 2098)
+      int16_t celciusInt = round(celcius * 100);
+    
+      // Encode int as bytes
+      byte payload[2];
+      payload[0] = highByte(celciusInt);
+      payload[1] = lowByte(celciusInt);
+    
+      ttn.sendBytes(payload, sizeof(payload));
     }
     ```
 
 2.  Select **Sketch > Upload** `Ctrl/⌘ U`.
 3.  Select **Tools > Serial Monitor** `Ctrl/⌘ Shift M`.
 
-    You should see something like:
+    When you press the button or place your finger on the water sensor you should see something like:
     
     ```
-    Light is 782
-    Temperature is 19.82
-    Sending: mac tx uncnf 1 with 4 bytes
+    Temperature: 20.98
+    Sending: mac tx uncnf 1 0832
+    Airtime added: 1.25 s
+    Total Airtime: 2.51 s
     Successful transmission
     ```
 
-4.  From the device on the dashboard, select **Data** form the top right menu.
+4.  Switch back to the **Data** screen in the console to verify you see the payload (here: `0832`) come in when you press the button.
 
-    You should see payloads of four bytes, e.g. `03 0B 07 BE`.
+### Decode the Payload
 
-#### Decode the Payload
-
-To make working with payloads easier, The Things Network allows you to
-decode bytes to a meaningful data structure for your application.
+The Things Network allows you to decode bytes to a meaningful data structure before passing it on to your application.
 
 > We will only use the **decoder** in this workshop. You can also use a **converter** to combine values or convert units and a **validator** to drop invalid payloads.
 
-1.  From the application on the dashboard, select **Payload Functions** from the top right menu.
+1.  From the application in the console, select **Payload Functions** from the top right menu.
 2.  Leave **decoder** selected and copy-paste the following JavaScript code:
 
     ```js
-    function Decoder(bytes) {
+    function Decoder(bytes, port) {
       // Decode an uplink message from a buffer
       // (array) of bytes to an object of fields.
       var decoded = {};
     
-      decoded.light = (bytes[0] << 8) | bytes[1];
-      
-      var temperature = (bytes[2] << 8) | bytes[3];
-      decoded.celcius = temperature / 100;
+      // Decode bytes to int
+      var celciusInt = (bytes[0] << 8) | bytes[1];
+    
+      // Decode int to float
+      decoded.celcius = celciusInt / 100;
     
       return decoded;
     }
     ```
+
+3.  Enter the bytes you saw in the Serial Monitor (e.g. `0832` in the **Payload** input and click **Test**.
+
+    You should get an object with the temperature in celcius. For `0832` this would be:
     
-    This is basically the reverse of you encoded the data in the sketch.
-
-3.  Use the input field and **Test** button to see how various payloads will be decoded.
-
-    For example, enter `03 0B 07 BE` and click **Test** to see:
-
     ```json
     {
-      "celcius": 19.82,
-      "light": 779
+      "celcius": 20.98
     }
     ```
-
-4.  When you are happy with the output of your payload function, click **Save**.
-5.  Select **Data** from the top right menu to see how payloads will now be decoded:
+    
+4.  Click **Save payload functions**.
+5.  Select **Data** from the top right menu to see how the next payloads will be decoded:
 
     ![decoded-payloads](media/decoded-payloads.png)
 
-## Getting Your Data
+## Process Sensor Data
 
-We will use [Node-RED](http://nodered.org) to get the data from The Things Network routing services and push it to an application back-end.
+We will use [Node-RED](http://nodered.org) to get the data from The Things Network and process it.
 
 > Node-RED allows you to build all kinds of flows with basic business logic. You can add switches, triggers, custom functions and install thousands of nodes with additional functionality, for example storing data in a database.
 
+### Retrieve Data
+
 1.  Ask your workshop facilitator for the URL to your own Node-RED environment.
-2.  From the **input** category in the toolbox on the left, drag a new **ttn** node to your flow.
+2.  From the **input** category in the toolbox on the left, drag a new **ttn message** node to your flow.
 3.  Double-click the node.
 4.  Click the `✏️` to *Add new ttn app...*.
 
-    Copy-paste the following information from the dashboard:
+    Copy-paste the following information from the console:
     
     * For **App ID**, copy **Application ID** from the **Application Overview** box.
-    * For **Access Key**, scroll down to the **Access Keys**. For the key you'd like to use, click `👁` to show the key and then `📋` to copy it.
-    * For **Region or Broker**, scroll back again to use **Handler Status** from the **Application Overview** box. Only copy the last bit following `ttn-handler-`.
+    * For **Access Key**, scroll down to the **Access Keys** and click 📋 to copy the **default key**.
+    * For **Region or Broker**, scroll back again to use **Handler Status** from the **Application Overview** box. Only copy the last bit following `ttn-handler-` (e.g. `eu`).
 
     ![Node-RED App](media/nodered-app.png)
     
 5.  Click **Add**.
 6.  Click **Done**.
-7.  From the **output** category, drag a new **debug** node to the flow and drag the top out of the **ttn** node to the input of the **debug** node to connect them.
+7.  From the **output** category, drag a new **debug** node to the flow and drag the output of the **ttn message** node to the input of the **debug** node to connect them.
 8.  Click **Deploy** and monitor the **debug** tab on the right for incoming messages.
 
     ![nodered-flow](media/nodered-debug.png)
 
-## Push to IFTTT
+### Push to IFTTT
 
 A common use case is to invoke a HTTP request to an external web service of your application. To complete the end-to-end workshop, we're going to use If This Then That (IFTTT) to connect to APIs.
 
-### Create the IFTTT Recipe
+#### Create the IFTTT Recipe
 Let's start on IFTTT.
 
 1.  Go to [IFTTT](https://ifttt.com) and create an account or login.
@@ -315,29 +332,26 @@ Let's start on IFTTT.
     Use the fields `value1` and `value2` as ingredient. For example, a tweet could be:
     
     ```
-    Hey, the light is {{value1}} and the temperature is {{value2}} degrees! #thethingsntwrk
+    The temperature is: {{value1}} #thethingsntwrk
     ```
 
 7.  Click **Create Action**.
 8.  Click **Create Recipe**.
 9.  Go to the [Maker Channel](https://ifttt.com/maker) to find your key.
 
-### Update the Node-RED flow
+#### Update the Node-RED flow
 
 1.  In Node-RED, drop a new **function** on the flow from the **function** category of the toolbox.
-2.  Drag a wire from the upper output of the **ttn** node to the input of the new node.
+2.  Drag a wire from the output of the **ttn message** node to the input of the new node.
 3.  Double click the new node to edit it.
 4.  Enter a **Name** like `create request`.
-5.  As the actual **Function** IFTTT expects a payload with `value[1-3]`.
-
-    Building on [The Things Uno / Quick Start](/uno/#quick-start) use: 
+5.  As the actual **Function** IFTTT expects a payload with `value[1-3]`. Use the following function to pass the temperature as `value1`:
 
     ```javascript
     return {
-        payload: {
-            value1: msg.payload.light,
-            value2: msg.payload.celcius
-        }
+      payload: {
+        value1: msg.payload.celcius
+      }
     };
     ```
 
@@ -356,13 +370,9 @@ Let's start on IFTTT.
 
     ![nodered-request](media/nodered-ifttt.png)
     
-11. Click **Done** and you should now have something like:
-
-    ![nodered-flow](media/nodered-flow.png)
-
-12. Click **Deploy** and you should see the e-mail or tweet come in soon!
-    
-13. Go to [My Recipes](https://ifttt.com/myrecipes/personal) to turn off the recipe, unless you like to be spammed. 😱
+11. Click **Done**.
+12. Click **Deploy**.
+13. Now use the button or water sensor to trigger the action you have configured on IFTTT.
 
 ## OK. Done. What's Next?
 
@@ -372,18 +382,18 @@ Node-RED can be used to build complex applications too. You can store data in a 
 
 From this starting point, you can start building a real world application. Here are some useful links:
 
-- [Set up Node-RED and install the TTN node locally.](https://www.thethingsnetwork.org/docs/node-red/#setup)
+- [Set up Node-RED and install the TTN node locally.](https://www.thethingsnetwork.org/docs/v2-preview/node-red/#quick-start)
 - Use Node-RED to store data in a time series database, for example [InfluxDB](https://influxdata.com) via the [InfluxDB node](http://flows.nodered.org/node/node-red-contrib-influxdb).
 - [Install additional nodes for Node-RED.](http://flows.nodered.org)
-- [Receive and process data on any platform using MQTT.](https://www.thethingsnetwork.org/docs/mqtt/)
+- [Receive and process data on any platform using MQTT.](https://www.thethingsnetwork.org/docs/v2-preview/mqtt/)
 - Visualize your data, for example with [Grafana](http://grafana.org) which works good with InfluxDB.
-- Create your own charts and maps, e.g. combine our [Socket.io example](https://github.com/TheThingsNetwork/node-app-lib/tree/master/examples/socketio) with [Flot](http://flotcharts.org) or [Google Maps API](https://developers.google.com/maps/).
-- [Send messages back to the device.](https://www.thethingsnetwork.org/docs/mqtt/#send-messages-down)
-- Integrate with IoT cloud platforms like [Azure IoT Hub](https://github.com/theThingsNetwork/azure-app-lib) and [AWS IoT](https://github.com/theThingsNetwork/aws-app-lib).
+- Create your own charts and maps, e.g. combine our [Socket.io example](https://github.com/TheThingsNetwork/node-app-sdk/tree/master/examples/socketio) with [Flot](http://flotcharts.org) or [Google Maps API](https://developers.google.com/maps/).
+- [Send messages back to the device.](https://www.thethingsnetwork.org/docs/v2-preview/mqtt/#send-messages-down)
+- Integrate with IoT cloud platforms like [Azure IoT Hub](https://github.com/TheThingsNetwork/azure-integration) and [AWS IoT](https://github.com/theThingsNetwork/aws-app-lib).
 
-[account]:         https://staging.account.thethingsnetwork.org
-[create-account]:  https://staging.account.thethingsnetwork.org/register
-[profile]:         https://staging.account.thethingsnetwork.org/users/profile
-[dashboard]:       https://staging.thethingsnetwork.org
-[settings]:        https://preview.dashboard.thethingsnetwork.org/settings
-[add-application]: https://preview.dashboard.thethingsnetwork.org/applications/add
+[account]:         https://preview.account.thethingsnetwork.org
+[create-account]:  https://preview.account.thethingsnetwork.org/register
+[profile]:         https://preview.account.thethingsnetwork.org/users/profile
+[console]:         https://preview.console.thethingsnetwork.org
+[settings]:        https://preview.console.thethingsnetwork.org/settings
+[add-application]: https://preview.console.thethingsnetwork.org/applications/add
