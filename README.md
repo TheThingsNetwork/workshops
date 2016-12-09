@@ -347,8 +347,7 @@ Let's start on IFTTT.
 
 7.  Click **Create action**.
 8.  Click **Finish**.
-9.  Go to the [Maker Channel / Settings](https://ifttt.com/services/maker/settings).
-10. Go to the URL listed to find your key.
+9.  Go to [maker.ifttt.com](https://maker.ifttt.com) to find your key.
 
 #### Update the Node-RED flow
 
