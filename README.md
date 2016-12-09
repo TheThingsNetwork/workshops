@@ -91,7 +91,6 @@ The Things Network supports the two LoRaWAN mechanisms to register devices: Over
     ![switch-abp](media/switch-abp.png)
 
     * Change *Activation method* to *ABP*.
-    * For **Network Session Key** and **App Session Key** click the 🔀 icon to generate one.
     * Uncheck **Frame counter checks**.
 
         > **Note:** This allows you to restart your device for development purposes without the routing services keeping track of the frame counter. This does make your application vulnerable for replay attacks, e.g. sending messages with a frame counter equal or lower than the latest received. Please do not disable it in production.
