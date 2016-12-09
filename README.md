@@ -401,3 +401,9 @@ From this starting point, you can start building a real world application. Here 
 [console]:         https://preview.console.thethingsnetwork.org
 [settings]:        https://preview.console.thethingsnetwork.org/settings
 [add-application]: https://preview.console.thethingsnetwork.org/applications/add
+
+## Bonus: Play with iTalk
+
+1. Get one of the 4 iTalks
+2. Import the flow at https://gist.github.com/FokkeZB/ce8b912ceafa6c9b1db645cf99f06ab0
+3. Filter on your iTalk (see the number on the box): `italk-95`, `italk-9e`, `italk-a6`, `italk-a7`, `italk-a8`
