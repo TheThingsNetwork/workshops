@@ -1,5 +1,7 @@
-# The Things Uno Workshop
+# The Things Uno Workshop / Ulm Digital
 This workshop will guide you through working with The Things Uno to send sensor data over The Things Network to an application.
+
+![Ulm Digital](https://www.exxcellent.de/fileadmin/_processed_/csm_initiative_ulm_digital_cad526d566.jpg)
 
 ## Pre-requisites
 
@@ -12,7 +14,7 @@ This workshop will guide you through working with The Things Uno to send sensor 
 4. Computer running Windows 7 or higher, Mac OS X or Linux
 5. Wifi for your laptop.
 6. The Things Network coverage.
-7. A pre-configured Node-RED server.
+7. A pre-configured Node-RED server at `http://udX.node-red.thethingslabs.com/` where X is a number we'll assign to you
 
 ## Connect to The Things Uno
 
