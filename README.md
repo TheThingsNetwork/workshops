@@ -347,7 +347,8 @@ Let's start on IFTTT.
 
 7.  Click **Create action**.
 8.  Click **Finish**.
-9.  Go to [maker.ifttt.com](https://maker.ifttt.com) to find your key.
+9.  Go to [ifttt.com/maker and then **Settings**](https://ifttt.com/services/maker/settings).
+10. Your key is the last part of the URL (after `/use/`)
 
 #### Update the Node-RED flow
 
