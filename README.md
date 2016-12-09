@@ -407,3 +407,4 @@ From this starting point, you can start building a real world application. Here 
 1. Get one of the 4 iTalks
 2. Import the flow at https://gist.github.com/FokkeZB/ce8b912ceafa6c9b1db645cf99f06ab0
 3. Filter on your iTalk (see the number on the box): `italk-95`, `italk-9e`, `italk-a6`, `italk-a7`, `italk-a8`
+4. Use an MQTT output node to send the data to MyDevices as [described here](http://www.cayenne-mydevices.com/docs/#bring-your-own-thing-api-manually-publishing-subscribing)
