@@ -14,7 +14,9 @@ This workshop will guide you through working with The Things Uno to send sensor 
 4. Computer running Windows 7 or higher, Mac OS X or Linux
 5. Wifi for your laptop.
 6. The Things Network coverage.
-7. A pre-configured Node-RED server at `http://udX.node-red.thethingslabs.com/` where X is a number we'll assign to you
+7. A pre-configured Node-RED server.
+    * Go to https://docs.google.com/spreadsheets/d/1gQfBAE_H8BRpT-zdU09YSw7f38kjHHjjhaoYkKmsTmE/edit?usp=sharing
+    * Claim the first available URL by adding your name
 
 ## Connect to The Things Uno
 
