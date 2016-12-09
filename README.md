@@ -321,11 +321,11 @@ We will use [Node-RED](http://nodered.org) to get the data from The Things Netwo
 
 A common use case is to invoke a HTTP request to an external web service of your application. To complete the end-to-end workshop, we're going to use If This Then That (IFTTT) to connect to APIs.
 
-#### Create the IFTTT Recipe
+#### Create the IFTTT Applet
 Let's start on IFTTT.
 
 1.  Go to [IFTTT](https://ifttt.com) and create an account or login.
-2.  Go to [Create a Recipe](https://ifttt.com/myrecipes/personal/new).
+2.  Select [New Applet](https://ifttt.com/create) from your account menu.
 3.  Click **this** to Choose Trigger Channel.
 
     1.  Search for `maker`.
@@ -337,17 +337,18 @@ Let's start on IFTTT.
 
     *  For **Event Name**, let's enter `workshop`.
     
-5.  Click **That** to configure an action, e.g. post a tweet on Twitter, e-mail or a notification to your phone.
+5.  Click **that** to configure an action, e.g. post a tweet on Twitter, e-mail or a notification to your phone.
 
     Use the fields `value1` and `value2` as ingredient. For example, a tweet could be:
     
     ```
-    The temperature is: {{value1}} #thethingsntwrk
+    The temperature is: {{value1}} #thethingsnetwork
     ```
 
-7.  Click **Create Action**.
-8.  Click **Create Recipe**.
-9.  Go to the [Maker Channel](https://ifttt.com/maker) to find your key.
+7.  Click **Create action**.
+8.  Click **Finish**.
+9.  Go to the [Maker Channel / Settings](https://ifttt.com/services/maker/settings).
+10. Go to the URL listed to find your key.
 
 #### Update the Node-RED flow
 
