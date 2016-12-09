@@ -167,6 +167,13 @@ Instead of sending 3 bytes, we're going to send real sensor data. But first, we 
 
 ### Connect the Sensors
 
+#### With a Grove shield
+Use the Grove cables to connect the temperature and the button or water sensor:
+
+1. Connect the temperature sensor to `A2`.
+2. Connect the button or water sensor to `D2`.
+
+#### Without a Grove shield
 Use the Grove to 4-pin Male cables to connect the temperature and the button or water sensor:
 
 1.  Connect the black `GND` (ground) to one of the 3 `GND` on the Uno.
