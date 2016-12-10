@@ -15,7 +15,7 @@ This workshop will guide you through working with The Things Uno to send sensor 
 5. Wifi for your laptop.
 6. The Things Network coverage.
 7. A pre-configured Node-RED server.
-    * Go to https://docs.google.com/spreadsheets/d/1gQfBAE_H8BRpT-zdU09YSw7f38kjHHjjhaoYkKmsTmE/edit?usp=sharing
+    * Go to https://docs.google.com/spreadsheets/d/1uMzCxTNxh69-df0xIY2Pbcqg7AAfcITcAoNxY8ZX0WQ/edit?usp=sharing
     * Claim the first available URL by adding your name
 
 ## Connect to The Things Uno
@@ -297,10 +297,11 @@ We will use [Node-RED](http://nodered.org) to get the data from The Things Netwo
 
 ### Retrieve Data
 
-1.  Ask your workshop facilitator for the URL to your own Node-RED environment.
-2.  From the **input** category in the toolbox on the left, drag a new **ttn message** node to your flow.
-3.  Double-click the node.
-4.  Click the `✏️` to *Add new ttn app...*.
+1.  Go to https://docs.google.com/spreadsheets/d/1uMzCxTNxh69-df0xIY2Pbcqg7AAfcITcAoNxY8ZX0WQ/edit?usp=sharing to find the first available Node-RED instance
+2.  Add your name to claim the Node-RED instance and go to the URL.
+3.  From the **input** category in the toolbox on the left, drag a new **ttn message** node to your flow.
+4.  Double-click the node.
+5.  Click the `✏️` to *Add new ttn app...*.
 
     Copy-paste the following information from the console:
     
@@ -310,10 +311,10 @@ We will use [Node-RED](http://nodered.org) to get the data from The Things Netwo
 
     ![Node-RED App](media/nodered-app.png)
     
-5.  Click **Add**.
-6.  Click **Done**.
-7.  From the **output** category, drag a new **debug** node to the flow and drag the output of the **ttn message** node to the input of the **debug** node to connect them.
-8.  Click **Deploy** and monitor the **debug** tab on the right for incoming messages.
+6.  Click **Add**.
+7.  Click **Done**.
+8.  From the **output** category, drag a new **debug** node to the flow and drag the output of the **ttn message** node to the input of the **debug** node to connect them.
+9.  Click **Deploy** and monitor the **debug** tab on the right for incoming messages.
 
     ![nodered-flow](media/nodered-debug.png)
 
