@@ -1,8 +1,6 @@
 # The Things Uno Workshop / Ulm Digital
 This workshop will guide you through working with The Things Uno to send sensor data over The Things Network to an application.
 
-![Ulm Digital](https://www.exxcellent.de/fileadmin/_processed_/csm_initiative_ulm_digital_cad526d566.jpg)
-
 ## Pre-requisites
 
 1. The Things Uno
@@ -10,13 +8,11 @@ This workshop will guide you through working with The Things Uno to send sensor 
 3. Sensors, jumpers and optional breadboard as provided:
     * [Grove Temperature sensor](https://www.seeedstudio.com/Grove-Temperature-Sensor-p-774.html)
     * Grove [Button](https://www.seeedstudio.com/Grove-Button-p-766.html) or [Water](https://www.seeedstudio.com/Grove-Water-Sensor-p-748.html) sensor
-    * [4 pin Male Jumper to Grove 4 pin Conversion Cable](https://www.seeedstudio.com/Grove-4-pin-Male-Jumper-to-Grove-4-pin-Conversion-Cable-(5-PCs-per-Pack)-p-1565.html)
+    * Either [Grove Shield](https://www.seeedstudio.com/Base-Shield-V2-p-1378.html) or two [4 pin Male Jumper to Grove 4 pin Conversion Cables](https://www.seeedstudio.com/Grove-4-pin-Male-Jumper-to-Grove-4-pin-Conversion-Cable-(5-PCs-per-Pack)-p-1565.html)
 4. Computer running Windows 7 or higher, Mac OS X or Linux
 5. Wifi for your laptop.
 6. The Things Network coverage.
 7. A pre-configured Node-RED server.
-    * Go to https://docs.google.com/spreadsheets/d/1uMzCxTNxh69-df0xIY2Pbcqg7AAfcITcAoNxY8ZX0WQ/edit?usp=sharing
-    * Claim the first available URL by adding your name
 
 ## Connect to The Things Uno
 
@@ -297,8 +293,8 @@ We will use [Node-RED](http://nodered.org) to get the data from The Things Netwo
 
 ### Retrieve Data
 
-1.  Go to https://docs.google.com/spreadsheets/d/1uMzCxTNxh69-df0xIY2Pbcqg7AAfcITcAoNxY8ZX0WQ/edit?usp=sharing to find the first available Node-RED instance
-2.  Add your name to claim the Node-RED instance and go to the URL.
+1.  Go to the spreadsheet provided by the workshop leader.
+2.  Add your name to claim the first available Node-RED instance and go to that URL.
 3.  From the **input** category in the toolbox on the left, drag a new **ttn message** node to your flow.
 4.  Double-click the node.
 5.  Click the `✏️` to *Add new ttn app...*.
@@ -409,10 +405,3 @@ From this starting point, you can start building a real world application. Here 
 [console]:         https://preview.console.thethingsnetwork.org
 [settings]:        https://preview.console.thethingsnetwork.org/settings
 [add-application]: https://preview.console.thethingsnetwork.org/applications/add
-
-## Bonus: Play with iTalk
-
-1. Get one of the 4 iTalks
-2. Import the flow at https://gist.github.com/FokkeZB/ce8b912ceafa6c9b1db645cf99f06ab0
-3. Filter on your iTalk (see the number on the box): `italk-95`, `italk-9e`, `italk-a6`, `italk-a7`, `italk-a8`
-4. Use an MQTT output node to send the data to MyDevices as [described here](http://www.cayenne-mydevices.com/docs/#bring-your-own-thing-api-manually-publishing-subscribing)
