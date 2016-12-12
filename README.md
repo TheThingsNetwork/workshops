@@ -1,4 +1,4 @@
-# The Things Uno Workshop
+# The Things Uno Workshop / Ulm Digital
 This workshop will guide you through working with The Things Uno to send sensor data over The Things Network to an application.
 
 ## Pre-requisites
@@ -8,7 +8,7 @@ This workshop will guide you through working with The Things Uno to send sensor 
 3. Sensors, jumpers and optional breadboard as provided:
     * [Grove Temperature sensor](https://www.seeedstudio.com/Grove-Temperature-Sensor-p-774.html)
     * Grove [Button](https://www.seeedstudio.com/Grove-Button-p-766.html) or [Water](https://www.seeedstudio.com/Grove-Water-Sensor-p-748.html) sensor
-    * [4 pin Male Jumper to Grove 4 pin Conversion Cable](https://www.seeedstudio.com/Grove-4-pin-Male-Jumper-to-Grove-4-pin-Conversion-Cable-(5-PCs-per-Pack)-p-1565.html)
+    * Either [Grove Shield](https://www.seeedstudio.com/Base-Shield-V2-p-1378.html) or two [4 pin Male Jumper to Grove 4 pin Conversion Cables](https://www.seeedstudio.com/Grove-4-pin-Male-Jumper-to-Grove-4-pin-Conversion-Cable-(5-PCs-per-Pack)-p-1565.html)
 4. Computer running Windows 7 or higher, Mac OS X or Linux
 5. Wifi for your laptop.
 6. The Things Network coverage.
@@ -87,7 +87,6 @@ The Things Network supports the two LoRaWAN mechanisms to register devices: Over
     ![switch-abp](media/switch-abp.png)
 
     * Change *Activation method* to *ABP*.
-    * For **Network Session Key** and **App Session Key** click the 🔀 icon to generate one.
     * Uncheck **Frame counter checks**.
 
         > **Note:** This allows you to restart your device for development purposes without the routing services keeping track of the frame counter. This does make your application vulnerable for replay attacks, e.g. sending messages with a frame counter equal or lower than the latest received. Please do not disable it in production.
@@ -163,6 +162,13 @@ Instead of sending 3 bytes, we're going to send real sensor data. But first, we 
 
 ### Connect the Sensors
 
+#### With a Grove shield
+Use the Grove cables to connect the temperature and the button or water sensor:
+
+1. Connect the temperature sensor to `A2`.
+2. Connect the button or water sensor to `D2`.
+
+#### Without a Grove shield
 Use the Grove to 4-pin Male cables to connect the temperature and the button or water sensor:
 
 1.  Connect the black `GND` (ground) to one of the 3 `GND` on the Uno.
@@ -287,10 +293,11 @@ We will use [Node-RED](http://nodered.org) to get the data from The Things Netwo
 
 ### Retrieve Data
 
-1.  Ask your workshop facilitator for the URL to your own Node-RED environment.
-2.  From the **input** category in the toolbox on the left, drag a new **ttn message** node to your flow.
-3.  Double-click the node.
-4.  Click the `✏️` to *Add new ttn app...*.
+1.  Go to the spreadsheet provided by the workshop leader.
+2.  Add your name to claim the first available Node-RED instance and go to that URL.
+3.  From the **input** category in the toolbox on the left, drag a new **ttn message** node to your flow.
+4.  Double-click the node.
+5.  Click the `✏️` to *Add new ttn app...*.
 
     Copy-paste the following information from the console:
     
@@ -300,10 +307,10 @@ We will use [Node-RED](http://nodered.org) to get the data from The Things Netwo
 
     ![Node-RED App](media/nodered-app.png)
     
-5.  Click **Add**.
-6.  Click **Done**.
-7.  From the **output** category, drag a new **debug** node to the flow and drag the output of the **ttn message** node to the input of the **debug** node to connect them.
-8.  Click **Deploy** and monitor the **debug** tab on the right for incoming messages.
+6.  Click **Add**.
+7.  Click **Done**.
+8.  From the **output** category, drag a new **debug** node to the flow and drag the output of the **ttn message** node to the input of the **debug** node to connect them.
+9.  Click **Deploy** and monitor the **debug** tab on the right for incoming messages.
 
     ![nodered-flow](media/nodered-debug.png)
 
@@ -311,11 +318,11 @@ We will use [Node-RED](http://nodered.org) to get the data from The Things Netwo
 
 A common use case is to invoke a HTTP request to an external web service of your application. To complete the end-to-end workshop, we're going to use If This Then That (IFTTT) to connect to APIs.
 
-#### Create the IFTTT Recipe
+#### Create the IFTTT Applet
 Let's start on IFTTT.
 
 1.  Go to [IFTTT](https://ifttt.com) and create an account or login.
-2.  Go to [Create a Recipe](https://ifttt.com/myrecipes/personal/new).
+2.  Select [New Applet](https://ifttt.com/create) from your account menu.
 3.  Click **this** to Choose Trigger Channel.
 
     1.  Search for `maker`.
@@ -327,17 +334,18 @@ Let's start on IFTTT.
 
     *  For **Event Name**, let's enter `workshop`.
     
-5.  Click **That** to configure an action, e.g. post a tweet on Twitter, e-mail or a notification to your phone.
+5.  Click **that** to configure an action, e.g. post a tweet on Twitter, e-mail or a notification to your phone.
 
     Use the fields `value1` and `value2` as ingredient. For example, a tweet could be:
     
     ```
-    The temperature is: {{value1}} #thethingsntwrk
+    The temperature is: {{value1}} #thethingsnetwork
     ```
 
-7.  Click **Create Action**.
-8.  Click **Create Recipe**.
-9.  Go to the [Maker Channel](https://ifttt.com/maker) to find your key.
+7.  Click **Create action**.
+8.  Click **Finish**.
+9.  Go to [ifttt.com/maker and then **Settings**](https://ifttt.com/services/maker/settings).
+10. Your key is the last part of the URL (after `/use/`)
 
 #### Update the Node-RED flow
 
