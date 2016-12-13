@@ -31,7 +31,7 @@ Set up the Arduino Software (IDE) and connect to your Uno.
 
     ![arduino-port](media/arduino-port.png)
     
-    > For Windows, see [Getting Started with the Arduino Leonardo and Micro](https://www.arduino.cc/en/Guide/ArduinoLeonardoMicro#toc2) on installing drivers and finding the COM port to select.
+    > On Windows, you might need to [install drivers](https://www.arduino.cc/en/Guide/ArduinoLeonardoMicro#toc2).
 
 ## Register with The Things Network
 
