@@ -102,7 +102,7 @@ Activate your device and send your first byte to verify that it works.
 
 ### Configure
 
-1.  In the Arduino IDE, select **File > Examples > TheThingsNetwork > [Workshop](https://github.com/TheThingsNetwork/arduino-device-lib/blob/master/examples/Workshop/Workshop.ino)**.
+1.  In the Arduino IDE, select **File > Examples > TheThingsNetwork > [Send ABP](https://github.com/TheThingsNetwork/arduino-device-lib/blob/master/examples/SendABP/SendABP.ino)**.
 2.  Set the values for `devAddr`, `nwkSKey` and `appSKey` using the information from the device in the console. Use the 📋 buttons next to fields to copy their (hidden) value.
    
     * For `devAddr ` use the **Device Address**.
@@ -111,8 +111,8 @@ Activate your device and send your first byte to verify that it works.
 
 3.  Change the line for `freqPlan` with:
 
-    ```c
-    const ttn_fp_t freqPlan = TTN_FP_EU868;
+    ```
+    TTN_FP_EU868;
     ```
 
     > If you use a device with the RN2903 LoRa module, then use `TTN_FP_US915` instead.
@@ -129,8 +129,6 @@ Activate your device and send your first byte to verify that it works.
 
     ```
     Sending: mac tx uncnf 1 010203
-    Airtime added: 1.25 s
-    Total Airtime: 876.11 s
     Successful transmission
     ```
 
@@ -138,7 +136,7 @@ Activate your device and send your first byte to verify that it works.
 
 From the device or application in the console, select **Data** in the top right menu. You should soon see the messages come in. Click on the blue ▶ to see all data:
 
-![messages-test](media/messages-test.png)
+![messages-test](media/messages_test.png)
 
 As you can see you are sending 3 bytes. In the sketch you have uploaded you can find we do this in the [`loop()`](https://www.arduino.cc/en/Reference/Loop) function:
 
