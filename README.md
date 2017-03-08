@@ -102,7 +102,7 @@ Activate your device and send your first byte to verify that it works.
 
 ### Configure
 
-1.  In the Arduino IDE, select **File > Examples > TheThingsNetwork > [Send ABP](https://github.com/TheThingsNetwork/arduino-device-lib/blob/master/examples/SendABP/SendABP.ino)**.
+1.  In the Arduino IDE, select **File > Examples > TheThingsNetwork > [SendABP](https://github.com/TheThingsNetwork/arduino-device-lib/blob/master/examples/SendABP/SendABP.ino)**.
 2.  Set the values for `devAddr`, `nwkSKey` and `appSKey` using the information from the device in the console. Use the 📋 buttons next to fields to copy their (hidden) value.
    
     * For `devAddr ` use the **Device Address**.
@@ -138,34 +138,32 @@ From the device or application in the console, select **Data** in the top right 
 
 ![messages-test](media/messages_test.png)
 
-As you can see you are sending 3 bytes. In the sketch you have uploaded you can find we do this in the [`loop()`](https://www.arduino.cc/en/Reference/Loop) function:
+As you can see you are sending 1 byte. In the sketch you have uploaded you can find we do this in the [`loop()`](https://www.arduino.cc/en/Reference/Loop) function:
 
 ```c
 void loop() {
-  // Create a buffer with three bytes  
-  byte payload[3] = { 0x01, 0x02, 0x03 };
+  byte payload[1];
+  payload[0] = (digitalRead(LED_BUILTIN) == HIGH) ? 1 : 0;
 
-  // Send it to the network
+  // Send it off
   ttn.sendBytes(payload, sizeof(payload));
-
-  // Wait 10 seconds
-  delay(10000);
 }
 ```
 
 ## Send Sensor Data
 
-Instead of sending 3 bytes, we're going to send real sensor data. But first, we need to connect our sensors. In this workshop, we will use a light and a temperature sensor.
+Instead of sending 1 byte, we're going to send real sensor data. But first, we need to connect our sensors. In this workshop, we will use a water and a temperature sensor.
 
 ### Connect the Sensors
 
-#### With a Grove shield
+<!-- #### With a Grove shield
 Use the Grove cables to connect the temperature and the button or water sensor:
 
 1. Connect the temperature sensor to `A2`.
 2. Connect the button or water sensor to `D2`.
 
 #### Without a Grove shield
+-->
 Use the Grove to 4-pin Male cables to connect the temperature and the button or water sensor:
 
 1.  Connect the black `GND` (ground) to one of the 3 `GND` on the Uno.
@@ -233,14 +231,13 @@ Now that the sensors are connected, we have to write some code in the sketch to 
     When you press the button or place your finger on the water sensor you should see something like:
     
     ```
-    Temperature: 20.98
-    Sending: mac tx uncnf 1 0832
-    Airtime added: 1.25 s
-    Total Airtime: 2.51 s
+    Temperature: 18.58
+    Sending: mac tx uncnf 1 0742
     Successful transmission
+
     ```
 
-4.  Switch back to the **Data** screen in the console to verify you see the payload (here: `0832`) come in when you press the button.
+4.  Switch back to the **Data** screen in the console to verify you see the payload (here: `0742`) come in when you press the button.
 
 ### Decode the Payload
 
