@@ -1,4 +1,4 @@
-# The Things Uno Workshop / Ulm Digital
+# The Things Uno Workshop
 This workshop will guide you through working with The Things Uno to send sensor data over The Things Network to an application.
 
 ## Pre-requisites
@@ -7,12 +7,12 @@ This workshop will guide you through working with The Things Uno to send sensor 
 2. Micro-USB cable
 3. Sensors, jumpers and optional breadboard as provided:
     * [Grove Temperature sensor](https://www.seeedstudio.com/Grove-Temperature-Sensor-p-774.html)
-    * Grove [Button](https://www.seeedstudio.com/Grove-Button-p-766.html) or [Water](https://www.seeedstudio.com/Grove-Water-Sensor-p-748.html) sensor
-    * Either [Grove Shield](https://www.seeedstudio.com/Base-Shield-V2-p-1378.html) or two [4 pin Male Jumper to Grove 4 pin Conversion Cables](https://www.seeedstudio.com/Grove-4-pin-Male-Jumper-to-Grove-4-pin-Conversion-Cable-(5-PCs-per-Pack)-p-1565.html)
+    * Grove [Button](https://www.seeedstudio.com/Grove-Button-p-766.html) 
+    * Grove [Water sensor](https://www.seeedstudio.com/Grove-Water-Sensor-p-748.html) 
+    * Three [4 pin Male Jumper to Grove 4 pin Conversion Cables](https://www.seeedstudio.com/Grove-4-pin-Male-Jumper-to-Grove-4-pin-Conversion-Cable-(5-PCs-per-Pack)-p-1565.html)
 4. Computer running Windows 7 or higher, Mac OS X or Linux
 5. Wifi for your laptop.
 6. The Things Network coverage.
-7. A pre-configured Node-RED server.
 
 ## Connect to The Things Uno
 
@@ -35,7 +35,7 @@ Set up the Arduino Software (IDE) and connect to your Uno.
 
 ## Register with The Things Network
 
-Managed your applications and devices via [The Things Network Console][console].
+Manage your applications and devices via [The Things Network Console][console].
 
 ### Create an Account
 
@@ -43,8 +43,6 @@ To use the console, you need an account.
 
 1.  [Create an account][create-account].
 2.  Select [Console][console] from the top menu.
-3.  Click **Authorize ttn-dashboard-preview**.
-4.  From the top right menu, select your name and then [Settings][settings] from the dropdown menu to change the default Handler if the one currently selected is not where you'll be deploying your devices.
 
 ### Add an Application
 
@@ -52,10 +50,10 @@ Add your first The Things Network Application.
 
 1.  In the [console][console], click [add application][add-application].
 
-	* For **Application ID**, choose a unique ID of lower case, alphanumeric characters and nonconsecutive `-` and `_` (e.g. `hello-world`).
-	* For **Application Description**, enter anything you like (e.g. `Hello, World!`).
+	* For **Application ID**, choose a unique ID of lower case, alphanumeric characters and nonconsecutive `-` and `_` (e.g. `hi-world`).
+	* For **Application Description**, enter anything you like (e.g. `Hi, World!`).
 
-	![Add Application](media/add-application.png)
+	![Add Application](media/add_application.png)
 
 2.  Click **Add application** to finish.
 
@@ -74,9 +72,9 @@ The Things Network supports the two LoRaWAN mechanisms to register devices: Over
 1.  On the Application screen, scroll down to the **Devices** box and click **register device**.
 
     * For **Device ID**, choose a - for this application - unique ID of lower case, alphanumeric characters and nonconsecutive `-` and `_` (e.g. `my-uno`).
-    * For **Device EUI**, click the **randomize** link.
+    * For **Device EUI**, click the **randomize** button.
 
-    ![Register Device (OTAA)](media/register-device.png)
+    ![Register Device (OTAA)](media/register_device.png)
 
 2.  Click **Register**.
 
@@ -84,10 +82,11 @@ The Things Network supports the two LoRaWAN mechanisms to register devices: Over
     
 3.  On the device screen, select **Settings** from the top right menu.
 
-    ![switch-abp](media/switch-abp.png)
+    ![switch-abp](media/switch_abp.png)
 
+    * You can give your device a description like `My Uno - Workshop`
     * Change *Activation method* to *ABP*.
-    * Uncheck **Frame counter checks**.
+    * Uncheck **Frame counter checks** at the bottom of the page.
 
         > **Note:** This allows you to restart your device for development purposes without the routing services keeping track of the frame counter. This does make your application vulnerable for replay attacks, e.g. sending messages with a frame counter equal or lower than the latest received. Please do not disable it in production.
 
@@ -95,11 +94,11 @@ The Things Network supports the two LoRaWAN mechanisms to register devices: Over
 
     You will be redirected to the device, where you can find the **Device Address**, **Network Session Key** and **App Session Key** that we'll need next.
     
-    ![device-info](media/device-info-abp.png)
+    ![device-info](media/device_info_abp.png)
 
 ## Send a Message
 
-Activate your device and send an hello world to verify it works.
+Activate your device and send your first byte to verify that it works.
 
 ### Configure
 
