@@ -71,7 +71,7 @@ The Things Network supports the two LoRaWAN mechanisms to register devices: Over
 1.  On the Application screen, scroll down to the **Devices** box and click **register device**.
 
     * For **Device ID**, choose a - for this application - unique ID of lower case, alphanumeric characters and nonconsecutive `-` and `_` (e.g. `my-uno`).
-    * For **Device EUI**, click the **randomize** button. ![randomize](media/randomize.png =30x) 
+    * For **Device EUI**, click the **randomize** button. <img src="media/randomize.png" height="30">
 
     ![Register Device (OTAA)](media/register_device.png)
 
