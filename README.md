@@ -7,8 +7,7 @@ This workshop will guide you through working with The Things Uno to send sensor 
 2. Micro-USB cable
 3. Sensors, jumpers and optional breadboard as provided:
     * [Grove Temperature sensor](https://www.seeedstudio.com/Grove-Temperature-Sensor-p-774.html)
-    * Grove [Button](https://www.seeedstudio.com/Grove-Button-p-766.html) 
-    * Grove [Water sensor](https://www.seeedstudio.com/Grove-Water-Sensor-p-748.html) 
+    * Grove [Button](https://www.seeedstudio.com/Grove-Button-p-766.html) and / or Grove [Water sensor](https://www.seeedstudio.com/Grove-Water-Sensor-p-748.html) 
     * Three [4 pin Male Jumper to Grove 4 pin Conversion Cables](https://www.seeedstudio.com/Grove-4-pin-Male-Jumper-to-Grove-4-pin-Conversion-Cable-(5-PCs-per-Pack)-p-1565.html)
 4. Computer running Windows 7 or higher, Mac OS X or Linux
 5. Wifi for your laptop.
@@ -72,7 +71,7 @@ The Things Network supports the two LoRaWAN mechanisms to register devices: Over
 1.  On the Application screen, scroll down to the **Devices** box and click **register device**.
 
     * For **Device ID**, choose a - for this application - unique ID of lower case, alphanumeric characters and nonconsecutive `-` and `_` (e.g. `my-uno`).
-    * For **Device EUI**, click the **randomize** button.
+    * For **Device EUI**, click the **randomize** button. ![randomize](media/randomize.png)
 
     ![Register Device (OTAA)](media/register_device.png)
 
