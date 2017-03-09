@@ -71,7 +71,7 @@ The Things Network supports the two LoRaWAN mechanisms to register devices: Over
 1.  On the Application screen, scroll down to the **Devices** box and click **register device**.
 
     * For **Device ID**, choose a - for this application - unique ID of lower case, alphanumeric characters and nonconsecutive `-` and `_` (e.g. `my-uno`).
-    * For **Device EUI**, click the **randomize** button. <img src="media/randomize.png" height="30">
+    * For **Device EUI**, click the **randomize** button. <img src="media/randomize.png" height="20">
 
     ![Register Device (OTAA)](media/register_device.png)
 
@@ -151,7 +151,7 @@ void loop() {
 
 ## Send Sensor Data
 
-Instead of sending 1 byte, we're going to send real sensor data. But first, we need to connect our sensors. In this workshop, we will use a water and a temperature sensor.
+Instead of sending 1 byte, we're going to send real sensor data. But first, we need to connect our sensors. In this workshop, we will use a temperature sensor.
 
 ### Connect the Sensors
 
@@ -233,7 +233,6 @@ Now that the sensors are connected, we have to write some code in the sketch to 
     Temperature: 18.58
     Sending: mac tx uncnf 1 0742
     Successful transmission
-
     ```
 
 4.  Switch back to the **Data** screen in the console to verify you see the payload (here: `0742`) come in when you press the button.
@@ -276,47 +275,20 @@ The Things Network allows you to decode bytes to a meaningful data structure bef
 4.  Click **Save payload functions**.
 5.  Select **Data** from the top right menu to see how the next payloads will be decoded:
 
-    ![decoded-payloads](media/decoded-payloads.png)
+    ![decoded-payloads](media/decoded_payloads.png)
 
 ## Process Sensor Data
 
-We will use [Node-RED](http://nodered.org) to get the data from The Things Network and process it.
+A common use case is to invoke an HTTP request to an external web service. for this workshop we are going to process the sensor data and send it to [IFTTT](https://ifttt.com) (If This Then That) to trigger an event of your own choice. 
 
-> Node-RED allows you to build all kinds of flows with basic business logic. You can add switches, triggers, custom functions and install thousands of nodes with additional functionality, for example storing data in a database.
-
-### Retrieve Data
-
-1.  Go to the spreadsheet provided by the workshop leader.
-2.  Add your name to claim the first available Node-RED instance and go to that URL.
-3.  From the **input** category in the toolbox on the left, drag a new **ttn message** node to your flow.
-4.  Double-click the node.
-5.  Click the `✏️` to *Add new ttn app...*.
-
-    Copy-paste the following information from the console:
-    
-    * For **App ID**, copy **Application ID** from the **Application Overview** box.
-    * For **Access Key**, scroll down to the **Access Keys** and click 📋 to copy the **default key**.
-    * For **Region or Broker**, scroll back again to use **Handler Status** from the **Application Overview** box. Only copy the last bit following `ttn-handler-` (e.g. `eu`).
-
-    ![Node-RED App](media/nodered-app.png)
-    
-6.  Click **Add**.
-7.  Click **Done**.
-8.  From the **output** category, drag a new **debug** node to the flow and drag the output of the **ttn message** node to the input of the **debug** node to connect them.
-9.  Click **Deploy** and monitor the **debug** tab on the right for incoming messages.
-
-    ![nodered-flow](media/nodered-debug.png)
-
-### Push to IFTTT
-
-A common use case is to invoke a HTTP request to an external web service of your application. To complete the end-to-end workshop, we're going to use If This Then That (IFTTT) to connect to APIs.
+> IFTTT is a free web-based service that you can use to create simple conditional statements, called applets. An applet is triggered by changes that occur within other web services such as Gmail, Facebook, Instagram, or The Things Network.
 
 #### Create the IFTTT Applet
 Let's start on IFTTT.
 
 1.  Go to [IFTTT](https://ifttt.com) and create an account or login.
 2.  Select [New Applet](https://ifttt.com/create) from your account menu.
-3.  Click **this** to Choose Trigger Channel.
+3.  Click **This** to Choose Trigger Channel.
 
     1.  Search for `maker`.
     2.  Click the **Maker** channel.
@@ -327,74 +299,69 @@ Let's start on IFTTT.
 
     *  For **Event Name**, let's enter `workshop`.
     
-5.  Click **that** to configure an action, e.g. post a tweet on Twitter, e-mail or a notification to your phone.
+5.  Click **That** to configure an action, e.g. post a tweet on Twitter, e-mail or a notification to your phone.
 
-    Use the fields `value1` and `value2` as ingredient. For example, a tweet could be:
+    Use the field `value1` as ingredient. For example, a tweet could be:
     
     ```
     The temperature is: {{value1}} #thethingsnetwork
     ```
 
 7.  Click **Create action**.
-8.  Click **Finish**.
-9.  Go to [ifttt.com/maker and then **Settings**](https://ifttt.com/services/maker/settings).
-10. Your key is the last part of the URL (after `/use/`)
-
-#### Update the Node-RED flow
-
-1.  In Node-RED, drop a new **function** on the flow from the **function** category of the toolbox.
-2.  Drag a wire from the output of the **ttn message** node to the input of the new node.
-3.  Double click the new node to edit it.
-4.  Enter a **Name** like `create request`.
-5.  As the actual **Function** IFTTT expects a payload with `value[1-3]`. Use the following function to pass the temperature as `value1`:
-
-    ```javascript
-    return {
-      payload: {
-        value1: msg.payload.celcius
-      }
-    };
-    ```
-
-    This should look something like:
-
-    ![nodered-request](media/nodered-request.png)
-
-6.  Drag a **http request** node from the same **function** category.
-7.  Drag a wire from the output of the **create request** node to the input of the **http request** node.
-8.  Double click the new node to edit it.
-9.  As **Method** select **POST**.
-10. For **URL** enter `https://maker.ifttt.com/trigger/{event}/with/key/{key}`.
-
-    * Replace `{event}` with the **Event Name** `workshop` we used at IFTTT.
-    * Replace `{key}` with the key you found at the [Maker Channel](https://ifttt.com/maker).
-
-    ![nodered-request](media/nodered-ifttt.png)
+8.  Click **Finish**. 
+    Good job! You created the Applet on IFTTT. The only thing you have to do now it connect The Things Network to your Applet and trigger the event with the sensor data.
     
-11. Click **Done**.
-12. Click **Deploy**.
-13. Now use the button or water sensor to trigger the action you have configured on IFTTT.
+
+#### Connect The Things Network to IFTTT
+
+1.  Go back to your application in the [Console](https://console.thethingsnetwork.org/applications) and click on **Integrations**.
+
+    ![integrations](media/integrations.png)
+
+2. Add as a new integration the **IFTTT Maker**.
+
+    ![IFTTT_maker](media/IFTTT_maker.png)
+
+3.  Think of a fancy Process ID, like `temperature-tweet` and fill in the **Event Name** you just created on IFTTT.
+4.  To find your secret **Key**, go to [ifttt.com/maker and then **Settings**](https://ifttt.com/services/maker/settings). Your key is the last part of the URL (after `/use/`)
+5.  As **Value 1** write `celcius`
+6.  Click on **Add Integration** to finalize the integration.
+
+### The moment of truth
+It's time for a live demonstration. It's important to gather a small audience which you can impress with your end-to-end IoT application.
+
+Now, use the button or water sensor to trigger the action you have configured on IFTTT.
+
+
+### Bonus Exercise
+
+You can even go one level further. Maybe you only want to activate the IFTTT event when the temperature is above or below a certain degree. You can enable or disable the trigger in the **Decoder** of the **Payload Fuctions** (remember where to find this?).
+
+For doing so, you need to add the code before the `return decoded;`
+
+```
+  decoded.trigger = decoded.celcius > 20;
+```
+
+You can replace the `> 20` with any value that you want to set as the minimal temperature to activate the trigger.
+
 
 ## OK. Done. What's Next?
 
-🎉 Congratulations! You just learned how to create an account, an application, register a device, send data from a device, decode it, get it in Node-RED, process it and push it to IFTTT to connect to the world of APIs.
-
-Node-RED can be used to build complex applications too. You can store data in a database, query data on an interval, add all kinds of business rules and invoke any web service.
+🎉 Congratulations! You just learned how to create an account, an application, register a device, send data from a device, decode it, process it and push it to IFTTT to connect to the world of APIs.
 
 From this starting point, you can start building a real world application. Here are some useful links:
 
-- [Set up Node-RED and install the TTN node locally.](https://www.thethingsnetwork.org/docs/v2-preview/node-red/#quick-start)
-- Use Node-RED to store data in a time series database, for example [InfluxDB](https://influxdata.com) via the [InfluxDB node](http://flows.nodered.org/node/node-red-contrib-influxdb).
-- [Install additional nodes for Node-RED.](http://flows.nodered.org)
+
+- Visualize your data in a nice dashboard using the **Cayenne - myDevices** integration.
+- [Send messages back to the device.](https://www.thethingsnetwork.org/docs/v2-preview/mqtt/#send-messages-down) to control an LED
 - [Receive and process data on any platform using MQTT.](https://www.thethingsnetwork.org/docs/v2-preview/mqtt/)
-- Visualize your data, for example with [Grafana](http://grafana.org) which works good with InfluxDB.
 - Create your own charts and maps, e.g. combine our [Socket.io example](https://github.com/TheThingsNetwork/node-app-sdk/tree/master/examples/socketio) with [Flot](http://flotcharts.org) or [Google Maps API](https://developers.google.com/maps/).
-- [Send messages back to the device.](https://www.thethingsnetwork.org/docs/v2-preview/mqtt/#send-messages-down)
 - Integrate with IoT cloud platforms like [Azure IoT Hub](https://github.com/TheThingsNetwork/azure-integration) and [AWS IoT](https://github.com/theThingsNetwork/aws-app-lib).
 
-[account]:         https://preview.account.thethingsnetwork.org
-[create-account]:  https://preview.account.thethingsnetwork.org/register
-[profile]:         https://preview.account.thethingsnetwork.org/users/profile
-[console]:         https://preview.console.thethingsnetwork.org
-[settings]:        https://preview.console.thethingsnetwork.org/settings
-[add-application]: https://preview.console.thethingsnetwork.org/applications/add
+[account]:         https://account.thethingsnetwork.org
+[create-account]:  https://account.thethingsnetwork.org/register
+[profile]:         https://account.thethingsnetwork.org/users/profile
+[console]:         https://console.thethingsnetwork.org
+[settings]:        https://console.thethingsnetwork.org/settings
+[add-application]: https://console.thethingsnetwork.org/applications/add
