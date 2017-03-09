@@ -354,7 +354,9 @@ From this starting point, you can start building a real world application. Here 
 
 
 - Visualize your data in a nice dashboard using the **Cayenne - myDevices** integration.
-- [Send messages back to the device.](https://www.thethingsnetwork.org/docs/v2-preview/mqtt/#send-messages-down) to control an LED
+<img src="media/cayenne.png" width="50">
+
+- [Send messages back to the device](https://www.thethingsnetwork.org/docs/v2-preview/mqtt/#send-messages-down) to control an LED
 - [Receive and process data on any platform using MQTT.](https://www.thethingsnetwork.org/docs/v2-preview/mqtt/)
 - Create your own charts and maps, e.g. combine our [Socket.io example](https://github.com/TheThingsNetwork/node-app-sdk/tree/master/examples/socketio) with [Flot](http://flotcharts.org) or [Google Maps API](https://developers.google.com/maps/).
 - Integrate with IoT cloud platforms like [Azure IoT Hub](https://github.com/TheThingsNetwork/azure-integration) and [AWS IoT](https://github.com/theThingsNetwork/aws-app-lib).
