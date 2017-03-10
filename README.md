@@ -353,7 +353,7 @@ You can replace the `> 20` with any value that you want to set as the minimal te
 From this starting point, you can start building a real world application. Here are some useful links:
 
 
-- Visualize your data in a nice dashboard using the **Cayenne - myDevices** integration.
+- Visualize your data in a nice dashboard using the [**Cayenne - myDevices**](https://github.com/TheThingsNetwork/workshops/blob/master/myDevices.md) integration.
 
     <img src="media/cayenne.png" width="130">
 - [Send messages back to the device](https://www.thethingsnetwork.org/docs/devices/uno/quick-start.html#message-your-device) to control an LED
