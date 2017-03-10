@@ -4,31 +4,35 @@ myDevice allows you to quickly design, prototype, and visualize IoT solutions. Y
 
 ![myDevices-dashboard](media/dashboard-mydevices.png)
 
+
 ## Setup your myDevices account
 
 1.  Create an account on [myDevices](https://mydevices.com/)
-2.  Log-in and click on LoRa
+2.  Log-in and click on **LoRa**
 	
 	<img src="media/myDevices-lora.png" width="130">
-3.  Select **The Things Network** at the bottom of the left menu bar, click on **Cayenne LPP** and fill in your **DevEUI** of your device (which you can find in the [**Console**](https://console.thethingsnetwork.org/applications)
+3.  Select **The Things Network** at the bottom of the left menu bar, click on **Cayenne LPP** and fill in your **DevEUI** of your device (which you can find in the [**Console**](https://console.thethingsnetwork.org/applications))
 	![add-device](media/cayenne-add-device.png)
+
 
 ## Add the myDevices integration in the Console
 
 1.  Go to your application in the [**Console**](https://console.thethingsnetwork.org/applications) and add the myDevices integration via **Add Integration**
 	![myDevices-dashboard](media/integrations.png) 
 
-2.  You can find your **Process ID** in the URL of the browser, starting after `/lora/`
+2.  You can find your **Process ID** in the URL of the myDevices dashboard, starting after `/lora/`
 3.  Add the integration
 
+
 ## Change the payload format 
+
 In order to display your content in the myDevices dashboard, we need to change the format of the payload in the Arduino Sketch.
 
 > We need to send extra data for myDevices to understand what data comes into their dashboard. Before we send the sensor data, we need to define what data is sent. The first byte is the so-called **Channel ID**. The sencond bytes explains the **Data Type** (so myDevices knows that the data contains temperature values). The latter bytes contain the actualy sensor values.
  Please have a look [here](https://mydevices.com/cayenne/docs/#lora-cayenne-low-power-payload) to find more information.
  
  
-1.  Add the following code at the beginning of the IDE sketch:
+1.  Add the following code at the beginning of the Arduino sketch:
 ```
 #define LPP_DIGITAL_INPUT       0       // 1 byte
 #define LPP_DIGITAL_OUTPUT      1       // 1 byte
@@ -91,10 +95,15 @@ class CayenneLPP {
 ```
 
 2.  If you are sending temperature, you are sending four bytes:
+
 	byte1: Channel ID
+	
 	byte2: Data type
+	
 	byte3: highByte temperature
+	
 	byte4: lowByte temperature
+	
 	
   to send this, add the following code is added in the `void loop()` and Upload the sketch to The Things Uno.
 
