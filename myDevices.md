@@ -32,7 +32,8 @@ In order to display your content in the myDevices dashboard, we need to change t
  Please have a look [here](https://mydevices.com/cayenne/docs/#lora-cayenne-low-power-payload) to find more information.
  
  
-1.  Add the following code at the beginning of the Arduino sketch:
+*  Add the following code at the beginning of the Arduino sketch:
+
 ```
 #define LPP_DIGITAL_INPUT       0       // 1 byte
 #define LPP_DIGITAL_OUTPUT      1       // 1 byte
@@ -94,15 +95,11 @@ class CayenneLPP {
 };
 ```
 
-2.  If you are sending temperature, you are sending four bytes:
-
-	byte1: Channel ID
-	
-	byte2: Data type
-	
-	byte3: highByte temperature
-	
-	byte4: lowByte temperature
+*  If you are sending temperature, you are sending four bytes:
+  - byte1: Channel ID
+  - byte2: Data type
+  - byte3: highByte temperature
+  - byte4: lowByte temperature
 	
 	
   to send this, add the following code is added in the `void loop()` and Upload the sketch to The Things Uno.
@@ -134,3 +131,5 @@ Click the device on the left side of your dashboard in myDevices and you data is
 
 ![myDevices-dashboard](media/mydevices-data.png) 
 
+
+🎉 Great job! Now impress some folks with this amazing dashboard you built on Twitter. *Don't forget to add The Things Network in your Tweet: @thethingsntwrk*
