@@ -166,7 +166,7 @@ Use the Grove cables to connect the temperature and the button or water sensor:
 Use the Grove to 4-pin Male cables to connect the temperature and the button or water sensor:
 
 1.  Connect the black `GND` (ground) to one of the 3 `GND` on the Uno.
-2.  Connect the red `VCC` (voltage) to either the `3v3` or `5V` on the Uno (both sensors can take both voltages).
+2.  Connect the red `VCC` (voltage) to the `3v3` and `5V` on the Uno (connect the temperature sensor to the 5V).
 3.  Connect the yellow `SIG` (signal) to the Uno:
 
     * For the temperature sensor use an analog input: `A2`.
