@@ -111,7 +111,7 @@ Activate your device and send your first byte to verify that it works.
 3.  Change the line for `freqPlan` with:
 
     ```
-    TTN_FP_EU868;
+    TTN_FP_EU868
     ```
 
     > If you use a device with the RN2903 LoRa module, then use `TTN_FP_US915` instead.
