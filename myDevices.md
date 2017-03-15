@@ -32,36 +32,17 @@ In order to display your content in the myDevices dashboard, we need to change t
  Please have a look [here](https://mydevices.com/cayenne/docs/#lora-cayenne-low-power-payload) to find more information.
  
  
-*  Add the following code at the beginning of the Arduino sketch:
+*  Add the following code at the very beginning of the Arduino sketch:
 
 ```
-#define LPP_DIGITAL_INPUT       0       // 1 byte
-#define LPP_DIGITAL_OUTPUT      1       // 1 byte
-#define LPP_ANALOG_INPUT        2       // 2 bytes, 0.01 signed
-#define LPP_ANALOG_OUTPUT       3       // 2 bytes, 0.01 signed
-#define LPP_LUMINOSITY          101     // 2 bytes, 1 lux unsigned
-#define LPP_PRESENCE            102     // 1 byte, 1
-#define LPP_TEMPERATURE         103     // 2 bytes, 0.1°C signed
-#define LPP_RELATIVE_HUMIDITY   104     // 1 byte, 0.5% unsigned
-#define LPP_ACCELEROMETER       113     // 2 bytes per axis, 0.001G
-#define LPP_BAROMETRIC_PRESSURE 115     // 2 bytes 0.1 hPa Unsigned
-#define LPP_GYROMETER           134     // 2 bytes per axis, 0.01 °/s
-#define LPP_GPS                 136     // 3 byte lon/lat 0.0001 °, 3 bytes alt 0.01 meter
-
-// Data ID + Data Type + Data Size
-#define LPP_DIGITAL_INPUT_SIZE       3       // 1 byte
-#define LPP_DIGITAL_OUTPUT_SIZE      3       // 1 byte
-#define LPP_ANALOG_INPUT_SIZE        4       // 2 bytes, 0.01 signed
-#define LPP_ANALOG_OUTPUT_SIZE       4       // 2 bytes, 0.01 signed
-#define LPP_LUMINOSITY_SIZE          4       // 2 bytes, 1 lux unsigned
-#define LPP_PRESENCE_SIZE            3       // 1 byte, 1
-#define LPP_TEMPERATURE_SIZE         4       // 2 bytes, 0.1°C signed
-#define LPP_RELATIVE_HUMIDITY_SIZE   3       // 1 byte, 0.5% unsigned
-#define LPP_ACCELEROMETER_SIZE       8       // 2 bytes per axis, 0.001G
-#define LPP_BAROMETRIC_PRESSURE_SIZE 4       // 2 bytes 0.1 hPa Unsigned
-#define LPP_GYROMETER_SIZE           8       // 2 bytes per axis, 0.01 °/s
-#define LPP_GPS_SIZE                 11      // 3 byte lon/lat 0.0001 °, 3 bytes alt 0.01 meter
+#include <CayenneLPP.h>
 ```
+* Add the following code right before `void setup()` which sets the maximum payload size to 51 bytes.
+
+```
+CayenneLPP lpp(51);
+```
+
 
 *  If you are sending temperature, you are sending four bytes:
   - byte1: Channel ID
@@ -92,6 +73,24 @@ In order to display your content in the myDevices dashboard, we need to change t
   payload[cursor++] = lowByte(celciusInt);// celciusInt;
   
   ttn.sendBytes(payload, sizeof(payload));
+```
+
+
+* The payload we send is a bit different than we before. You can replace the `void loop()` with the code below:
+
+```
+void loop() {
+  debugSerial.println("-- LOOP");
+
+  float celcius = getCelcius(A2);
+
+  lpp.reset();
+  lpp.addTemperature(1, celcius);
+
+  ttn.sendBytes(lpp.getBuffer(), lpp.getSize());
+
+  delay(10000);
+}
 ```
 
 ## Build your myDevices dashboard
