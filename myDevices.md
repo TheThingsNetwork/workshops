@@ -1,6 +1,6 @@
-# Cayenne myDevices integration
+# myDevices Cayenne integration
 
-myDevice allows you to quickly design, prototype, and visualize IoT solutions. You can use myDevices to build a nice-looking dashboard that showcases your data nicely.
+myDevices Cayenne allows you to quickly design, prototype, and visualize IoT solutions. You can use Cayenne to build a nice-looking dashboard that showcases your data nicely.
 
 ![myDevices-dashboard](media/dashboard-mydevices.png)
 
@@ -15,7 +15,7 @@ myDevice allows you to quickly design, prototype, and visualize IoT solutions. Y
 	![add-device](media/cayenne-add-device.png)
 
 
-## Add the myDevices integration in the Console
+## Add the myDevices Cayenne integration in the Console
 
 1.  Go to your application in the [**Console**](https://console.thethingsnetwork.org/applications) and add the myDevices integration via **Add Integration**
 	![myDevices-dashboard](media/integrations.png) 
@@ -26,9 +26,9 @@ myDevice allows you to quickly design, prototype, and visualize IoT solutions. Y
 
 ## Change the payload format 
 
-In order to display your content in the myDevices dashboard, we need to change the format of the payload in the Arduino Sketch.
+In order to display your content in the Cayenne dashboard, we need to change the format of the payload in the Arduino Sketch.
 
-> We need to send extra data for myDevices to understand what data comes into their dashboard. Before we send the sensor data, we need to define what data is sent. The first byte is the so-called **Channel ID**. The sencond bytes explains the **Data Type** (so myDevices knows that the data contains temperature values). The latter bytes contain the actualy sensor values.
+> We need to send extra data for Cayenne to understand what data comes into their dashboard. Before we send the sensor data, we need to define what data is sent. The first byte is the so-called **Channel ID**. The sencond bytes explains the **Data Type** (so Cayenne knows that the data contains temperature values). The latter bytes contain the actualy sensor values.
  Please have a look [here](https://www.thethingsnetwork.org/docs/devices/arduino/api/cayennelpp.html) to find more information on the Cayenne Lower Power Protocol (LPP).
  
  
@@ -43,13 +43,18 @@ In order to display your content in the myDevices dashboard, we need to change t
 CayenneLPP lpp(51);
 ```
 
-* The payload we need to send is a bit different than before. You can replace the `void loop()` with the code below and upload the sketch to The Things Uno.
+* The payload we need to send is a bit different than before. You can replace the `void loop(){ }` with the code below and upload the sketch to The Things Uno.
 
 ```
+float celcius(int pin) {
+  int a = analogRead(A2);
+  float resistance = (1023.0 - a) * 10000 / a;
+  return 1 / (log(resistance/10000)/3975 + 1 / 298.15) - 273.15;
+}
+
 void loop() {
   debugSerial.println("-- LOOP");
-  
-  // Read the temperature
+
   float celcius = getCelcius(A2);
 
   lpp.reset();
@@ -61,7 +66,7 @@ void loop() {
 }
 ```
 
-## Build your myDevices dashboard
+## Build your Cayenne dashboard
 Click the device on the left side of your dashboard in myDevices and you data is should be shown right away. After a bit of editing you can make it look something like this:
 
 ![myDevices-dashboard](media/mydevices-data.png) 
