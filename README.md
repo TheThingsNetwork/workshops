@@ -303,10 +303,10 @@ Let's start on IFTTT.
     
 5.  Click **That** to configure an action, e.g. post a tweet on Twitter, e-mail or a notification to your phone.
 
-    Use the field `value1` as ingredient. For example, a tweet could be:
+    Use the field `Value1` as ingredient. For example, a tweet could be:
     
     ```
-    The temperature is: {{value1}} #thethingsnetwork
+    The temperature is: {{Value1}} #thethingsnetwork
     ```
 
 7.  Click **Create action**.
