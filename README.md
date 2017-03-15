@@ -245,7 +245,7 @@ The Things Network allows you to decode bytes to a meaningful data structure bef
 
 1.  From the **application** in the **Console**, select **Payload Functions** from the top right menu.
 
-	<img src="media/payload-menu.png" max-width="400">
+	<img src="media/payload-menu.png" max-width="400px">
 2.  Leave **decoder** selected and copy-paste the following JavaScript code:
 
     ```js
