@@ -67,7 +67,7 @@ void loop() {
 ```
 
 ## Build your Cayenne dashboard
-Click the device on the left side of your dashboard in myDevices and you data is should be shown right away. After a bit of editing you can make it look something like this:
+Click the device on the left side of your dashboard in Cayenne and you data is should be shown right away. After a bit of editing you can make it look something like this:
 
 ![myDevices-dashboard](media/mydevices-data.png) 
 
