@@ -43,7 +43,7 @@ To use the console, you need an account.
 1.  [Create an account][create-account].
 2.  Select [Console][console] from the top menu.
 
-### Add an Application
+### Add an Application in the Console
 
 Add your first The Things Network Application.
 
@@ -108,10 +108,10 @@ Activate your device and send your first byte to verify that it works.
     * For `nwkSKey ` use the **Network Session Key**.
     * For `appSKey` use **App Session Key**.
 
-3.  Change the line for `freqPlan` with:
+3.  Change the line `#define freqPlan REPLACE_ME` to:
 
     ```
-    TTN_FP_EU868
+    #define freqPlan TTN_FP_EU868
     ```
 
     > If you use a device with the RN2903 LoRa module, then use `TTN_FP_US915` instead.
@@ -237,13 +237,16 @@ Now that the sensors are connected, we have to write some code in the sketch to 
 
 4.  Switch back to the **Data** screen in the console to verify you see the payload (here: `0742`) come in when you press the button.
 
-### Decode the Payload
+### Decode the Payload in the Console
 
 The Things Network allows you to decode bytes to a meaningful data structure before passing it on to your application.
 
 > We will only use the **decoder** in this workshop. You can also use a **converter** to combine values or convert units and a **validator** to drop invalid payloads.
 
-1.  From the application in the console, select **Payload Functions** from the top right menu.
+1.  From the **application** in the **Console**, select **Payload Functions** from the top right menu.
+
+	![menu](media/payload-menu.png)
+
 2.  Leave **decoder** selected and copy-paste the following JavaScript code:
 
     ```js
