@@ -29,7 +29,7 @@ myDevice allows you to quickly design, prototype, and visualize IoT solutions. Y
 In order to display your content in the myDevices dashboard, we need to change the format of the payload in the Arduino Sketch.
 
 > We need to send extra data for myDevices to understand what data comes into their dashboard. Before we send the sensor data, we need to define what data is sent. The first byte is the so-called **Channel ID**. The sencond bytes explains the **Data Type** (so myDevices knows that the data contains temperature values). The latter bytes contain the actualy sensor values.
- Please have a look [here](https://mydevices.com/cayenne/docs/#lora-cayenne-low-power-payload) to find more information.
+ Please have a look [here](https://www.thethingsnetwork.org/docs/devices/arduino/api/cayennelpp.html) to find more information on the Cayenne Lower Power Protocol (LPP).
  
  
 *  Add the following code at the very beginning of the Arduino sketch:
