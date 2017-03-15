@@ -245,8 +245,7 @@ The Things Network allows you to decode bytes to a meaningful data structure bef
 
 1.  From the **application** in the **Console**, select **Payload Functions** from the top right menu.
 
-	![menu](media/payload-menu.png)
-
+	<img src="media/payload-menu.png" max-width="400">
 2.  Leave **decoder** selected and copy-paste the following JavaScript code:
 
     ```js
@@ -328,6 +327,7 @@ Let's start on IFTTT.
 3.  Think of a fancy Process ID, like `temperature-tweet` and fill in the **Event Name** you just created on IFTTT.
 4.  To find your secret **Key**, go to [ifttt.com/maker and then **Settings**](https://ifttt.com/services/maker/settings). Your key is the last part of the URL (after `/use/`)
 5.  As **Value 1** write `celcius`
+	*Make sure you don't accidentally add a space before or after `celcius`*
 6.  Click on **Add Integration** to finalize the integration.
 
 ### The moment of truth
