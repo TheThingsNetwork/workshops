@@ -43,45 +43,13 @@ In order to display your content in the myDevices dashboard, we need to change t
 CayenneLPP lpp(51);
 ```
 
-
-*  If you are sending temperature, you are sending four bytes:
-  - byte1: Channel ID
-  - byte2: Data type
-  - byte3: highByte temperature
-  - byte4: lowByte temperature
-	
-	
-  to send this, add the following code is added in the `void loop()` and Upload the sketch to The Things Uno.
-
-```
-  // Read the temperature
-  float celcius = getCelcius(A2);
-
-  // Log the value
-  debugSerial.print("Temperature: ");
-  debugSerial.println(celcius);
-
-  // Encode float as int (20.98 becomes 2098)
-  int16_t celciusInt = round(celcius * 10);
-  uint8_t cursor = 0;
-
-// Encode int as bytes
-  byte payload[4];
-  payload[cursor++] = 0x03; // Channel ID
-  payload[cursor++] = LPP_TEMPERATURE; // Data type
-  payload[cursor++] = highByte(celciusInt); //celciusInt >> 8;
-  payload[cursor++] = lowByte(celciusInt);// celciusInt;
-  
-  ttn.sendBytes(payload, sizeof(payload));
-```
-
-
-* The payload we send is a bit different than we before. You can replace the `void loop()` with the code below:
+* The payload we need to send is a bit different than before. You can replace the `void loop()` with the code below and upload the sketch to The Things Uno.
 
 ```
 void loop() {
   debugSerial.println("-- LOOP");
-
+  
+  // Read the temperature
   float celcius = getCelcius(A2);
 
   lpp.reset();
