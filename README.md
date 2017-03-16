@@ -349,6 +349,130 @@ For doing so, you need to add the code before the `return decoded;`
 You can replace the `> 20` with any value that you want to set as the minimal temperature to activate the trigger.
 
 
+## Sending a downlink message
+
+Good, we can receive messages from the device. But how about sending one?
+To set this up we need to modify our arduino script a little bit.
+
+Let's start with a simple example: turn on or of the arduino LED based on the
+payload of a message we send to the device.
+
+### Listening for donwlink
+
+For this, we need to add a callback to our Arduino script that will be invoked when the device
+receives a message:
+
+```c
+void message(const uint8_t *payload, size_t size, port_t port) {
+  debugSerial.println("-- MESSAGE");
+  debugSerial.print("Received " + String(size) + " bytes on port " + String(port) + ":");
+
+  for (int i = 0; i < size; i++)
+  {
+    debugSerial.print(" " + String(payload[i]));
+  }
+  debugSerial.println();
+
+  if (size < 1) {
+    return;
+  }
+
+  // turn of LED
+  if (payload[0] == 0) {
+    digitalWrite(LED_BUILTIN, LOW);
+  } else {
+    digitalWrite(LED_BUILTIN, HIGH);
+  }
+}
+```
+
+And we need to add it to our `setup` function:
+
+```
+void setup() {
+  // add this:
+  ttn.onMessage(message);
+}
+```
+
+This will turn off the onboard LED when it receives a payload that has a `00` first
+byte, and turn it on otherwise.
+
+Note that in Lora class B, a downlink can only be received after an uplink has
+been sent, so we need to press the button to receive anything at all.
+
+### Scheduling a downlink
+
+Let's schedule a downlink to be sent on the first available uplink.
+Go to the **Device Overview** page of you device and scroll down to the
+**Downlink** section.
+
+In here, fill in a downlink payload, like `11` and click **Send**.
+
+![downlink](media/downlink.png)
+
+Next, trigger an uplink by pressing the button. You should see a message like
+this in the arduino monitor:
+```
+-- MESSAGE
+Received 1 bytes on port 1: 17
+```
+
+And the LED on you ardiuno board will light up!
+
+
+### Encoding a payload
+Sending pure byte payloads to you device can become unwieldy quickly.
+That's why the `Encoder` payload function exists. This function will transform
+JSON fields to a binary payload.
+
+To set it, go to the **Payload Functions** tab of you application and select
+**Encoder**.
+
+Here, fill in the following encoder:
+```js
+function Encoder(object, port) {
+  // Encode downlink messages sent as
+  // object to an array or buffer of bytes.
+  var bytes = [];
+
+  bytes[0] = object.led ? 1 : 0;
+
+  return bytes;
+}
+```
+
+This will set the first byte to `01` if the `led` field is `true`
+and `0` if it is false.
+
+To test the Encoder, enter the following in the **Fields** input:
+```
+{ "led": true }
+```
+and click **Test**. The output should look something like:
+```
+// encoded payload:
+01
+```
+
+![encoder](media/encoder.png)
+
+Next, click **Save**.
+
+
+### Sending fields to our device
+
+Go back to the **Device Overview** page of you device and scroll down to the
+**Downlink** section.
+
+Now, instead of **bytes** select **fields** and enter:
+```
+{ "led": false }
+```
+
+To receive the downlink and press the button. The LED on your device should now
+go off.
+
 
 [account]:         https://account.thethingsnetwork.org
 [create-account]:  https://account.thethingsnetwork.org/register
