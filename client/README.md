@@ -51,4 +51,28 @@ client.on("message", function (devID, data) {
 Where you replace `<app_id>` with the ID of you application (eg. `hi-world`)
 and `<access_key>` with the access key of your application.
 
+To run this, run:
 
+```
+node server.js
+```
+
+Whenever you press the button, you should be seeing messages like the following
+on the console:
+```
+Message from device my-uno
+{ app_id: 'lollercopter',
+  dev_id: 'my-uno',
+  hardware_serial: '006964B20337B2C1',
+  port: 1,
+  counter: 11,
+  payload_raw: <Buffer 03 cd>,
+  payload_fields: { celcius: 9.73 },
+  metadata: 
+   { time: '2017-03-16T16:20:02.370281545Z',
+     frequency: 867.1,
+     modulation: 'LORA',
+     data_rate: 'SF7BW125',
+     coding_rate: '4/5',
+     gateways: [ [Object] ] } }
+```
