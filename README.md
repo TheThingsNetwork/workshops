@@ -18,15 +18,12 @@ This workshop will guide you through working with The Things Uno to send sensor 
 Set up the Arduino Software (IDE) and connect to your Uno.
 
 1.  [Download](https://www.arduino.cc/en/Main/Software) and install the latest version of the Arduino Software.
-2.  Navigate to **Sketch > Include Library > Manage Libraries...**.
-3.  Search for **TheThingsNetwork** and click the result to select it.
-4.  Click the **Install** button which should appear:
-
-    ![Library Manager](media/arduino_library.png)
-
-5.  Connect the The Things Uno to your computer using the Micro-USB cable.
-6.  Select **Tools > Board > Arduino Leonardo**
-7.  Select **Tools > Port** > the port that identifies as **Arduino Leonardo**:
+2.  [Download](https://github.com/TheThingsNetwork/arduino-device-lib/archive/feature/as920_923.zip) The Things Network Arduino library.
+3.  Navigate to **Sketch > Include Library > Add ZIP Library...**
+4.  Select the ZIP file you just downloaded in step 2 and click **Choose**.
+6.  Connect the The Things Uno to your computer using the Micro-USB cable.
+7.  Select **Tools > Board > Arduino Leonardo**
+8.  Select **Tools > Port** > the port that identifies as **Arduino Leonardo**:
 
     ![arduino-port](media/arduino-port.png)
     
