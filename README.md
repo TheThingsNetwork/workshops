@@ -621,9 +621,9 @@ go off.
 
 ダウンリンクを受信するにはボタンを押します。デバイスのLEDがOFFになるはずです。
 
-[account]:         https://account.thethingsnetwork.org
-[create-account]:  https://account.thethingsnetwork.org/register
-[profile]:         https://account.thethingsnetwork.org/users/profile
-[console]:         https://console.thethingsnetwork.org
-[settings]:        https://console.thethingsnetwork.org/settings
-[add-application]: https://console.thethingsnetwork.org/applications/add
+[account]:         https://account.mirait.thethingslabs.com
+[create-account]:  https://account.mirait.thethingslabs.com/register
+[profile]:         https://account.mirait.thethingslabs.com/users/profile
+[console]:         https://console.mirait.thethingslabs.com
+[settings]:        https://console.mirait.thethingslabs.com/settings
+[add-application]: https://console.mirait.thethingslabs.com/applications/add
