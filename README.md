@@ -1,4 +1,6 @@
-# The Things Uno Workshop &mdash; MIRAIT
+![mirait logo](https://console.mirait.thethingslabs.com/logo.png)
+
+# The Things Uno Workshop
 This workshop will guide you through working with The Things Uno to send sensor data over The Things Network to an application.
 
 このWSでは、The Things Unoを使ってセンサーデータをThe Things Network経由でアプリケーションに送る方法を学びます。
