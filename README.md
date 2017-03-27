@@ -71,7 +71,7 @@ The Things Networkアプリケーションを追加します
 
 	* For **Application ID**, choose a unique ID of lower case, alphanumeric characters and nonconsecutive `-` and `_` (e.g. `hi-world`).
 
-      **Application ID** には、小文字でアルファベットまたは数字で、連続しない（ハイフン-とアンダーバー_を使う）ユニークなIDを選択します。 (e.g. `hi-world`).
+      **Application ID** には、小文字でアルファベットまたは数字で、連続しない（ハイフン`-`とアンダーバー`_`を使う）ユニークなIDを選択します。 (e.g. `hi-world`).
 
 	* For **Application Description**, enter anything you like (e.g. `Hi, World!`).
 
