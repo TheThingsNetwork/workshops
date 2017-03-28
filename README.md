@@ -523,9 +523,9 @@ This will turn off the onboard LED when it receives a payload that has a `00` fi
 
 `00` first byteのペイロードを受信すると、ボード上のLEDがOFFになります。それ以外ではONになります。
 
-Note that in Lora class B, a downlink can only be received after an uplink has been sent, so we need to press the button to receive anything at all.
+Note that in Lora class A, a downlink can only be received after an uplink has been sent, so we need to press the button to receive anything at all.
 
-LoRaのclass Bでは、ダウンリンクはアップリンクが送られた後にのみ受信可能です。このため、何か受信したい場合にはボタンを押さなくてはなりません。
+LoRaのclass Aでは、ダウンリンクはアップリンクが送られた後にのみ受信可能です。このため、何か受信したい場合にはボタンを押さなくてはなりません。
 
 ### Scheduling a downlink
 
