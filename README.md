@@ -42,7 +42,7 @@ Set up the Arduino Software (IDE) and connect to your Uno. Arduino Software (IDE
 
     ![arduino-port](media/arduino-port.png)
 
-    > On Windows, you might need to [install drivers](https://www.arduino.cc/en/Guide/ArduinoLeonardoMicro#toc2).
+    > On Windows, you might need to [install drivers](https://www.arduino.cc/en/Guide/DriverInstallation).
 
     > Windows はバージョンによってドライバのインストールが必要な場合があります
 
