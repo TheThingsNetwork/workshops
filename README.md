@@ -206,8 +206,9 @@ Now that the sensors are connected, we have to write some code in the sketch to 
       }
       
       // Read the temperature
-      float celcius = getCelcius(A2);
-    
+      //float celcius = getCelcius(A2);
+      float celcius = 21.5;
+      
       // Log the value
       debugSerial.print("Temperature: ");
       debugSerial.println(celcius);
