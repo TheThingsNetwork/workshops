@@ -15,15 +15,15 @@ Face any difficulties during the Hackathon? Ask for these guys who can help you 
 ## Useful links
 * [The Things Network Console](https://console.thethingsnetwork.org/) (developer environment)
 * [SODAQ One support page](http://support.sodaq.com/sodaq-one/)
-* [Official TTN documentation] (https://www.thethingsnetwork.org/docs/)
+* [Official TTN documentation](https://www.thethingsnetwork.org/docs/)
 
 
-## Getting started with SODAQ One
-This workshop will support you in setting-up your SODAQ One board and send data over The Things Network to the IBM Watson IoT Platform.
+## Getting started with SODAQ ONE
+This workshop will support you in setting-up your SODAQ ONE board and send data over The Things Network to the IBM Watson IoT Platform.
 
 ### Pre-requisites
 
-1. SODAQ One board 
+1. SODAQ ONE board 
 2. Active GPS antenna
 3. Antenna 
 4. Micro-USB cable
@@ -33,20 +33,17 @@ This workshop will support you in setting-up your SODAQ One board and send data 
 8. Wifi for your laptop.
 
 
-## Register with The Things Network
-
-Manage your applications and devices via [The Things Network Console][console].
-
-### Create an Account
+### Register with The Things Network and join Slack
 
 To use the console, you need an account.
 
-1.  [Create an account][create-account].
-2.  Select [Console][console] from the top menu.
+1. [Create an account][https://account.thethingsnetwork.org/register].
+2. Once your account has been created, go to your [profile page](https://account.thethingsnetwork.org/) and `request a Slack invite`
+3. A mail has been sent with an invitation to join Slack. Open up Slack and join our dedicated channel `iot-tech-day`
 
 
 
-## Setting up your Arduino IDE
+## Set up your Arduino IDE
 Set up the Arduino Software (IDE) and connect to your SODAQ One.
 
 1.  [Download](https://www.arduino.cc/en/Main/Software) and install the latest version of the Arduino Software.
@@ -56,15 +53,16 @@ Set up the Arduino Software (IDE) and connect to your SODAQ One.
 
     ![Library Manager](media/arduino_library.png)
 
-5.  Connect the The Things Uno to your computer using the Micro-USB cable.
-6.  Select **Tools > Board > Arduino Leonardo**
-7.  Select **Tools > Port** > the port that identifies as **Arduino Leonardo**:
+5.  Install the SODAQ ONE board files. Click on **File **(or **Arduino** on a MAC) **> Preferences** and at the bottom you should see **Additional Boards Manager URLs**. Paste the following URL and click **OK** 
+ ```
+ http://downloads.sodaq.net/package_sodaq_samd_index.json
+ ```
+6.  Click on **Tools > Board > Boards Manager...**.
+7. Search for **SODAQ SAMD Boards**, select the latest version and click and **Install**
 
-    ![arduino-port](media/arduino-port.png)
-    
-    > On Windows, you might need to [install drivers](https://www.arduino.cc/en/Guide/ArduinoLeonardoMicro#toc2).
+ ![Library Manager](media/arduino_librarySODAQ.png)
 
-Set up the Arduino Software (IDE) and connect to your Uno.
+8. We’re almost there! Now go to **Tools > Board** and select **SODAQ ONE** at the bottom. 
 
 
 ## Connect to The SODAQ One
