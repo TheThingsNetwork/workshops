@@ -162,41 +162,46 @@ The USB is going to be disabled now.
 
 4. Set the following variables in your Sketch via the Serial Monitor:
 
-	otaa= 0
-	
-	fi= 1
-	
-	dev= <`Device Address`>
-	
-	app= <`App Session Key`>
-	
-	key= <`Network Session Key`>
+		otaa= 0
+
+		fi= 1
+
+		dev= <`Device Address`>
+
+		app= <`App Session Key`>
+
+		key= <`Network Session Key`>
 	
   
-  You can find the `Device Address`, `App Session Key` and `Network Session Key` in the **Device Overview** page in the **Console** of The Things Network 
+	  You can find the `Device Address`, `App Session Key` and `Network Session Key` in the **Device Overview** page in the **Console** of The Things Network 
 
-5. After changing the variables, go back to the **Console** and click on the tab `Data`. Now, wait patiently and see your first LoRa package arriving (this might take a few minutes)
+5. After changing the variables, go back to the **Console** and click on the tab `Data`. Now, wait patiently and see your first LoRa package arriving (this might take a few minutes).
 
-### Monitor
+ Do you see your data appearing?
 
-From the device or application in the console, select **Data** in the top right menu. You should soon see the messages come in. Click on the blue ▶ to see all data:
-
-![messages-test](media/messages_test.png)
-
-As you can see you are sending 1 byte. In the sketch you have uploaded you can find we do this in the [`loop()`](https://www.arduino.cc/en/Reference/Loop) function:
+ No? Too bad, but worry not! Please check if you set all the variables correctly.
+ 
+ Yes? 🎉 Great job! Now impress your neighbours with this amazing thing you created. Don't forget to add The Things Network in your Tweet: @thethingsntwrk
 
 
 
-## OK. Done. What's Next?
+## So. I'm done. What's Next?
+Done already? Good, now let's start for real.
 
-Instead of sending 1 byte, it's time to get real!
+We recommend you start with the following taksk:
+1. Display the data in a nice and fancy dashboard of **Cayenne myDevices**. [Here](https://github.com/TheThingsNetwork/workshops/blob/master/myDevices.md) you can find some tips & tricks.
 
-Our proposed challenges to you:
-* Start sending real data (GPS Coordinates, Time Stamp, Battery Voltage, Board Temperature, Speed, etc.)
-  *You might need to go outside to get a GPS fix)*
-* Decode the Payload in the Console
-* Display the data in myDevices
-* Link The Things Network to IBM Watson IoT
+2. Send you data to IBM Watson IoT. Check [this link]()
+
+3. Looking for more challenges? What about **soldering your Lipo battery** to the SODAQ ONE so you can take it along wirelessly.
+
+4. Now, you have all the skills required to start building a real use case. What innovative stuff can you create?
 
 
+
+Mny thanks for joining our hackathon. As you might have heard in the presentation:
+### We're building this thing together
+
+So join us:
+![Serial Monitor](media/Contribute.PNG)
 
