@@ -191,7 +191,7 @@ Done already? Good, now let's start for real.
 We recommend you start with the following taksk:
 1. Display the data in a nice and fancy dashboard of **Cayenne myDevices**. [Here](https://github.com/TheThingsNetwork/workshops/blob/master/myDevices.md) you can find some tips & tricks.
 
-2. Send you data to IBM Watson IoT. Check [this link]()
+2. Send you data to IBM Watson IoT. Check [this link](https://github.com/TheThingsNetwork/workshops/blob/master/IBM.md)
 
 3. Looking for more challenges? What about **soldering your Lipo battery** to the SODAQ ONE so you can take it along wirelessly.
 
