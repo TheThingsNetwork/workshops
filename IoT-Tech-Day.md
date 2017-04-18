@@ -48,7 +48,7 @@ Set up the Arduino Software (IDE) and connect to your SODAQ One.
 
 1.  [Download](https://www.arduino.cc/en/Main/Software) and install the latest version of the Arduino Software.
 2.  Navigate to **Sketch > Include Library > Manage Libraries...**.
-3.  Search for **TheThingsNetwork** and click the result to select it.
+3.  Search for **TheThingsNetwork**, select version **2.5.2** and click the result to select it.
 4.  Click the **Install** button which should appear:
 
     ![Library Manager](media/arduino_library.png)
@@ -65,7 +65,122 @@ Set up the Arduino Software (IDE) and connect to your SODAQ One.
 8. We’re almost there! Now go to **Tools > Board** and select **SODAQ ONE** at the bottom. 
 
 
-## Connect to The SODAQ One
+
+### Add an Application in the Console
+
+Add your first The Things Network Application.
+
+1.  In the [console][https://console.thethingsnetwork.org/], click [add application][https://console.thethingsnetwork.org/applications/add].
+
+	* For **Application ID**, choose a unique ID of lower case, alphanumeric characters and nonconsecutive `-` and `_` (e.g. `hi-world`).
+	* For **Application Description**, enter anything you like (e.g. `Hi, World!`).
+
+	![Add Application](media/add_application.png)
+
+2.  Click **Add application** to finish.
+
+    You will be redirected to the newly added application, where you can find the generated **Application EUI** and default **Access Key** which we'll need later.
+    
+    > If the Application ID is already taken, you will end up at the Applications overview with the following error. Simply go back and try another ID.
+    
+    ![ID exists](media/id-exists.png)    
+
+### Register the Device
+
+The Things Network supports the two LoRaWAN mechanisms to register devices: Over The Air Activation (OTAA) and Activation By Personalization (ABP). In this workshop, we will use ABP.
+
+> In production, you'll want to use OTAA, which is the default. This is more reliable because the activation will be confirmed and more secure because the session keys will be negotiated with every activation. ABP is useful for workshops because you don't have to wait for a downlink window to become available to confirm the activation.
+
+1.  On the Application screen, scroll down to the **Devices** box and click **register device**.
+
+    * For **Device ID**, choose a - for this application - unique ID of lower case, alphanumeric characters and nonconsecutive `-` and `_` (e.g. `my-sodaq-one`).
+    * For **Device EUI**, click the **randomize** button. <img src="media/randomize.png" height="20">
+
+    ![Register Device (OTAA)](media/register_device.png)
+
+2.  Click **Register**.
+
+    You will be redirected to the newly registered device.
+    
+3.  On the device screen, select **Settings** from the top right menu.
+
+    ![switch-abp](media/switch_abp.png)
+
+    * You can give your device a description like `My SODAQ ONE - IoT Tech Day`
+    * Change *Activation method* to *ABP*.
+    * Uncheck **Frame counter checks** at the bottom of the page.
+
+        > **Note:** This allows you to restart your device for development purposes without the routing services keeping track of the frame counter. This does make your application vulnerable for replay attacks, e.g. sending messages with a frame counter equal or lower than the latest received. Please do not disable it in production.
+
+4.  Click **Save** to finish.
+
+    You will be redirected to the device, where you can find the **Device Address**, **Network Session Key** and **App Session Key** that we'll need next.
+    
+    ![device-info](media/device_info_abp.png)
 
 
-Our friends at SODAQ already wrote elaborate documentation on how to setup your SODAQ One and connect it to The Things Network. 
+## Send a Message
+
+Activate your device and send your first byte to verify that it works.
+
+### Configure
+
+1.  In the Arduino IDE, select **File > Examples > TheThingsNetwork > [SendABP](https://github.com/TheThingsNetwork/arduino-device-lib/blob/master/examples/SendABP/SendABP.ino)**.
+2.  Set the values for `devAddr`, `nwkSKey` and `appSKey` using the information from the device in the console. Use the 📋 buttons next to fields to copy their (hidden) value.
+   
+    * For `devAddr ` use the **Device Address**.
+    * For `nwkSKey ` use the **Network Session Key**.
+    * For `appSKey` use **App Session Key**.
+
+3.  Change the line `#define freqPlan REPLACE_ME` to:
+
+    ```
+    #define freqPlan TTN_FP_EU868
+    ```
+
+### Upload
+
+1.  Select **Sketch > Upload** `Ctrl/⌘ U` to upload the sketch.
+ 
+    Wait for the status bar to say *Done uploading*.
+ 
+2.  Select **Tools > Serial Monitor** `Ctrl/⌘ Shift M` to open the Serial Monitor.
+
+    Soon, you should see something like this:
+
+    ```
+    Sending: mac tx uncnf 1 010203
+    Successful transmission
+    ```
+
+### Monitor
+
+From the device or application in the console, select **Data** in the top right menu. You should soon see the messages come in. Click on the blue ▶ to see all data:
+
+![messages-test](media/messages_test.png)
+
+As you can see you are sending 1 byte. In the sketch you have uploaded you can find we do this in the [`loop()`](https://www.arduino.cc/en/Reference/Loop) function:
+
+```c
+void loop() {
+  byte payload[1];
+  payload[0] = (digitalRead(LED_BUILTIN) == HIGH) ? 1 : 0;
+
+  // Send it off
+  ttn.sendBytes(payload, sizeof(payload));
+}
+```
+
+## OK. Done. What's Next?
+
+Instead of sending 1 byte, it's time to get real!
+
+Our proposed challenges to you:
+* Start sending real data (GPS Coordinates, Time Stamp, Battery Voltage, Board Temperature, Speed, etc.)
+  *You might need to go outside to get a GPS fix)*
+* Decode the Payload in the Console
+* Display the data in myDevices
+* Link The Things Network to IBM Watson IoT
+
+
+
