@@ -124,7 +124,7 @@ The Things Network supports the two LoRaWAN mechanisms to register devices: Over
 
 
 
-### Upload your first sketch
+### Open the SODAQ ONE sketch in the Arduino IDE
 Our friends at SODAQ built quite some amazing software: the [SODAQ ONE Tracker](http://support.sodaq.com/sodaq-one/tracker-software/)
 
 1.  Download the .zip file of the `One v2 – Cayenne LPP` by clicking [here](http://support.sodaq.com/wp-content/uploads/2016/07/SodaqOne-UniversalTracker-v2-Cayenne.zip).
@@ -137,19 +137,39 @@ Our friends at SODAQ built quite some amazing software: the [SODAQ ONE Tracker](
 
 5. Click on **Tools > Port ** and *select the right USB Port*.
 
-6. Select **Sketch > Upload** `Ctrl/⌘ U` to upload the sketch.
+ 
+### Upload your first sketch
+
+Now it's time to alter some variables in the Arduino Sketch which results in data being sent to the application you just created in the Console of The Things Network.
+
+*For this part you have to be quite fast. If you're too slow and the Serial Monitor displays the text below, worry not, just disconnect the usb cable from your laptop and connect it again.*
+
+```
+** Boot-up completed successfully!
+The USB is going to be disabled now.
+```
+
+1. Select **Sketch > Upload** `Ctrl/⌘ U` to upload the sketch.
   Wait for the status bar to say *Done uploading*.
   
-7. Select **Tools > Serial Monitor** `Ctrl/⌘ Shift M` to open the Serial Monitor.
+2. Select **Tools > Serial Monitor** `Ctrl/⌘ Shift M` to open the Serial Monitor.
 
-    Soon, you should see something like this:
+3. Look at the bottom of your Serial Monitor and change `no line ending' to `Both NL and & CR`
 
-  ![Serial Monitor](media/serial-monitor.png)
+    It should look something like this:
 
-### Set the right settings
-1. Look at the bottom of your Serial Monitor and change `no line ending' to `Both NL and & CR`
-    
- ![Serial Monitor](media/serial-monitor.png)
+  ![Serial Monitor](media/serialmonitor.png)
+
+4. Set the following variables in your Sketch via the Serial Monitor:
+	otaa= 0
+	fi= 1
+	dev= <`Device Address`>
+	app= <`App Session Key`>
+	key= <`Network Session Key`>
+  
+  You can find the `Device Address`, `App Session Key` and `Network Session Key` in the **Device Overview** page in the **Console** of The Things Network 
+
+5. After changing the variables, go back to the **Console** and click on the tab `Data`. Now, wait patiently and see your first LoRa package arriving (this might take a few minutes)
 
 ### Monitor
 
@@ -159,15 +179,7 @@ From the device or application in the console, select **Data** in the top right 
 
 As you can see you are sending 1 byte. In the sketch you have uploaded you can find we do this in the [`loop()`](https://www.arduino.cc/en/Reference/Loop) function:
 
-```c
-void loop() {
-  byte payload[1];
-  payload[0] = (digitalRead(LED_BUILTIN) == HIGH) ? 1 : 0;
 
-  // Send it off
-  ttn.sendBytes(payload, sizeof(payload));
-}
-```
 
 ## OK. Done. What's Next?
 
