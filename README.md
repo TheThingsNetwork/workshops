@@ -34,14 +34,16 @@ Set up the Arduino Software (IDE) and connect to your Uno.
 
 ## Register with The Things Network
 
-Manage your applications and devices via [The Things Network Console][console].
+Manage your applications and devices via [The Things Network Console][https://console.thethingsnetwork.org/].
 
-### Create an Account
+### Create an Account and Join our Slack
 
 To use the console, you need an account.
 
-1.  [Create an account][create-account].
-2.  Select [Console][console] from the top menu.
+1. [Create an account][https://account.thethingsnetwork.org/register].
+2. Once you setup your account, go to your [profile page](https://account.thethingsnetwork.org/) and click on `request Slack invite`
+3. Check you mail, sign up for Slack and join the channel #iot-tech-day 
+
 
 ### Add an Application in the Console
 
