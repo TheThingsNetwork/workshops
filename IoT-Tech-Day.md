@@ -161,11 +161,17 @@ The USB is going to be disabled now.
   ![Serial Monitor](media/serialmonitor.png)
 
 4. Set the following variables in your Sketch via the Serial Monitor:
+
 	otaa= 0
+	
 	fi= 1
+	
 	dev= <`Device Address`>
+	
 	app= <`App Session Key`>
+	
 	key= <`Network Session Key`>
+	
   
   You can find the `Device Address`, `App Session Key` and `Network Session Key` in the **Device Overview** page in the **Console** of The Things Network 
 
