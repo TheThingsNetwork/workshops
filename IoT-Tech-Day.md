@@ -18,7 +18,7 @@ Face any difficulties during the Hackathon? Ask for these guys who can help you 
 
 ## Useful links
 * [The Things Network Console](https://console.thethingsnetwork.org/) (developer environment)
-* [SODAQ One support page](http://support.sodaq.com/sodaq-one/)
+* [SODAQ ONE support page](http://support.sodaq.com/sodaq-one/)
 * [Official TTN documentation](https://www.thethingsnetwork.org/docs/)
 
 
@@ -27,7 +27,7 @@ This workshop will support you in setting-up your SODAQ ONE board and send data 
 
 ### Pre-requisites
 
-1. SODAQ ONE board 
+1. SODAQ ONE board V2
 2. Active GPS antenna
 3. Antenna 
 4. Micro-USB cable
@@ -39,20 +39,20 @@ This workshop will support you in setting-up your SODAQ ONE board and send data 
 
 ### Register with The Things Network and join Slack
 
-To use the console, you need an account.
+To start using The Things Network, you need an account:
 
 1. [Create an account][https://account.thethingsnetwork.org/register].
 2. Once your account has been created, go to your [profile page](https://account.thethingsnetwork.org/) and `request a Slack invite`
-3. A mail has been sent with an invitation to join Slack. Open up Slack and join our dedicated channel `iot-tech-day`
+3. A mail has been sent with an invitation to join Slack. Open up Slack and join our dedicated channel `#iot-tech-day`
 
 
 
 ## Set up your Arduino IDE
-Set up the Arduino Software (IDE) and connect to your SODAQ One.
+Set up the Arduino Software (IDE) and connect your SODAQ ONE.
 
 1.  [Download](https://www.arduino.cc/en/Main/Software) and install the latest version of the Arduino Software.
 2.  Navigate to **Sketch > Include Library > Manage Libraries...**.
-3.  Search for **TheThingsNetwork**, select version **2.5.2** and click the result to select it.
+3.  Search for **TheThingsNetwork**, click on it and select the latest version.
 4.  Click the **Install** button which should appear:
 
     ![Library Manager](media/arduino_library.png)
@@ -124,82 +124,32 @@ The Things Network supports the two LoRaWAN mechanisms to register devices: Over
 
 
 
-## Send a Message
+### Upload your first sketch
+Our friends at SODAQ built quite some amazing software: the [SODAQ ONE Tracker](http://support.sodaq.com/sodaq-one/tracker-software/)
 
-Activate your device and send your first byte to verify that it works.
+1.  Download the .zip file of the `One v2 – Cayenne LPP` by clicking [here](http://support.sodaq.com/wp-content/uploads/2016/07/SodaqOne-UniversalTracker-v2-Cayenne.zip).
 
-### Configure
+2. Open the file `SodaqOneTracker_v2.ino` in the `SodaqOne-UniversalTracker-v2-Cayenne` folder
 
-1. Copy and Paste the following code to your Arduino IDE
+3. Remove the `//` before `#define CAYENNE` on line 51
 
-```
-#include <TheThingsNetwork.h>
+4. Click on **Tools > Boards > SODAQ ONE**.
 
-// Set your DevAddr, NwkSKey, AppSKey and the frequency plan
-const char *devAddr = "00000000";
-const char *nwkSKey = "00000000000000000000000000000000";
-const char *appSKey = "00000000000000000000000000000000";
+5. Click on **Tools > Port ** and *select the right USB Port*.
 
-#define loraSerial Serial1
-#define debugSerial SERIAL_PORT_MONITOR
-
-// Replace REPLACE_ME with TTN_FP_EU868 or TTN_FP_US915
-#define freqPlan TTN_FP_EU868
-
-TheThingsNetwork ttn(loraSerial, debugSerial, freqPlan);
-
-void setup()
-{
-  loraSerial.begin(57600);
-  debugSerial.begin(9600);
-
-  // Wait a maximum of 10s for Serial Monitor
-  while (!debugSerial && millis() < 10000)
-    ;
-
-  debugSerial.println("-- PERSONALIZE");
-  ttn.personalize(devAddr, nwkSKey, appSKey);
-
-  debugSerial.println("-- STATUS");
-  ttn.showStatus();
-}
-
-void loop()
-{
-  debugSerial.println("-- LOOP");
-
-  // Prepare payload of 1 byte to indicate LED status
-  byte payload[1];
-
-  // Send it off
-  ttn.sendBytes(payload, sizeof(payload));
-
-  delay(10000);
-}
-```
-
-
-2.  Set the values for `devAddr`, `nwkSKey` and `appSKey` using the information from the device in the console. Use the 📋 buttons next to fields to copy their (hidden) value.
-   
-    * For `devAddr ` use the **Device Address**.
-    * For `nwkSKey ` use the **Network Session Key**.
-    * For `appSKey` use **App Session Key**.
-
-
-### Upload
-
-1.  Select **Sketch > Upload** `Ctrl/⌘ U` to upload the sketch.
- 
-    Wait for the status bar to say *Done uploading*.
- 
-2.  Select **Tools > Serial Monitor** `Ctrl/⌘ Shift M` to open the Serial Monitor.
+6. Select **Sketch > Upload** `Ctrl/⌘ U` to upload the sketch.
+  Wait for the status bar to say *Done uploading*.
+  
+7. Select **Tools > Serial Monitor** `Ctrl/⌘ Shift M` to open the Serial Monitor.
 
     Soon, you should see something like this:
 
-    ```
-    Sending: mac tx uncnf 1 010203
-    Successful transmission
-    ```
+  ![Serial Monitor](media/serial-monitor.png)
+
+### Set the right settings
+1. Look at the bottom of your Serial Monitor and change `no line ending' to `Both NL and & CR`
+    
+ ![Serial Monitor](media/serial-monitor.png)
 
 ### Monitor
 
