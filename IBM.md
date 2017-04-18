@@ -37,10 +37,8 @@ Go to your IBM Watson IoT environment (not your Node-Red one)
 
 ![ttndemo](media/ttndemo.png)
 
-* 
+* Add the `IBM IoT` node and make it look something like this:
 
+![ttndemo](media/ibm.png)
 
-
-
-* Create device
-* Create device type
+* Click `Deploy` and go back to the your **IBM Watson IoT Platform** 
