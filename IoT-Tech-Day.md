@@ -119,24 +119,68 @@ The Things Network supports the two LoRaWAN mechanisms to register devices: Over
     ![device-info](media/device_info_abp.png)
 
 
+
 ## Send a Message
 
 Activate your device and send your first byte to verify that it works.
 
 ### Configure
 
-1.  In the Arduino IDE, select **File > Examples > TheThingsNetwork > [SendABP](https://github.com/TheThingsNetwork/arduino-device-lib/blob/master/examples/SendABP/SendABP.ino)**.
+1. Copy and Paste the following code to your Arduino IDE
+
+```
+#include <TheThingsNetwork.h>
+
+// Set your DevAddr, NwkSKey, AppSKey and the frequency plan
+const char *devAddr = "00000000";
+const char *nwkSKey = "00000000000000000000000000000000";
+const char *appSKey = "00000000000000000000000000000000";
+
+#define loraSerial Serial1
+#define debugSerial Serial
+
+// Replace REPLACE_ME with TTN_FP_EU868 or TTN_FP_US915
+#define freqPlan TTN_FP_EU868
+
+TheThingsNetwork ttn(loraSerial, debugSerial, freqPlan);
+
+void setup()
+{
+  loraSerial.begin(57600);
+  debugSerial.begin(9600);
+
+  // Wait a maximum of 10s for Serial Monitor
+  while (!debugSerial && millis() < 10000)
+    ;
+
+  debugSerial.println("-- PERSONALIZE");
+  ttn.personalize(devAddr, nwkSKey, appSKey);
+
+  debugSerial.println("-- STATUS");
+  ttn.showStatus();
+}
+
+void loop()
+{
+  debugSerial.println("-- LOOP");
+
+  // Prepare payload of 1 byte to indicate LED status
+  byte payload[1];
+
+  // Send it off
+  ttn.sendBytes(payload, sizeof(payload));
+
+  delay(10000);
+}
+```
+
+
 2.  Set the values for `devAddr`, `nwkSKey` and `appSKey` using the information from the device in the console. Use the 📋 buttons next to fields to copy their (hidden) value.
    
     * For `devAddr ` use the **Device Address**.
     * For `nwkSKey ` use the **Network Session Key**.
     * For `appSKey` use **App Session Key**.
 
-3.  Change the line `#define freqPlan REPLACE_ME` to:
-
-    ```
-    #define freqPlan TTN_FP_EU868
-    ```
 
 ### Upload
 
