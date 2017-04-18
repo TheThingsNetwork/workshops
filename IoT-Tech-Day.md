@@ -1,4 +1,8 @@
 # IOT HACKATHON
+
+![IoT_Tech_Day](media/ITD_rgb.jpg)
+
+
 ## Hack the world of IoT with the Things Network
 
 The Things Network (TTN) is back at the IoT Tech Day with a new, bigger hackathon. Novel Internet of Things technology and abundant data connectivity open up a new world of opportunities. We challenge the tech-savvy and the creative minded people to start exploring the new world of IoT and change the way we use technology. During the hackathon we will use the open standard LoRaWAN.
@@ -137,7 +141,7 @@ const char *nwkSKey = "00000000000000000000000000000000";
 const char *appSKey = "00000000000000000000000000000000";
 
 #define loraSerial Serial1
-#define debugSerial Serial
+#define debugSerial SERIAL_PORT_MONITOR
 
 // Replace REPLACE_ME with TTN_FP_EU868 or TTN_FP_US915
 #define freqPlan TTN_FP_EU868
