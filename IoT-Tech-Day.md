@@ -168,11 +168,11 @@ The USB is going to be disabled now.
 
 		fi= 1
 
-		dev= <`Device Address>
+		dev= <Device Address>
 
-		app= <`App Session Key`>
+		app= <App Session Key>
 
-		key= <`Network Session Key`>
+		key= <Network Session Key>
 	
   
 	  You can find the `Device Address`, `App Session Key` and `Network Session Key` in the **Device Overview** page in the **Console** of The Things Network 
