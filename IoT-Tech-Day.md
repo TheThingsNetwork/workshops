@@ -133,9 +133,11 @@ Our friends at SODAQ built quite some amazing software: the [SODAQ ONE Tracker](
 
 3. Remove the `//` before `#define CAYENNE` on line 51
 
-4. Click on **Tools > Boards > SODAQ ONE**.
+4. Adde `#define LORA_RESET true` on line 52
 
-5. Click on **Tools > Port** and *select the right USB Port*.
+5. Click on **Tools > Boards > SODAQ ONE**.
+
+6. Click on **Tools > Port** and *select the right USB Port*.
 
  
 ### Upload your first sketch
