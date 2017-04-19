@@ -41,7 +41,7 @@ This workshop will support you in setting-up your SODAQ ONE board and send data 
 
 To start using The Things Network, you need an account:
 
-1. [Create an account][https://account.thethingsnetwork.org/register].
+1. [Create an account](https://account.thethingsnetwork.org/register).
 2. Once your account has been created, go to your [profile page](https://account.thethingsnetwork.org/) and `request a Slack invite`
 3. A mail has been sent with an invitation to join Slack. Open up Slack and join our dedicated channel `#iot-tech-day`
 
