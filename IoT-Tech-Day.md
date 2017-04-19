@@ -23,7 +23,7 @@ Face any difficulties during the Hackathon? Ask for these guys who can help you 
 
 
 ## Getting started with SODAQ ONE
-This workshop will support you in setting-up your SODAQ ONE board and send data over The Things Network to the IBM Watson IoT Platform.
+This workshop will support you in setting-up your SODAQ ONE board and send data over **The Things Network** to **Cayenne myDevices** and **IBM Watson IoT Platform**.
 
 ### Pre-requisites
 
