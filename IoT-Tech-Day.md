@@ -57,7 +57,7 @@ Set up the Arduino Software (IDE) and connect your SODAQ ONE.
 
     ![Library Manager](media/arduino_library.png)
 
-5.  Install the SODAQ ONE board files. Click on **File **(or **Arduino** on a MAC) **> Preferences** and at the bottom you should see **Additional Boards Manager URLs**. Paste the following URL and click **OK** 
+5.  Install the SODAQ ONE board files. Click on **File** (or **Arduino** on a MAC) **> Preferences** and at the bottom you should see **Additional Boards Manager URLs**. Paste the following URL and click **OK** 
  ```
  http://downloads.sodaq.net/package_sodaq_samd_index.json
  ```
@@ -74,7 +74,7 @@ Set up the Arduino Software (IDE) and connect your SODAQ ONE.
 
 Add your first The Things Network Application.
 
-1.  In the [console][https://console.thethingsnetwork.org/], click [add application][https://console.thethingsnetwork.org/applications/add].
+1.  In the [console](https://console.thethingsnetwork.org/), click [add application](https://console.thethingsnetwork.org/applications/add).
 
 	* For **Application ID**, choose a unique ID of lower case, alphanumeric characters and nonconsecutive `-` and `_` (e.g. `hi-world`).
 	* For **Application Description**, enter anything you like (e.g. `Hi, World!`).
@@ -135,7 +135,7 @@ Our friends at SODAQ built quite some amazing software: the [SODAQ ONE Tracker](
 
 4. Click on **Tools > Boards > SODAQ ONE**.
 
-5. Click on **Tools > Port ** and *select the right USB Port*.
+5. Click on **Tools > Port** and *select the right USB Port*.
 
  
 ### Upload your first sketch
@@ -154,7 +154,7 @@ The USB is going to be disabled now.
   
 2. Select **Tools > Serial Monitor** `Ctrl/⌘ Shift M` to open the Serial Monitor.
 
-3. Look at the bottom of your Serial Monitor and change `no line ending' to `Both NL and & CR`
+3. Look at the bottom of your Serial Monitor and change `no line ending` to `Both NL and & CR`
 
     It should look something like this:
 
@@ -166,7 +166,7 @@ The USB is going to be disabled now.
 
 		fi= 1
 
-		dev= <`Device Address`>
+		dev= <`Device Address>
 
 		app= <`App Session Key`>
 
