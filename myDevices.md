@@ -6,7 +6,12 @@ myDevices Cayenne allows you to quickly design, prototype, and visualize IoT sol
 
 
 ## Who's this myDevices and what is Cayenne?
+![myDevices-dashboard](media/logo-mydevices.png)
+
 myDevices is an Internet of Things solutions company that tries to accelerate IoT development and empowers enterprises to quickly design, prototype, and commercialize IoT solutions.
+
+
+![myDevices-dashboard](media/cayenne.png)
 
 To accomplish their mission to simplify the connected world, myDevices created Cayenne – the world’s first drag-and drop IoT project builder. Cayenne enables engineers, makers, network operators and system integrators to quickly and easily develop and deploy IoT solutions across a wide variety of verticals.
 
