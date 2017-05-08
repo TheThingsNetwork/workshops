@@ -18,12 +18,12 @@ Developers can build complete and ready-to-use IoT solutions with little to no c
 
 
 ## What is Cayenne LPP?
-The Cayenne Low Power Payload (LPP) provides a convenient and easy way to send data over LPWAN networks such as LoRaWAN. The Cayenne LPP is compliant with the payload size restriction, which can be lowered down to 11 bytes, and allows the device to send multiple sensor data at one time. Additionally, the Cayenne LPP allows the device to send different sensor data in different frames. In order to do that, each sensor data must be prefixed with two bytes:
+The Cayenne Low Power Payload (LPP) provides a convenient and easy way to send data over The Things Network. The Cayenne LPP is compliant with the payload size restriction, which can be lowered down to 11 bytes, and allows the device to send multiple sensor data at one time. Additionally, the Cayenne LPP allows the device to send different sensor data in different frames. In order to do that, each sensor data must be prefixed with two bytes:
 
 - Data Channel: Uniquely identifies each sensor in the device across frames.
 - Data Type: Identifies the data type in the frame, eg. “temperature”.
 
-More info about the Low Power Payload: https://mydevices.com/cayenne/docs/#lora-cayenne-low-power-payload
+[More info about the Low Power Payload](https://mydevices.com/cayenne/docs/#lora-cayenne-low-power-payload)
 
 
 # Start building a fancy dashboard
@@ -35,9 +35,7 @@ In order to display your content in the Cayenne dashboard, the format of the pay
 > We need to send extra data for Cayenne to understand what data comes into their dashboard. Before we send the sensor data, we need to define what data is sent. The first byte is the so-called **Channel ID**. The sencond bytes explains the **Data Type** (so Cayenne knows that the data contains temperature values). The latter bytes contain the actualy sensor values.
  Please have a look [here](https://www.thethingsnetwork.org/docs/devices/arduino/api/cayennelpp.html) to find more information on the Cayenne Lower Power Protocol (LPP).
  
-Find the documentation [here](https://www.thethingsnetwork.org/docs/devices/arduino/api/cayennelpp.html) about how to alter your Arduino sketch to encode data with the Cayenne Lower Power Protocol (LPP)
-
-Examle code: 
+Find **the documentation about how to alter your Arduino sketch to encode data with the Cayenne Lower Power Protocol** (LPP) [here](https://www.thethingsnetwork.org/docs/devices/arduino/api/cayennelpp.html). Examle code: 
 ```
 TheThingsNetwork ttn(loraSerial, debugSerial, freqPlan);
 CayenneLPP lpp(51);
@@ -83,4 +81,4 @@ Click the device on the left side of your dashboard in Cayenne and you data is s
 ![myDevices-dashboard](media/mydevices-data.png) 
 
 
-🎉 Great job! Now impress some folks with this amazing dashboard you built on Twitter. *Don't forget to add The Things Network in your Tweet: @thethingsntwrk*
+🎉 Now impress some folks with this amazing dashboard you built on Twitter *@thethingsntwrk @CayenneIoT*
