@@ -21,7 +21,7 @@ Any help neede along the way? Reach out to one of these guys:
 
 ## Useful links
 * [The Things Network Console](https://console.thethingsnetwork.org/) (developer environment)
-* [Official TTN documentation](https://www.thethingsnetwork.org/docs/
+* [Official TTN documentation](https://www.thethingsnetwork.org/docs/)
 * [The Things Uno documentation](https://www.thethingsnetwork.org/docs/devices/uno/)
 * [The Things Node documentation](https://www.thethingsnetwork.org/docs/devices/node/)
 
