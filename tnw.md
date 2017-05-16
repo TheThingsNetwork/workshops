@@ -32,6 +32,10 @@ For you hack, you can make us of **The Things Uno** and connect sensors manually
 
 
 ### The Things Uno
+*The Things Uno is based on the Arduino Leonardo (not the Arduino Uno) with an added Microchip LoRaWAN module. It is fully compatible with the Arduino IDE and existing shields.*
+[Read more](https://www.thethingsnetwork.org/docs/devices/uno/)
+
+
 ![TheThingsUno](media/TheThingsUno-Specs1.jpg)
 The Things Uno comes with a fancy sensor kit that includes:
 * Infrared sensor (PIR Motion Sensor)
@@ -47,6 +51,9 @@ Not satisfied yet? We brought even more sensors and modules! Let us know if you 
 
 
 ### The Things Node
+*The Things Node is based off the SparkFun Pro Micro - 3.3V/8Mhz with added Microchip LoRaWAN module and temperature sensor, digital accelerometer, a light sensor, button and RGB LED. All this is packaged in a matchbox-sized waterproof (IP54) casing with 3 AAA batteries to power it.*
+[Read more](https://www.thethingsnetwork.org/docs/devices/node/)
+
 ![TheThingsNode](media/TheThingsNode-Specs1.jpg)
 
 
