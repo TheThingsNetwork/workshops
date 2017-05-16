@@ -35,7 +35,8 @@ The Things Uno comes with a fancy sensor kit that includes:
 * Infrared sensor
 * Accelerometer
 * Light sensor
-* Temperature & humidity sensor
+* Temperature & humidity sensor (DHT11)
+* Sound sensor (MAX9812)
 * Button
 * Breadboard
 
