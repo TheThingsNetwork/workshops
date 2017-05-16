@@ -24,8 +24,11 @@ Any help neede along the way? Reach out to one of these guys:
 * [Official TTN documentation](https://www.thethingsnetwork.org/docs/)
 * [The Things Uno documentation](https://www.thethingsnetwork.org/docs/devices/uno/)
 * [The Things Node documentation](https://www.thethingsnetwork.org/docs/devices/node/)
+* [Fancy dashboard example](ttn.fyi/hackbattle) (login: `tnw` `tnw`)
 
 
+## Connected Machinegebouw
+We've hidden 4 The Things Nodes around the Hack Battle area. All are sending data every now and then which is stored in `InfluxDB` and visualized with `Grafana`. Check out the live data via the link: ttn.fyi/hackbattle. (Login: `tnw` `tnw`)
 
 # Getting started with the Arduino
 For you hack, you can make us of **The Things Uno** and connect sensors manually. Or go for **The Things Node** with embedded sensors on the board itself.
