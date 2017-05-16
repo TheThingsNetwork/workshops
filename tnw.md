@@ -28,5 +28,25 @@ Any help neede along the way? Reach out to one of these guys:
 
 
 # Getting started with the Arduino
+For you hack, you can make us of The Things Uno and connect sensors manually. Or go for The Things Uno that already has several sensors embedded on the board itself.
 
-To be added.
+![TheThingsUno](media/TheThingsUno-Specs1.jpg)
+The Things Uno comes with a fancy sensor kit that includes:
+* Infrared sensor
+* Accelerometer
+* Light sensor
+* Temperature & humidity sensor
+* Button
+* Breadboard
+
+Is satisfied yet? We brought even more, let us know if you want to make us of:
+GPS, Gas, Water, Distance, Air pressure, Touch pad
+
+
+![TheThingsNode](media/TheThingsNode-Specs1.jpg)
+
+# We love social media, do you?
+🎉 Did you make some fancy hacks? Let the world know by using #thethingsnetwork
+
+
+
