@@ -292,7 +292,7 @@ Let's start on IFTTT.
 2.  Select [New Applet](https://ifttt.com/create) from your account menu.
 3.  Click **This** to Choose Trigger Channel.
 
-    1.  Search for `maker`.
+    1.  Search for `Webhooks`.
     2.  Click the **Maker** channel.
 
     The first time you'll need to click **Connect**, then **Done** in the popup that opens and finally **Continue to the next step**.
