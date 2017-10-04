@@ -324,7 +324,7 @@ Let's start on IFTTT.
     ![IFTTT_maker](media/IFTTT_maker.png)
 
 3.  Think of a fancy Process ID, like `temperature-tweet` and fill in the **Event Name** you just created on IFTTT.
-4.  To find your secret **Key**, go to [ifttt.com/maker and then **Settings**](https://ifttt.com/services/maker/settings). Your key is the last part of the URL (after `/use/`)
+4.  To find your secret **Key**, go to [ifttt.com/maker_webhooks and then **Settings**](https://ifttt.com/services/maker_webhooks/settings). Your key is the last part of the URL (after `/use/`)
 5.  As **Value 1** write `celcius`
 	*Make sure you don't accidentally add a space before or after `celcius`*
 6.  Click on **Add Integration** to finalize the integration.
