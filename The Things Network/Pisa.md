@@ -231,7 +231,7 @@ Let's start on IFTTT.
     Use the field `Value1` as ingredient. For example, a tweet could be:
     
     ```
-    The temperature is: {{Value1}} #thethingsnetwork
+    The value is: {{Value1}} #thethingsnetwork
     ```
 
 7.  Click **Create action**.
@@ -239,5 +239,61 @@ Let's start on IFTTT.
     Good job! You created the Applet on IFTTT. The only thing you have to do now it connect The Things Network to your Applet and trigger the event with the sensor data.
     
 
+#### Connect The Things Network to IFTTT
+
+1.  Go back to your application in the [Console](https://console.thethingsnetwork.org/applications) and click on **Integrations**.
+
+    ![integrations](media/integrations.png)
+
+2. Add as a new integration the **IFTTT Maker**.
+
+    ![IFTTT_maker](media/IFTTT_maker.png)
+
+3.  Think of a fancy Process ID, like `temperature-tweet` and fill in the **Event Name** you just created on IFTTT.
+4.  To find your secret **Key**, go to [ifttt.com/maker_webhooks and then **Settings**](https://ifttt.com/services/maker_webhooks/settings). Your key is the last part of the URL (after `/use/`)
+5.  As **Value 1** write `celcius`
+	*Make sure you don't accidentally add a space before or after `celcius`*
+6.  Click on **Add Integration** to finalize the integration.
+
+### The moment of truth
+It's time for a live demonstration. It's important to gather a small audience which you can impress with your end-to-end IoT application.
+
+Now, use the button or water sensor to trigger the action you have configured on IFTTT.
+
+
+### Bonus Exercise
+
+You can even go one level further. Maybe you only want to activate the IFTTT event when the temperature is above or below a certain degree. You can enable or disable the trigger in the **Decoder** of the **Payload Fuctions** (remember where to find this?).
+
+For doing so, you need to add the code before the `return decoded;`
+
+```
+  decoded.trigger = decoded.celcius > 20;
+```
+
+You can replace the `> 20` with any value that you want to set as the minimal temperature to activate the trigger.
+
+
+## OK. Done. What's Next?
+
+🎉 Congratulations! You just learned how to create an account, an application, register a device, send data from a device, decode it, process it and push it to IFTTT to connect to the world of APIs.
+
+From this starting point, you can start building a real world application. Here are some useful links:
+
+
+- Visualize your data in a nice dashboard using the [**Cayenne - myDevices**](https://github.com/TheThingsNetwork/workshops/blob/master/myDevices.md) integration.
+
+    <img src="media/cayenne.png" width="130">
+- [Send messages back to the device](https://www.thethingsnetwork.org/docs/devices/uno/quick-start.html#message-your-device) to control an LED
+- [Receive and process data on any platform using MQTT.](https://www.thethingsnetwork.org/docs/v2-preview/mqtt/)
+- Create your own charts and maps, e.g. combine our [Socket.io example](https://github.com/TheThingsNetwork/node-app-sdk/tree/master/examples/socketio) with [Flot](http://flotcharts.org) or [Google Maps API](https://developers.google.com/maps/).
+- Integrate with IoT cloud platforms like [Azure IoT Hub](https://github.com/TheThingsNetwork/azure-integration) and [AWS IoT](https://github.com/theThingsNetwork/aws-app-lib).
+
+[account]:         https://account.thethingsnetwork.org
+[create-account]:  https://account.thethingsnetwork.org/register
+[profile]:         https://account.thethingsnetwork.org/users/profile
+[console]:         https://console.thethingsnetwork.org
+[settings]:        https://console.thethingsnetwork.org/settings
+[add-application]: https://console.thethingsnetwork.org/applications/add
 
 
