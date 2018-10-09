@@ -33,13 +33,13 @@ Today we'll use a potentiometer that changes its resistance with rotation, but y
 - Connect the outer pins of the potentiometer to `5V` and `GND`.
 - Connect the inner pin of the potentiometer to Analog port `A0`.
 
-![Hardware Setup](/potmeter-workshop/hardware.svg)
+![Hardware Setup](potmeter-workshop/hardware.svg)
 
 # Sketch for Reading the Sensor
 
 Now it's time to start the Arduino IDE. If you didn't do so yet, **set up your Arduino IDE** and **install the libraries** as explained on the [Workshop Resources](/resources.md) page.
 
-We'll start with the following Arduino sketch ([download](/potmeter-workshop/PotMeterRead/PotMeterRead.ino)):
+We'll start with the following Arduino sketch ([download](potmeter-workshop/PotMeterRead/PotMeterRead.ino)):
 
 ```cpp
 int sensorPin = A0;
@@ -84,7 +84,7 @@ Considering the short time we have for this workshop, we'll immediately skip to 
 
 You only need to change a couple of lines to make this sketch work. [Go to your device](https://console.thethingsnetwork.org/applications/eitdigital/devices) and **copy the example code** on the bottom of the page. In the Arduino IDE, **replace the placeholder lines** with the lines you just copied. Now you can **upload** the new sketch and see if it works.
 
-![Code to replace](/potmeter-workshop/PotMeterWorkshop/replace.png)
+![Code to replace](potmeter-workshop/PotMeterWorkshop/replace.png)
 
 ℹ The code contains comments that explain what's going on. Let us know if you have any questions.
 
