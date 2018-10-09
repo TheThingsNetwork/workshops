@@ -174,7 +174,7 @@ Now **connect The Things Uno** with the USB cable to your computer and **upload 
 
 # Sketch for Reading the Sensor and Transmitting to TTN
 
-Considering the short time we have for this workshop, we'll immediately skip to the [finished sketch](/potmeter-workshop/PotMeterWorkshop/PotMeterWorkshop.ino). **download it** and **open it in the Arduino IDE**.
+Considering the short time we have for this workshop, we'll immediately skip to the [finished sketch](potmeter-workshop/PotMeterWorkshop/PotMeterWorkshop.ino). **download it** and **open it in the Arduino IDE**.
 
 You only need to change a couple of lines to make this sketch work. [Go to your device](https://console.thethingsnetwork.org/applications/eitdigital/devices) and **copy the example code** on the bottom of the page. In the Arduino IDE, **replace the placeholder lines** with the lines you just copied. Now you can **upload** the new sketch and see if it works.
 
