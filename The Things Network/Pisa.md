@@ -231,7 +231,7 @@ Let's start on IFTTT.
     Use the field `Value1` as ingredient. For example, a tweet could be:
     
     ```
-    The value is: {{Value1}} #thethingsnetwork
+    The max-value is: {{Value1}} #thethingsnetwork
     ```
 
 7.  Click **Create action**.
@@ -268,10 +268,10 @@ You can even go one level further. Maybe you only want to activate the IFTTT eve
 For doing so, you need to add the code before the `return decoded;`
 
 ```
-  decoded.trigger = decoded.celcius > 20;
+  decoded.trigger = decoded.max > 1000;
 ```
 
-You can replace the `> 20` with any value that you want to set as the minimal temperature to activate the trigger.
+You can replace the `> 1000` with any value that you want to set as the max-value to activate the trigger.
 
 
 ## OK. Done. What's Next?
