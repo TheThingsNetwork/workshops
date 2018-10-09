@@ -1,7 +1,6 @@
 ---
 title: The Things Conference Pisa
 description: Getting Started Workshop
-background: /assets/img/background.jpg
 ---
 
 # Prerequisites
@@ -10,9 +9,8 @@ You need:
 
 - Some Programming Experience
 - A laptop with WiFi and at least one USB port
-- To [install the Arduino IDE and the `TheThingsNetwork` library](/resources.md).
-- An [account on The Things Network](https://account.thethingsnetwork.org/); please send your username to `htdvisser` on Slack, Telegram or email (@thethingsnetwork.org).
-  - It saves a lot of time if you do this **before the workshop**
+- [Install the Arduino IDE](https://www.arduino.cc/en/Main/Software) 
+- An [account on The Things Network](https://account.thethingsnetwork.org/)
 
 We'll provide:
 
@@ -20,6 +18,7 @@ We'll provide:
 - USB Cable
 - Potentiometer
 - Connection wires M/F
+- The Things Network Coverage
 
 # Introduction
 
@@ -28,12 +27,119 @@ Many of these systems work in a similar way. They usually start with an analog s
 
 Today we'll use a potentiometer that changes its resistance with rotation, but you can just replace it with any other analog sensor for your specific use case, without having to change the code.
 
+### Add an Application in the Console
+
+Add your first The Things Network Application.
+
+1.  In the [console][console], click [add application][add-application].
+
+	* For **Application ID**, choose a unique ID of lower case, alphanumeric characters and nonconsecutive `-` and `_` (e.g. `hi-world`).
+	* For **Application Description**, enter anything you like (e.g. `Hi, World!`).
+
+	![Add Application](media/add_application.png)
+
+2.  Click **Add application** to finish.
+
+    You will be redirected to the newly added application, where you can find the generated **Application EUI** and default **Access Key** which we'll need later.
+    
+    > If the Application ID is already taken, you will end up at the Applications overview with the following error. Simply go back and try another ID.
+    
+    ![ID exists](media/id-exists.png)    
+
+### Register the Device
+
+The Things Network supports the two LoRaWAN mechanisms to register devices: Over The Air Activation (OTAA) and Activation By Personalization (ABP). In this workshop, we will use ABP.
+
+> In production, you'll want to use OTAA, which is the default. This is more reliable because the activation will be confirmed and more secure because the session keys will be negotiated with every activation. ABP is useful for workshops because you don't have to wait for a downlink window to become available to confirm the activation.
+
+1.  On the Application screen, scroll down to the **Devices** box and click **register device**.
+
+    * For **Device ID**, choose a - for this application - unique ID of lower case, alphanumeric characters and nonconsecutive `-` and `_` (e.g. `my-uno`).
+    * For **Device EUI**, click the **randomize** button. <img src="media/randomize.png" height="20">
+
+    ![Register Device (OTAA)](media/register_device.png)
+
+2.  Click **Register**.
+
+    You will be redirected to the newly registered device.
+    
+3.  On the device screen, select **Settings** from the top right menu.
+
+    ![switch-abp](media/switch_abp.png)
+
+    * You can give your device a description like `My Uno - Workshop`
+    * Change *Activation method* to *ABP*.
+    * Uncheck **Frame counter checks** at the bottom of the page.
+
+        > **Note:** This allows you to restart your device for development purposes without the routing services keeping track of the frame counter. This does make your application vulnerable for replay attacks, e.g. sending messages with a frame counter equal or lower than the latest received. Please do not disable it in production.
+
+4.  Click **Save** to finish.
+
+    You will be redirected to the device, where you can find the **Device Address**, **Network Session Key** and **App Session Key** that we'll need next.
+    
+    ![device-info](media/device_info_abp.png)
+
+## Send a Message
+
+Activate your device and send your first byte to verify that it works.
+
+### Configure
+
+1.  In the Arduino IDE, select **File > Examples > TheThingsNetwork > [SendABP](https://github.com/TheThingsNetwork/arduino-device-lib/blob/master/examples/SendABP/SendABP.ino)**.
+2.  Set the values for `devAddr`, `nwkSKey` and `appSKey` using the information from the device in the console. Use the 📋 buttons next to fields to copy their (hidden) value.
+   
+    * For `devAddr ` use the **Device Address**.
+    * For `nwkSKey ` use the **Network Session Key**.
+    * For `appSKey` use **App Session Key**.\
+    
+ ⚠ _This is pretty bad for security, but it will make development faster during today's workshop._
+
+3.  Change the line `#define freqPlan REPLACE_ME` to:
+
+    ```
+    #define freqPlan TTN_FP_EU868
+    ```
+
+### Upload
+
+1.  Select **Sketch > Upload** `Ctrl/⌘ U` to upload the sketch.
+ 
+    Wait for the status bar to say *Done uploading*.
+ 
+2.  Select **Tools > Serial Monitor** `Ctrl/⌘ Shift M` to open the Serial Monitor.
+
+    Soon, you should see something like this:
+
+    ```
+    Sending: mac tx uncnf 1 010203
+    Successful transmission
+    ```
+
+### Monitor
+
+From the device or application in the console, select **Data** in the top right menu. You should soon see the messages come in. Click on the blue ▶ to see all data:
+
+![messages-test](media/messages_test.png)
+
+As you can see you are sending 1 byte. In the sketch you have uploaded you can find we do this in the [`loop()`](https://www.arduino.cc/en/Reference/Loop) function:
+
+```c
+void loop() {
+  byte payload[1];
+  payload[0] = (digitalRead(LED_BUILTIN) == HIGH) ? 1 : 0;
+
+  // Send it off
+  ttn.sendBytes(payload, sizeof(payload));
+}
+```
+
 # Connecting the Potentiometer
 
 - Connect the outer pins of the potentiometer to `5V` and `GND`.
 - Connect the inner pin of the potentiometer to Analog port `A0`.
 
 ![Hardware Setup](potmeter-workshop/hardware.svg)
+
 
 # Sketch for Reading the Sensor
 
@@ -66,18 +172,6 @@ Now **connect The Things Uno** with the USB cable to your computer and **upload 
 
 **If this works as expected, we can continue.**
 
-# Register Your Device on The Things Network
-
-ℹ **[The Things Network Console](https://console.thethingsnetwork.org/) is where all applications and devices are managed.**
-
-[**Go to the `eitdigital` Application**](https://console.thethingsnetwork.org/applications/eitdigital) and [**register a new Device**](https://console.thethingsnetwork.org/applications/eitdigital/devices/register); mine is called `htdvisser` (my username), but feel free to come up with a nice name. The **Device EUI** can be generated, we won't need it in the workshop.
-
-⚠ _If the console can't find the application `eitdigital`, make sure that you sent us your username (see prerequisites)._
-
-Instead of the default (and recommended) device activation method "OTAA", we're going to use "ABP" in this workshop. To change this, **go to the Device you created** and then to **Settings**. Change the **Activation Method** to **ABP**, **disable Frame Counter Checks** and **Save**. 
-
-⚠ _This is pretty bad for security, but it will make development faster during today's workshop._
-
 # Sketch for Reading the Sensor and Transmitting to TTN
 
 Considering the short time we have for this workshop, we'll immediately skip to the [finished sketch](/potmeter-workshop/PotMeterWorkshop/PotMeterWorkshop.ino). **download it** and **open it in the Arduino IDE**.
@@ -88,13 +182,62 @@ You only need to change a couple of lines to make this sketch work. [Go to your 
 
 ℹ The code contains comments that explain what's going on. Let us know if you have any questions.
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-<script>hljs.initHighlightingOnLoad();</script>
+### Decode the Payload in the Console
 
-# Transmissions <small>live</small>
+The Things Network allows you to decode bytes to a meaningful data structure before passing it on to your application.
 
-<iframe src="https://ttn.htdvisser.nl/grafana/d-solo/QnsGpOZmz/workshop?refresh=1m&orgId=1&panelId=8&var-ns=eitdigital&theme=light" width="100%" height="400" frameborder="0"></iframe>
+> We will only use the **decoder** in this workshop. You can also use a **converter** to combine values or convert units and a **validator** to drop invalid payloads.
 
-# Sensor Values <small>live</small>
+1.  From the **application** in the **Console**, select **Payload Functions** from the top right menu.
 
-<iframe src="https://ttn.htdvisser.nl/grafana/d-solo/QnsGpOZmz/workshop?refresh=1m&orgId=1&panelId=2&var-ns=eitdigital&theme=light" width="100%" height="400" frameborder="0"></iframe>
+	<img src="media/payload-menu.png" width="400px">
+2.  Leave **decoder** selected and copy-paste the following JavaScript code:
+
+    ```js
+    function Decoder(bytes, port) {
+      var decoded = {};
+      if (port === 2 && bytes.length === 6) {
+        decoded.min = (bytes[0] << 8) + bytes[1];
+        decoded.val = (bytes[2] << 8) + bytes[3];
+        decoded.max = (bytes[4] << 8) + bytes[5];
+      }
+      return decoded;
+    }
+    ```
+
+# Process Sensor Data
+
+A common use case is to invoke an HTTP request to an external web service. for this workshop we are going to process the sensor data and send it to [IFTTT](https://ifttt.com) (If This Then That) to trigger an event of your own choice. 
+
+> IFTTT is a free web-based service that you can use to create simple conditional statements, called applets. An applet is triggered by changes that occur within other web services such as Gmail, Facebook, Instagram, or The Things Network.
+
+#### Create the IFTTT Applet
+Let's start on IFTTT.
+
+1.  Go to [IFTTT](https://ifttt.com) and create an account or login.
+2.  Select [New Applet](https://ifttt.com/create) from your account menu.
+3.  Click **This** to Choose Trigger Channel.
+
+    *  Search for **Webhooks**.
+
+    The first time you'll need to click **Connect**, then **Done** in the popup that opens and finally **Continue to the next step**.
+    
+4.  Click **Receive a web request**.
+
+    *  For **Event Name**, let's enter `workshop`.
+    
+5.  Click **That** to configure an action, e.g. post a tweet on Twitter, e-mail or a notification to your phone.
+
+    Use the field `Value1` as ingredient. For example, a tweet could be:
+    
+    ```
+    The temperature is: {{Value1}} #thethingsnetwork
+    ```
+
+7.  Click **Create action**.
+8.  Click **Finish**. 
+    Good job! You created the Applet on IFTTT. The only thing you have to do now it connect The Things Network to your Applet and trigger the event with the sensor data.
+    
+
+
+
