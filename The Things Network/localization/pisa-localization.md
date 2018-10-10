@@ -155,7 +155,7 @@ Put your skills into practrice! We need two new variables called `lat` and `lon`
 
 ### Final code
 
-* [Arduino Sketch](localization/GPS_localization.ino)
-* [Payload formats](localization/GPS_payload-format.js)
+* [Arduino Sketch](/localization/GPS_localization.ino)
+* [Payload formats](/localization/GPS_payload-format.js)
 
 
