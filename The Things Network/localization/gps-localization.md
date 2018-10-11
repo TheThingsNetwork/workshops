@@ -14,8 +14,8 @@ The GPS module uses 3.3 voltage. When the ExpLoRer board is connected to your co
 
 * GPS Vcc to 3.3V
 * GND to GND
-* GPS RX to pin 8
-* GPS TS to pin 9
+* GPS RX to pin 9
+* GPS Tx to pin 8
 
 
 ### Install libraries
