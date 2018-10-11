@@ -5,8 +5,9 @@ TinyGPS gps;
 SoftwareSerial ss(8, 9);
 
 // Set your AppEUI and AppKey 
-const char *appEui = "0000000000000000";
-const char *appKey = "00000000000000000000000000000000";
+const char *devAddr = "00000000";
+const char *nwkSKey = "00000000000000000000000000000000";
+const char *appSKey = "00000000000000000000000000000000";
 
 #define loraSerial Serial1
 #define debugSerial Serial
@@ -31,12 +32,11 @@ void setup()
   // Wait a maximum of 10s for Serial Monitor
   while (!debugSerial && millis() < 10000)
     ;
-
-  debugSerial.println("-- STATUS");
-  ttn.showStatus();
-
-  debugSerial.println("-- JOIN");
-  ttn.join(appEui, appKey);
+  
+  debugSerial.println("-- NETWORK SETUP");
+  ttn.personalize(devAddr, nwkSKey, appSKey);
+  debugSerial.println("-- SETUP DONE");
+  
 }
 
 void loop() 
