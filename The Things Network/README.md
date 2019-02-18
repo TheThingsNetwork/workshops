@@ -205,14 +205,15 @@ Now that the sensors are connected, we have to write some code in the sketch to 
       }
       
       // Read the temperature
-      //float celcius = getCelcius(A2);
-      float celcius = 21.5;
+      float celcius = getCelcius(A2);
       
       // Log the value
       debugSerial.print("Temperature: ");
       debugSerial.println(celcius);
     
-      // Encode float as int (20.98 becomes 2098)
+      // Encode float as signed int (23.48 becomes 2348, being
+      // hexadecimal 0x092C, whereas -2348 is 0xF6D4 when using
+      // the common "two's complement" representation)
       int16_t celciusInt = round(celcius * 100);
     
       // Encode int as bytes
@@ -230,8 +231,8 @@ Now that the sensors are connected, we have to write some code in the sketch to 
     When you press the button or place your finger on the water sensor you should see something like:
     
     ```
-    Temperature: 18.58
-    Sending: mac tx uncnf 1 0742
+    Temperature: 23.48
+    Sending: mac tx uncnf 1 092C
     Successful transmission
     ```
 
@@ -254,25 +255,33 @@ The Things Network allows you to decode bytes to a meaningful data structure bef
       // (array) of bytes to an object of fields.
       var decoded = {};
     
-      // Decode bytes to int
-      var celciusInt = (bytes[0] << 8) | bytes[1];
+      // Decode 2 bytes to a signed integer. As the
+      // bitwise operators in JavaScript expect 32
+      // bits, this needs "sign extension" to support
+      // negative values. Shifting 24 bits leftwards,
+      // followed by shifting 16 bits to the right,
+      // extends a "two's complement" negative value
+      // such as 0xF6D4 into 0xFFFFF6D4.
+      var celciusInt = (bytes[0] << 24 >> 16) | bytes[1];
     
-      // Decode int to float
+      // Decode integer to float
       decoded.celcius = celciusInt / 100;
     
       return decoded;
     }
     ```
 
-3.  Enter the bytes you saw in the Serial Monitor (e.g. `0832` in the **Payload** input and click **Test**.
+3.  Enter the bytes you saw in the Serial Monitor (e.g. `092C`) in the **Payload** input and click **Test**.
 
-    You should get an object with the temperature in celcius. For `0832` this would be:
+    You should get an object with the temperature in celcius. For `092C` this would be:
     
     ```json
     {
-      "celcius": 20.98
+      "celcius": 23.48
     }
     ```
+    
+    Also test with two bytes that represent a negative value, such as `F6D4`.
     
 4.  Click **Save payload functions**.
 5.  Select **Data** from the top right menu to see how the next payloads will be decoded:
