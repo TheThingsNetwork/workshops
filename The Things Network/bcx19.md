@@ -4,17 +4,16 @@ Welcome to the Bosch Connect Experience 2019. Please use the information provide
 
 ## Your Hack Coaches
 
-**Krishna Iyer Easwaran**
-![Krishna](media/krishna.jpeg)
-krishna@thethingsindustries.com 
-[LinkedIn](https://www.linkedin.com/in/krishnaie/)
-
-
-**Laurens Slats**
-![Laurens](media/laurens.jpg)
-laurens@thethingsindustries.com
+|**Krishna Iyer Easwaran**|**Laurens Slats**|
+|![Krishna](media/krishna.jpeg)|![Laurens](media/laurens.jpg)|
+|krishna@thethingsindustries.com 
+[LinkedIn](https://www.linkedin.com/in/krishnaie/)|laurens@thethingsindustries.com
 [Twitter](https://twitter.com/laurensslats)
-[LinkedIn](https://www.linkedin.com/in/laurensslats)
+[LinkedIn](https://www.linkedin.com/in/laurensslats)|
+
+
+
+
 
 
 ## Useful links
