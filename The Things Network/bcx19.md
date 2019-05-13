@@ -8,8 +8,6 @@ Welcome to the Bosch Connect Experience 2019. Please use the information provide
 |**Krishna Iyer Easwaran**|**Laurens Slats**|
 |--- |--- |
 |![Krishna](media/krishna.jpeg)|![Laurens](media/laurens.jpg)|
-|**Krishna Iyer Easwaran**|**Laurens Slats**|
-|![Krishna](media/krishna.jpeg)|![Laurens](media/laurens.jpg)|
 |krishna@thethingsindustries.com |laurens@thethingsindustries.com|
 [LinkedIn](https://www.linkedin.com/in/krishnaie/)|[LinkedIn](https://www.linkedin.com/in/laurensslats)|
 ||[Twitter](https://twitter.com/laurensslats)|
@@ -29,17 +27,17 @@ Welcome to the Bosch Connect Experience 2019. Please use the information provide
 - The Things Network Coverage
 - The Things Uno
 - The Things Node
-  *Senses: Temperature, motion, light*
-  *Contains: Button, Led*
+ - *Senses: Temperature, motion, light*
+ - *Contains: Button, Led*
 - Sensors
 - USB cables & wires
 - Indoor Ambiance Monitor by Decentlab
-  *Senses: CO2, TVOC, Temperature, Humidity, Pressure, Light, Motion*
+ - *Senses: CO2, TVOC, Temperature, Humidity, Pressure, Light, Motion*
 - Indoor environmental sensor by MCF88
-  *Senses: Temperature, Humidity and Pressure*
+ - *Senses: Temperature, Humidity and Pressure*
 - Energy Meter by MCF88
-  *Senses: Power consumption*
-  *Remotely switch power on/off*
+ - *Senses: Power consumption*
+ - *Remotely switch power on/off*
 
 
 ## Indoor Ambiance Monitor by Decentlab
@@ -57,10 +55,9 @@ Welcome to the Bosch Connect Experience 2019. Please use the information provide
 
 This compact meter can be used for monitoring the power consumption of the load, which can remotely be switched on/off. Equipped with a rechargeable battery for mains outage detection.
 
-Configure the device using NFC via [this Android App](https://play.google.com/store/apps/details?id=com.mcf88.loratool.client)
-
-[MCF88 Data Frame Format](https://github.com/TheThingsNetwork/workshops/blob/master/The%20Things%20Network/media/MCF88%20Data%20Frame%20Format%201.20.pdf)
-[Download datasheet](https://www.mcf16.com/wp-content/uploads/2018/11/mcf16-MCF-LW12PLG.pdf)
+- Configure the device using NFC via [this Android App](https://play.google.com/store/apps/details?id=com.mcf88.loratool.client)
+- [MCF88 Data Frame Format](https://github.com/TheThingsNetwork/workshops/blob/master/The%20Things%20Network/media/MCF88%20Data%20Frame%20Format%201.20.pdf)
+- [Download datasheet](https://www.mcf16.com/wp-content/uploads/2018/11/mcf16-MCF-LW12PLG.pdf)
 
 
 ## Indoor environmental sensor by MCF88
@@ -68,8 +65,6 @@ Configure the device using NFC via [this Android App](https://play.google.com/st
 
 This device reads temperature, humidity and pressure and sends collected data over the LoRaWAN™ network. Ideally suited for a wide range of applications such as building automation, condition monitoring, predictive maintenance, security, healthcare and many more use cases.
 
-
-Configure the device using NFC via [this Android App](https://play.google.com/store/apps/details?id=com.mcf88.loratool.client)
-
-[MCF88 Data Frame Format](https://github.com/TheThingsNetwork/workshops/blob/master/The%20Things%20Network/media/MCF88%20Data%20Frame%20Format%201.20.pdf)
-[Download datasheet](https://www.mcf16.com/wp-content/uploads/2018/02/mcf16-MCF-LW12TER.pdf)
+- Configure the device using NFC via [this Android App](https://play.google.com/store/apps/details?id=com.mcf88.loratool.client)
+- [MCF88 Data Frame Format](https://github.com/TheThingsNetwork/workshops/blob/master/The%20Things%20Network/media/MCF88%20Data%20Frame%20Format%201.20.pdf)
+- [Download datasheet](https://www.mcf16.com/wp-content/uploads/2018/02/mcf16-MCF-LW12TER.pdf)
