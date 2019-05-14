@@ -27,17 +27,17 @@ Welcome to the Bosch Connect Experience 2019. Please use the information provide
 - The Things Network Coverage
 - The Things Uno
 - The Things Node
- - *Senses: Temperature, motion, light*
- - *Contains: Button, Led*
+  - *Senses: Temperature, motion, light*
+  - *Contains: Button, Led*
 - Sensors
 - USB cables & wires
 - Indoor Ambiance Monitor by Decentlab
- - *Senses: CO2, TVOC, Temperature, Humidity, Pressure, Light, Motion*
+  - *Senses: CO2, TVOC, Temperature, Humidity, Pressure, Light, Motion*
 - Indoor environmental sensor by MCF88
- - *Senses: Temperature, Humidity and Pressure*
+  - *Senses: Temperature, Humidity and Pressure*
 - Energy Meter by MCF88
- - *Senses: Power consumption*
- - *Remotely switch power on/off*
+  - *Senses: Power consumption*
+  - *Remotely switch power on/off*
 
 
 ## Indoor Ambiance Monitor by Decentlab
