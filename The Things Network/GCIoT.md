@@ -1,6 +1,6 @@
 ---
 title: GCIoT
-description: Getting Started Workshop
+description: Building your LoRaWAN end-to-end use case
 ---
 
 # Prerequisites
