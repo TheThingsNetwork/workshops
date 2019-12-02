@@ -3,17 +3,23 @@ title: GCIoT
 description: Building your LoRaWAN end-to-end use case
 ---
 
+
+## Your Hack Coaches
+
+
+|**Laurens Slats**|
+|--- |
+|![Laurens](media/laurens.jpg)|
+|laurens@thethingsindustries.com|
+|[LinkedIn](https://www.linkedin.com/in/laurensslats)|
+|[Twitter](https://twitter.com/laurensslats)|
+
+
 # Prerequisites
 
-You need:
-
-- Some Programming Experience
 - A laptop with WiFi and at least one USB port
 - [Install the Arduino IDE](https://www.arduino.cc/en/Main/Software) 
 - An [account on The Things Network](https://account.thethingsnetwork.org/)
-
-We'll provide:
-
 - The Things Uno
 - USB Cable
 - Potentiometer
