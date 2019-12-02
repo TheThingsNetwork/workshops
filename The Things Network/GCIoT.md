@@ -1,5 +1,5 @@
 ---
-title: The Things Conference Pisa
+title: GCIoT
 description: Getting Started Workshop
 ---
 
