@@ -1,19 +1,6 @@
 # The Things Uno Workshop
 This workshop will guide you through working with The Things Uno to send sensor data over The Things Network to an application.
 
-
-## Your Hack Coaches
-
-
-|**Laurens Slats**|
-|--- |
-|![Laurens](media/laurens.jpg)|
-|laurens@thethingsindustries.com|
-|[LinkedIn](https://www.linkedin.com/in/laurensslats)|
-|[Twitter](https://twitter.com/laurensslats)|
-
-
-
 ## Pre-requisites
 
 1. The Things Uno
