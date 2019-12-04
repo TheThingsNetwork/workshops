@@ -4,7 +4,7 @@ description: Building your LoRaWAN end-to-end use case
 ---
 
 
-## Your Hack Coaches
+## Your Workshop Host
 
 
 |**Laurens Slats**|
@@ -18,7 +18,7 @@ description: Building your LoRaWAN end-to-end use case
 # Prerequisites
 
 - A laptop with WiFi and at least one USB port
-- [Install the Arduino IDE](https://www.arduino.cc/en/Main/Software) 
+- [Install the Arduino IDE](https://www.arduino.cc/en/Main/Software) (or request USB key of Laurens)
 - An [account on The Things Network](https://account.thethingsnetwork.org/)
 - The Things Uno
 - USB Cable
@@ -28,10 +28,45 @@ description: Building your LoRaWAN end-to-end use case
 
 # Introduction
 
-In this workshop we'll build a sensor system that is connected to the Internet through The Things Network.
-Many of these systems work in a similar way. They usually start with an analog sensor that changes its electrical resistance based on some environmental factor such as temperature, light or gravity. By connecting those sensors to a microcontroller, we can measure the voltage and build sensor systems.
+In this workshop we'll build a sensor system that uses LoRaWAN technology and The Things Network infrastructure to send data to the Internet. 
 
-Today we'll use a potentiometer that changes its resistance with rotation, but you can just replace it with any other analog sensor for your specific use case, without having to change the code.
+Today we'll use a potentiometer that changes its resistance with rotation. We will write a short script to read the potentiometer, send the data over LoRaWAN and act on the data sent.
+
+**Tasks during the workshop**
+
+- Setup the Arduino environment & install the required libraries
+- Create an account on The Things Network, create an application and register a device
+- Connect a potmeter to the Arduino and read its value
+- Send a message over LoRaWAN based on the a threshold value
+- Act on data using IFTTT
+
+Are you a fast coder? Continue with the tasks:
+
+- Connect additional sensors to the Arduino
+- Visualize sensor data using myDevices Cayenne
+ 
+
+## Connect to The Things Uno
+
+Set up the Arduino Software (IDE) and connect to your Uno.
+
+1.  [Download](https://www.arduino.cc/en/Main/Software) and install the latest version of the Arduino Software.
+2.  Navigate to **Sketch > Include Library > Manage Libraries...**.
+3.  Search for **TheThingsNetwork** and click the result to select it.
+4.  Click the **Install** button which should appear:
+
+    ![Library Manager](media/arduino_library.png)
+
+5.  Connect the The Things Uno to your computer using the Micro-USB cable.
+6.  Select **Tools > Board > Arduino Leonardo**
+7.  Select **Tools > Port** > the port that identifies as **Arduino Leonardo**:
+
+    ![arduino-port](media/arduino-port.png)
+    
+    > On Windows, you might need to [install drivers](https://www.arduino.cc/en/Guide/ArduinoLeonardoMicro#toc2).
+
+
+
 
 ### Add an Application in the Console
 
@@ -54,9 +89,9 @@ Add your first The Things Network Application.
 
 ### Register the Device
 
-The Things Network supports the two LoRaWAN mechanisms to register devices: Over The Air Activation (OTAA) and Activation By Personalization (ABP). In this workshop, we will use ABP.
+The Things Network supports the two LoRaWAN mechanisms to register devices: Over The Air Activation (OTAA) and Activation By Personalization (ABP). In this workshop, we use ABP.
 
-> In production, you'll want to use OTAA, which is the default. This is more reliable because the activation will be confirmed and more secure because the session keys will be negotiated with every activation. ABP is useful for workshops because you don't have to wait for a downlink window to become available to confirm the activation.
+> In production, you want to use OTAA because this is a more secure way way of working as new session keys can be created over time. 
 
 1.  On the Application screen, scroll down to the **Devices** box and click **register device**.
 
@@ -94,11 +129,10 @@ Activate your device and send your first byte to verify that it works.
 1.  In the Arduino IDE, select **File > Examples > TheThingsNetwork > [SendABP](https://github.com/TheThingsNetwork/arduino-device-lib/blob/master/examples/SendABP/SendABP.ino)**.
 2.  Set the values for `devAddr`, `nwkSKey` and `appSKey` using the information from the device in the console. Use the 📋 buttons next to fields to copy their (hidden) value.
    
-    * For `devAddr ` use the **Device Address**.
-    * For `nwkSKey ` use the **Network Session Key**.
-    * For `appSKey` use **App Session Key**.\
+    * For `devAddr ` use the **Device Address**
+    * For `nwkSKey ` use the **Network Session Key**
+    * For `appSKey` use **App Session Key**
     
- ⚠ _This is pretty bad for security, but it will make development faster during today's workshop._
 
 3.  Change the line `#define freqPlan REPLACE_ME` to:
 
@@ -139,6 +173,9 @@ void loop() {
 }
 ```
 
+**Great work! You've sent you first message using LoRaWAN! That wasn't too hard was it?**
+
+
 # Connecting the Potentiometer
 
 - Connect the outer pins of the potentiometer to `5V` and `GND`.
@@ -176,13 +213,15 @@ In this piece of code we do the following things:
 
 Now **connect The Things Uno** with the USB cable to your computer and **upload the sketch** (the "right arrow" button in the menu bar). You can view the serial output by opening the **serial monitor** (the "magnifying glass" button in the menu bar). What happens when you turn the knob of the potentiometer?
 
-**If this works as expected, we can continue.**
+**Does this works as expected? Great work, please continue!**
 
 # Sketch for Reading the Sensor and Transmitting to TTN
 
-Considering the short time we have for this workshop, we'll immediately skip to the [finished sketch](potmeter-workshop/PotMeterWorkshop/PotMeterWorkshop.ino). **download it** and **open it in the Arduino IDE**.
+You next big challenge is to combine the 2 files into one and write a program that reads the potmeter value and sends a message if the value is below, or above a certain threshold.
 
-You only need to change a couple of lines to make this sketch work. [Go to your device](https://console.thethingsnetwork.org/applications/eitdigital/devices) and **copy the example code** on the bottom of the page. In the Arduino IDE, **replace the placeholder lines** with the lines you just copied. Now you can **upload** the new sketch and see if it works.
+> Need help? See the [finished sketch here](potmeter-workshop/Potmeter_ABP/Potmeter_ABP.ino). **download it** and **open it in the Arduino IDE**.
+>
+>You only need to change a couple of lines to make this sketch work. [Go to your device](https://console.thethingsnetwork.org/applications/eitdigital/devices) and **copy the example code** on the bottom of the page. In the Arduino IDE, **replace the placeholder lines** with the lines you just copied. Now you can **upload** the new sketch and see if it works.
 
 ![Code to replace](potmeter-workshop/PotMeterWorkshop/replace.png)
 
@@ -200,15 +239,11 @@ The Things Network allows you to decode bytes to a meaningful data structure bef
 2.  Leave **decoder** selected and copy-paste the following JavaScript code:
 
     ```js
-    function Decoder(bytes, port) {
-      var decoded = {};
-      if (port === 2 && bytes.length === 6) {
-        decoded.min = (bytes[0] << 8) + bytes[1];
-        decoded.val = (bytes[2] << 8) + bytes[3];
-        decoded.max = (bytes[4] << 8) + bytes[5];
-      }
-      return decoded;
-    }
+	function Decoder(bytes, port) {
+	  var decoded = {};
+	  decoded.value = (bytes[0] << 8) + bytes[1];
+	  return decoded;
+	}
     ```
 
 # Process Sensor Data
@@ -225,8 +260,6 @@ Let's start on IFTTT.
 3.  Click **This** to Choose Trigger Channel.
 
     *  Search for **Webhooks**.
-
-    The first time you'll need to click **Connect**, then **Done** in the popup that opens and finally **Continue to the next step**.
     
 4.  Click **Receive a web request**.
 
@@ -237,7 +270,7 @@ Let's start on IFTTT.
     Use the field `Value1` as ingredient. For example, a tweet could be:
     
     ```
-    The max-value is: {{Value1}} #thethingsnetwork
+    The sensor value is: {{Value1}}, sent over #LoRaWAN. #thethingsnetwork #GCIoT
     ```
 
 7.  Click **Create action**.
@@ -255,10 +288,9 @@ Let's start on IFTTT.
 
     ![IFTTT_maker](media/IFTTT_maker.png)
 
-3.  Think of a fancy Process ID, like `temperature-tweet` and fill in the **Event Name** you just created on IFTTT.
+3.  Think of a fancy Process ID, like `sensor-tweet` and fill in the **Event Name** you just created on IFTTT.
 4.  To find your secret **Key**, go to [ifttt.com/maker_webhooks and then **Settings**](https://ifttt.com/services/maker_webhooks/settings). Your key is the last part of the URL (after `/use/`)
-5.  As **Value 1** write `celcius`
-	*Make sure you don't accidentally add a space before or after `celcius`*
+5.  As **Value 1** write `value`
 6.  Click on **Add Integration** to finalize the integration.
 
 ### The moment of truth
@@ -274,7 +306,7 @@ You can even go one level further. Maybe you only want to activate the IFTTT eve
 For doing so, you need to add the code before the `return decoded;`
 
 ```
-  decoded.trigger = decoded.max > 1000;
+  decoded.trigger = decoded.value > 1000;
 ```
 
 You can replace the `> 1000` with any value that you want to set as the max-value to activate the trigger.
