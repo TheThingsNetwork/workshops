@@ -221,7 +221,7 @@ You next big challenge is to combine the 2 files into one and write a program th
 
 > Need help? See the [finished sketch here](potmeter-workshop/Potmeter_ABP/Potmeter_ABP.ino). **download it** and **open it in the Arduino IDE**.
 >
->You only need to change a couple of lines to make this sketch work. [Go to your device](https://console.thethingsnetwork.org/applications/eitdigital/devices) and **copy the example code** on the bottom of the page. In the Arduino IDE, **replace the placeholder lines** with the lines you just copied. Now you can **upload** the new sketch and see if it works.
+>You only need to change a couple of lines to make this sketch work. Go to your device and **copy the example code** on the bottom of the page. In the Arduino IDE, **replace the placeholder lines** with the lines you just copied. Now you can **upload** the new sketch and see if it works.
 
 ![Code to replace](potmeter-workshop/PotMeterWorkshop/replace.png)
 
