@@ -74,5 +74,4 @@ openssl rand -hex 16
 - Set the `SENSOR_THRESHOLD_LOW` and `SENSOR_THRESHOLD_HIGH` values based on your own sensor value that were noted in step 1.
 - Go to `Sketch` -> `Verify/Compile`. If correct, upload the sketch.
 - Head over to the application tab of [The Things Stack Community Edition](https://console.cloud.thethings.network) and check your data payloads.
-
-
+- Add the Payload formatter to translate the array of bytes to a human-readable format. [Link to Payload Formatter](./4_Traffic/payload-formatter.js)
