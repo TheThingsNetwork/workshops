@@ -70,7 +70,7 @@ openssl rand -hex 16
 ### Send Sensor Data
 
 - Connect the USB cable to the Arduino IDE and select the port as explained the preparatory step.
-- Open the [Traffic](./4_Traffic/Traffic.ino) sketch in the Arduino IDE.
+- Open the [Traffic](./4_Traffic/traffic.ino) sketch in the Arduino IDE.
 - Set the `SENSOR_THRESHOLD_LOW` and `SENSOR_THRESHOLD_HIGH` values based on your own sensor value that were noted in step 1.
 - Go to `Sketch` -> `Verify/Compile`. If correct, upload the sketch.
 - Head over to the application tab of [The Things Stack Community Edition](https://console.cloud.thethings.network) and check your data payloads.
